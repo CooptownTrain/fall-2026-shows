@@ -44,43 +44,99 @@
     <button onclick="setView('band')" id="view-band" style="padding:6px 20px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer;transition:all 0.15s">By Band</button>
     <button onclick="setView('calendar')" id="view-calendar" style="padding:6px 20px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer;transition:all 0.15s">Calendar</button>
   </div>
-  <!-- City buttons -->
-  <div id="city-nav" style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:900px;margin:0 auto">    <button onclick="scrollToCity('charleston')" style="padding:7px 13px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s" id="btn-charleston">Charleston <span style="opacity:0.5;font-size:11px">15</span></button>
-    <button onclick="scrollToCity('chicago')" style="padding:7px 13px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s" id="btn-chicago">Chicago <span style="opacity:0.5;font-size:11px">20</span></button>
-    <button onclick="scrollToCity('denver')" style="padding:7px 13px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s" id="btn-denver">Denver <span style="opacity:0.5;font-size:11px">33</span></button>
-    <button onclick="scrollToCity('dc')" style="padding:7px 13px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s" id="btn-dc">DC <span style="opacity:0.5;font-size:11px">21</span></button>
-    <button onclick="scrollToCity('la')" style="padding:7px 13px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s" id="btn-la">LA <span style="opacity:0.5;font-size:11px">32</span></button>
-    <button onclick="scrollToCity('phoenix')" style="padding:7px 13px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s" id="btn-phoenix">Phoenix <span style="opacity:0.5;font-size:11px">41</span></button>
-    <button onclick="scrollToCity('syracuse')" style="padding:7px 13px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s" id="btn-syracuse">Syracuse <span style="opacity:0.5;font-size:11px">7</span></button>
-    <button onclick="scrollToCity('tampa')" style="padding:7px 13px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s" id="btn-tampa">Tampa <span style="opacity:0.5;font-size:11px">18</span></button>
+  <!-- City jump dropdown -->
+  <div id="city-nav" style="display:flex;justify-content:center;gap:8px;max-width:900px;margin:0 auto;align-items:center">
+    <label style="font-size:13px;font-weight:600;color:#a3a3a3">Jump to:</label>
+    <select id="city-jump" onchange="if(this.value)scrollToCity(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:220px;appearance:auto">
+      <option value="">Select a city...</option>      <option value="charleston">Charleston, SC (15)</option>
+      <option value="chicago">Chicago, IL (20)</option>
+      <option value="denver">Denver, CO (33)</option>
+      <option value="dc">Washington, DC (21)</option>
+      <option value="la">Los Angeles, CA (32)</option>
+      <option value="phoenix">Phoenix / Scottsdale, AZ (41)</option>
+      <option value="syracuse">Syracuse, NY (7)</option>
+      <option value="tampa">Tampa / St. Pete, FL (18)</option>
+    </select>
   </div>
-  <!-- Band letter nav -->
-  <div id="band-nav" style="display:none;flex-wrap:wrap;justify-content:center;gap:3px;max-width:900px;margin:0 auto">    <button onclick="scrollToLetter('A')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">A</button>
-    <button onclick="scrollToLetter('B')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">B</button>
-    <button onclick="scrollToLetter('C')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">C</button>
-    <button onclick="scrollToLetter('D')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">D</button>
-    <button onclick="scrollToLetter('E')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">E</button>
-    <button onclick="scrollToLetter('F')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">F</button>
-    <button onclick="scrollToLetter('G')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">G</button>
-    <button onclick="scrollToLetter('H')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">H</button>
-    <button onclick="scrollToLetter('I')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">I</button>
-    <button onclick="scrollToLetter('J')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">J</button>
-    <button onclick="scrollToLetter('K')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #3f3f46;border-radius:4px;background:transparent;color:#52525b;cursor:default;transition:all 0.15s">K</button>
-    <button onclick="scrollToLetter('L')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #3f3f46;border-radius:4px;background:transparent;color:#52525b;cursor:default;transition:all 0.15s">L</button>
-    <button onclick="scrollToLetter('M')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">M</button>
-    <button onclick="scrollToLetter('N')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">N</button>
-    <button onclick="scrollToLetter('O')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">O</button>
-    <button onclick="scrollToLetter('P')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">P</button>
-    <button onclick="scrollToLetter('Q')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">Q</button>
-    <button onclick="scrollToLetter('R')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">R</button>
-    <button onclick="scrollToLetter('S')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">S</button>
-    <button onclick="scrollToLetter('T')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">T</button>
-    <button onclick="scrollToLetter('U')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #3f3f46;border-radius:4px;background:transparent;color:#52525b;cursor:default;transition:all 0.15s">U</button>
-    <button onclick="scrollToLetter('V')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">V</button>
-    <button onclick="scrollToLetter('W')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:4px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s">W</button>
-    <button onclick="scrollToLetter('X')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #3f3f46;border-radius:4px;background:transparent;color:#52525b;cursor:default;transition:all 0.15s">X</button>
-    <button onclick="scrollToLetter('Y')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #3f3f46;border-radius:4px;background:transparent;color:#52525b;cursor:default;transition:all 0.15s">Y</button>
-    <button onclick="scrollToLetter('Z')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #3f3f46;border-radius:4px;background:transparent;color:#52525b;cursor:default;transition:all 0.15s">Z</button>
+  <!-- Band jump dropdown -->
+  <div id="band-nav" style="display:none;justify-content:center;gap:8px;max-width:900px;margin:0 auto;align-items:center">
+    <label style="font-size:13px;font-weight:600;color:#a3a3a3">Jump to:</label>
+    <select id="band-jump" onchange="if(this.value)scrollToBand(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:260px;appearance:auto">
+      <option value="">Select a band...</option>      <option value="311">311 (3 shows, 3 cities)</option>
+      <option value="the-avett-brothers">The Avett Brothers (6 shows, 3 cities)</option>
+      <option value="ben-harper">Ben Harper (7 shows, 1 city)</option>
+      <option value="ben-harper-the-innocent-criminals">Ben Harper & the Innocent Criminals (7 shows, 1 city)</option>
+      <option value="big-thief">Big Thief (4 shows, 3 cities)</option>
+      <option value="the-black-crowes">The Black Crowes (2 shows, 2 cities)</option>
+      <option value="the-black-keys">The Black Keys (2 shows, 2 cities)</option>
+      <option value="blues-traveler">Blues Traveler (2 shows, 2 cities)</option>
+      <option value="brandi-carlile">Brandi Carlile (5 shows, 3 cities)</option>
+      <option value="the-breeders">The Breeders (1 show, 1 city)</option>
+      <option value="built-to-spill">Built to Spill (1 show, 1 city)</option>
+      <option value="built-to-spill">Built To Spill (2 shows, 2 cities)</option>
+      <option value="caamp">Caamp (3 shows, 2 cities)</option>
+      <option value="charley-crockett">Charley Crockett (3 shows, 2 cities)</option>
+      <option value="chevelle">Chevelle (10 shows, 6 cities)</option>
+      <option value="chris-stapleton">Chris Stapleton (4 shows, 3 cities)</option>
+      <option value="collective-soul">Collective Soul (1 show, 1 city)</option>
+      <option value="dave-matthews">Dave Matthews (2 shows, 1 city)</option>
+      <option value="dave-matthews-band">Dave Matthews Band (2 shows, 1 city)</option>
+      <option value="deer-tick">Deer Tick (7 shows, 5 cities)</option>
+      <option value="descendents">Descendents (8 shows, 4 cities)</option>
+      <option value="durand-jones">Durand Jones (1 show, 1 city)</option>
+      <option value="durand-jones-the-indications">Durand Jones & The Indications (3 shows, 2 cities)</option>
+      <option value="eric-clapton">Eric Clapton (1 show, 1 city)</option>
+      <option value="fleetwood-mac">Fleetwood Mac (1 show, 1 city)</option>
+      <option value="fontaines-d-c-">Fontaines D.C. (1 show, 1 city)</option>
+      <option value="foo-fighters">Foo Fighters (1 show, 1 city)</option>
+      <option value="fruit-bats">Fruit Bats (5 shows, 5 cities)</option>
+      <option value="gin-blossoms">Gin Blossoms (2 shows, 2 cities)</option>
+      <option value="goo-goo-dolls">Goo Goo Dolls (6 shows, 5 cities)</option>
+      <option value="the-head-and-the-heart">The Head and the Heart (1 show, 1 city)</option>
+      <option value="the-head-and-the-heart">The Head And The Heart (2 shows, 2 cities)</option>
+      <option value="iron-wine">Iron & Wine (1 show, 1 city)</option>
+      <option value="jack-johnson">Jack Johnson (6 shows, 4 cities)</option>
+      <option value="jimmy-eat-world">Jimmy Eat World (2 shows, 2 cities)</option>
+      <option value="joe-bonamassa">Joe Bonamassa (1 show, 1 city)</option>
+      <option value="mac-demarco">Mac DeMarco (1 show, 1 city)</option>
+      <option value="marcus-king">Marcus King (2 shows, 2 cities)</option>
+      <option value="marcus-king-band">Marcus King Band (2 shows, 2 cities)</option>
+      <option value="the-marcus-king-band">The Marcus King Band (3 shows, 1 city)</option>
+      <option value="modest-mouse">Modest Mouse (1 show, 1 city)</option>
+      <option value="mt-joy">Mt. Joy (11 shows, 7 cities)</option>
+      <option value="my-chemical-romance">My Chemical Romance (9 shows, 5 cities)</option>
+      <option value="my-morning-jacket">My Morning Jacket (1 show, 1 city)</option>
+      <option value="the-national">The National (1 show, 1 city)</option>
+      <option value="o-a-r-">O.A.R. (9 shows, 5 cities)</option>
+      <option value="the-offspring">The Offspring (1 show, 1 city)</option>
+      <option value="phish">Phish (3 shows, 1 city)</option>
+      <option value="pixies">Pixies (1 show, 1 city)</option>
+      <option value="queens-of-the-stone-age">Queens of the Stone Age (1 show, 1 city)</option>
+      <option value="ray-lamontagne">Ray LaMontagne (4 shows, 4 cities)</option>
+      <option value="the-revivalists">The Revivalists (1 show, 1 city)</option>
+      <option value="rush">Rush (2 shows, 1 city)</option>
+      <option value="rush">RUSH (10 shows, 5 cities)</option>
+      <option value="sex-pistols">Sex Pistols (4 shows, 4 cities)</option>
+      <option value="sheryl-crow">Sheryl Crow (4 shows, 1 city)</option>
+      <option value="the-shins">The Shins (8 shows, 7 cities)</option>
+      <option value="sierra-ferrell">Sierra Ferrell (2 shows, 1 city)</option>
+      <option value="silversun-pickups">Silversun Pickups (8 shows, 7 cities)</option>
+      <option value="social-distortion">Social Distortion (8 shows, 4 cities)</option>
+      <option value="spin-doctors">Spin Doctors (2 shows, 2 cities)</option>
+      <option value="st-paul-and-the-broken-bones">St. Paul and the Broken Bones (2 shows, 1 city)</option>
+      <option value="stone-temple-pilots">Stone Temple Pilots (3 shows, 3 cities)</option>
+      <option value="the-strokes">The Strokes (2 shows, 2 cities)</option>
+      <option value="tedeschi-trucks-band">Tedeschi Trucks Band (12 shows, 6 cities)</option>
+      <option value="third-eye-blind">Third Eye Blind (1 show, 1 city)</option>
+      <option value="thrice">Thrice (1 show, 1 city)</option>
+      <option value="thrice">THRICE (1 show, 1 city)</option>
+      <option value="toad-the-wet-sprocket">Toad the Wet Sprocket (1 show, 1 city)</option>
+      <option value="turnpike-troubadours">Turnpike Troubadours (3 shows, 3 cities)</option>
+      <option value="violent-femmes">Violent Femmes (1 show, 1 city)</option>
+      <option value="the-war-on-drugs">The War On Drugs (1 show, 1 city)</option>
+      <option value="weezer">Weezer (8 shows, 7 cities)</option>
+      <option value="whiskey-myers">Whiskey Myers (2 shows, 2 cities)</option>
+    </select>
   </div>
   <!-- Calendar month nav -->
   <div id="cal-nav" style="display:none;flex-wrap:wrap;justify-content:center;gap:6px;max-width:900px;margin:0 auto">
@@ -2980,7 +3036,7 @@
 </div>
 <div id="view-band-content" class="view-section">
 <div id="letter-3" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">3</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-311" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://311.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">311</a>
@@ -3034,7 +3090,7 @@
     </div>
   </div></div>
 <div id="letter-A" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">A</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-avett-brothers" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.theavettbrothers.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Avett Brothers</a>
@@ -3133,7 +3189,7 @@
     </div>
   </div></div>
 <div id="letter-B" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">B</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-ben-harper" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.benharper.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Ben Harper</a>
@@ -3246,7 +3302,7 @@
       <a href="https://seatgeek.com/ben-harper-and-the-innocent-criminals-tickets/chicago-illinois-garcias-chicago-2026-10-07-8-pm/concert/18071359" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-ben-harper-the-innocent-criminals" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.benharper.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Ben Harper & the Innocent Criminals</a>
@@ -3359,7 +3415,7 @@
       <a href="https://seatgeek.com/ben-harper-and-the-innocent-criminals-tickets/chicago-illinois-garcias-chicago-2026-10-07-8-pm/concert/18071359" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-big-thief" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.bigthief.net/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Big Thief</a>
@@ -3427,7 +3483,7 @@
       <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-J4N" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-black-crowes" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.blackcrowes.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Black Crowes</a>
@@ -3465,7 +3521,7 @@
       <a href="https://www.ticketmaster.com/the-black-crowes-tedeschi-trucks-band-hollywood-california-08-17-2026/event/0B00643ABF0C3FD9" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-black-keys" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>
     <a href="https://theblackkeys.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Black Keys</a>
@@ -3503,7 +3559,7 @@
       <a href="https://www.ticketmaster.com/the-black-keys-peaches-n-kream-portland-maine-10-11-2026/event/01006443E48AF722" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-blues-traveler" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#dc2626;flex-shrink:0"></span>
     <a href="https://bluestraveler.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Blues Traveler</a>
@@ -3541,7 +3597,7 @@
       <a href="https://seatgeek.com/blues-traveler-tickets/clearwater-florida-the-baycare-sound-at-coachman-park-2026-09-01-6-pm/concert/18021176" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-brandi-carlile" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://brandicarlile.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Brandi Carlile</a>
@@ -3624,7 +3680,7 @@
       <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-Vje" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-breeders" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.thebreeders.com/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Breeders</a>
@@ -3647,7 +3703,7 @@
       <a href="https://seatgeek.com/the-breeders-tickets/los-angeles-california-hollywood-palladium-2026-08-24-7-pm/concert/18011773" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-built-to-spill" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.builttospill.com/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Built to Spill</a>
@@ -3670,7 +3726,7 @@
       <a href="https://seatgeek.com/built-to-spill-tickets/boulder-colorado-boulder-theater-2026-10-03-8-pm/concert/18147904" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-built-to-spill" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.builttospill.com/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Built To Spill</a>
@@ -3709,7 +3765,7 @@
     </div>
   </div></div>
 <div id="letter-C" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">C</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-caamp" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.caamptheband.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Caamp</a>
@@ -3762,7 +3818,7 @@
       <a href="https://on.fgtix.com/trk/jpFM" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-charley-crockett" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.charleycrockett.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Charley Crockett</a>
@@ -3815,7 +3871,7 @@
       <a href="https://www.ticketmaster.com/charley-crockett-age-of-the-ram-asbury-park-new-jersey-10-02-2026/event/00006454ED4DAA90" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-chevelle" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.chevelleinc.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Chevelle</a>
@@ -3973,7 +4029,7 @@
       <a href="https://www.ticketmaster.com/breaking-benjamin-bristow-virginia-10-24-2026/event/1500644BECB9E648" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-chris-stapleton" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.chrisstapleton.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Chris Stapleton</a>
@@ -4041,7 +4097,7 @@
       <a href="https://www.ticketmaster.com/chris-stapletons-allamerican-road-show-bristow-virginia-10-02-2026/event/15006426AF4A6453" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-collective-soul" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://collectivesoul.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Collective Soul</a>
@@ -4065,7 +4121,7 @@
     </div>
   </div></div>
 <div id="letter-D" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">D</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-dave-matthews" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.davematthewsband.com/tours/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Dave Matthews</a>
@@ -4103,7 +4159,7 @@
       <a href="https://seatgeek.com/dave-matthews-band-tickets/englewood-colorado-fiddler-s-green-amphitheatre-2026-08-29-7-30-pm/concert/18036818" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-dave-matthews-band" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.davematthewsband.com/tours/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Dave Matthews Band</a>
@@ -4141,7 +4197,7 @@
       <a href="https://seatgeek.com/dave-matthews-band-tickets/englewood-colorado-fiddler-s-green-amphitheatre-2026-08-29-7-30-pm/concert/18036818" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-deer-tick" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.deertickmusic.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Deer Tick</a>
@@ -4254,7 +4310,7 @@
       <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-0C6" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-descendents" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.descendents.com/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Descendents</a>
@@ -4382,7 +4438,7 @@
       <a href="https://www.ticketmaster.com/social-distortion-hollywood-california-10-02-2026/event/09006455A7E2BF66" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-durand-jones" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.durandjones.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Durand Jones</a>
@@ -4405,7 +4461,7 @@
       <a href="https://seatgeek.com/charley-crockett-tickets/north-charleston-south-carolina-firefly-distillery-2026-09-22-7-pm/concert/18102923" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-durand-jones-the-indications" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.durandjones.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Durand Jones & The Indications</a>
@@ -4459,7 +4515,7 @@
     </div>
   </div></div>
 <div id="letter-E" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">E</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-eric-clapton" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.ericclapton.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Eric Clapton</a>
@@ -4483,7 +4539,7 @@
     </div>
   </div></div>
 <div id="letter-F" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">F</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-fleetwood-mac" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.fleetwoodmac.com/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Fleetwood Mac</a>
@@ -4506,7 +4562,7 @@
       <a href="https://www.ticketmaster.com/choir-choir-choir-presents-an-epic-alexandria-virginia-11-03-2026/event/1500646AE8B5C033" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-fontaines-d-c-" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://fontainesdc.com/live/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Fontaines D.C.</a>
@@ -4529,7 +4585,7 @@
       <a href="https://on.fgtix.com/trk/kchM" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-foo-fighters" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#dc2626;flex-shrink:0"></span>
     <a href="https://foofighters.com/tour-dates/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Foo Fighters</a>
@@ -4552,7 +4608,7 @@
       <a href="https://www.ticketmaster.com/foo-fighters-take-cover-tour-2026-washington-district-of-columbia-08-17-2026/event/15006350F5A2A8F5" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-fruit-bats" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.fruitbatsmusic.com/tour" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Fruit Bats</a>
@@ -4636,7 +4692,7 @@
     </div>
   </div></div>
 <div id="letter-G" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">G</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-gin-blossoms" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://ginblossoms.net/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Gin Blossoms</a>
@@ -4674,7 +4730,7 @@
       <a href="https://seatgeek.com/blues-traveler-tickets/clearwater-florida-the-baycare-sound-at-coachman-park-2026-09-01-6-pm/concert/18021176" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-goo-goo-dolls" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.googoodolls.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Goo Goo Dolls</a>
@@ -4773,7 +4829,7 @@
     </div>
   </div></div>
 <div id="letter-H" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">H</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-head-and-the-heart" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.theheadandtheheart.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Head and the Heart</a>
@@ -4796,7 +4852,7 @@
       <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-6pZ" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-head-and-the-heart" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.theheadandtheheart.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Head And The Heart</a>
@@ -4835,7 +4891,7 @@
     </div>
   </div></div>
 <div id="letter-I" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">I</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-iron-wine" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://ironandwine.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Iron & Wine</a>
@@ -4859,7 +4915,7 @@
     </div>
   </div></div>
 <div id="letter-J" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">J</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-jack-johnson" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://jackjohnsonmusic.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Jack Johnson</a>
@@ -4957,7 +5013,7 @@
       <a href="https://seatgeek.com/jack-johnson-tickets/los-angeles-california-hollywood-bowl-2026-10-11-7-30-pm/concert/17890704" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-jimmy-eat-world" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>
     <a href="https://www.jimmyeatworld.com/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Jimmy Eat World</a>
@@ -4995,7 +5051,7 @@
       <a href="https://seatgeek.com/jimmy-eat-world-tickets/tampa-florida-midflorida-credit-union-amphitheatre-2026-11-14-7-pm/concert/18065623" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-joe-bonamassa" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://jbonamassa.com/tour-dates/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Joe Bonamassa</a>
@@ -5019,7 +5075,7 @@
     </div>
   </div></div>
 <div id="letter-M" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">M</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-mac-demarco" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.macdemarco.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Mac DeMarco</a>
@@ -5042,7 +5098,7 @@
       <a href="https://seatgeek.com/mac-demarco-tickets/los-angeles-california-hollywood-bowl-2026-10-09-7-pm/concert/18063935" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-marcus-king" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.marcuskingofficial.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Marcus King</a>
@@ -5080,7 +5136,7 @@
       <a href="https://seatgeek.com/marcus-king-tickets/ithaca-new-york-state-theatre-of-ithaca-2026-09-13-8-pm/concert/18116666" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-marcus-king-band" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.marcuskingofficial.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Marcus King Band</a>
@@ -5118,7 +5174,7 @@
       <a href="https://seatgeek.com/marcus-king-tickets/ithaca-new-york-state-theatre-of-ithaca-2026-09-13-8-pm/concert/18116666" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-marcus-king-band" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.marcuskingofficial.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Marcus King Band</a>
@@ -5171,7 +5227,7 @@
       <a href="https://on.fgtix.com/trk/ef0J" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-modest-mouse" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.modestmouse.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Modest Mouse</a>
@@ -5194,7 +5250,7 @@
       <a href="https://www.ticketmaster.com/my-chemical-romance-the-black-parade-washington-district-of-columbia-08-18-2026/event/15006331B08D75C0" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-mt-joy" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.mtjoyband.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Mt. Joy</a>
@@ -5367,7 +5423,7 @@
       <a href="https://www.ticketmaster.com/mt-joy-2026-celebrating-10-years-chicago-illinois-10-03-2026/event/04006379961B566A" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-my-chemical-romance" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.mychemicalromance.com/tour" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">My Chemical Romance</a>
@@ -5510,7 +5566,7 @@
       <a href="https://www.ticketmaster.com/my-chemical-romance-with-special-guest-hollywood-california-10-31-2026/event/0B006332CBE839B4" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-my-morning-jacket" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.mymorningjacket.com/tour" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">My Morning Jacket</a>
@@ -5534,7 +5590,7 @@
     </div>
   </div></div>
 <div id="letter-N" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">N</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-national" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>
     <a href="https://americanmary.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The National</a>
@@ -5558,7 +5614,7 @@
     </div>
   </div></div>
 <div id="letter-O" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">O</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-o-a-r-" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.ofarevolution.com/tour" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">O.A.R.</a>
@@ -5701,7 +5757,7 @@
       <a href="https://seatgeek.com/o-a-r-tickets/tampa-florida-seminole-hard-rock-tampa-2026-11-12-6-30-pm/concert/17873367" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-offspring" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.offspring.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Offspring</a>
@@ -5725,7 +5781,7 @@
     </div>
   </div></div>
 <div id="letter-P" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">P</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-phish" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://phish.com/tours/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Phish</a>
@@ -5778,7 +5834,7 @@
       <a href="https://www.ticketmaster.com/phish-commerce-city-colorado-09-06-2026/event/1E00644CEC172D93" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-pixies" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.pixiesmusic.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Pixies</a>
@@ -5802,7 +5858,7 @@
     </div>
   </div></div>
 <div id="letter-Q" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">Q</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-queens-of-the-stone-age" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>
     <a href="https://qotsa.com/pages/tour" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Queens of the Stone Age</a>
@@ -5826,7 +5882,7 @@
     </div>
   </div></div>
 <div id="letter-R" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">R</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-ray-lamontagne" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.raylamontagne.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Ray LaMontagne</a>
@@ -5894,7 +5950,7 @@
       <a href="https://seatgeek.com/ray-lamontagne-tickets/vienna-virginia-filene-center-at-the-wolf-trap-2026-09-13-8-pm/concert/17448767" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-revivalists" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.therevivalists.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Revivalists</a>
@@ -5917,7 +5973,7 @@
       <a href="https://www.axs.com/events/1342115/the-revivalists-tickets" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-rush" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.rush.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Rush</a>
@@ -5955,7 +6011,7 @@
       <a href="https://seatgeek.com/rush-tickets/tampa-florida-benchmark-international-arena-2026-11-11-7-30-pm/concert/17853743" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-rush" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.rush.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">RUSH</a>
@@ -6114,7 +6170,7 @@
     </div>
   </div></div>
 <div id="letter-S" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">S</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-sex-pistols" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>
     <a href="https://www.sexpistolsofficial.com/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Sex Pistols</a>
@@ -6182,7 +6238,7 @@
       <a href="https://www.ticketmaster.com/sex-pistols-steve-jones-paul-cook-hollywood-california-10-18-2026/event/0900627AEA50512B" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-sheryl-crow" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.sherylcrow.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Sheryl Crow</a>
@@ -6250,7 +6306,7 @@
       <a href="https://www.ticketmaster.com/tedeschi-trucks-band-and-very-special-bridgeport-connecticut-09-05-2026/event/1D006435D23E673A" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-shins" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.theshins.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Shins</a>
@@ -6378,7 +6434,7 @@
       <a href="https://www.ticketmaster.com/weezer-the-gathering-los-angeles-california-10-24-2026/event/2C00646D97C50FA8" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-sierra-ferrell" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.sierraferrell.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Sierra Ferrell</a>
@@ -6416,7 +6472,7 @@
       <a href="https://seatgeek.com/mumford-sons-tickets/inglewood-california-kia-forum-2026-10-07-7-30-pm/concert/18091100" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-silversun-pickups" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://silversunpickups.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Silversun Pickups</a>
@@ -6544,7 +6600,7 @@
       <a href="https://www.ticketmaster.com/weezer-the-gathering-los-angeles-california-10-24-2026/event/2C00646D97C50FA8" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-social-distortion" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>
     <a href="https://www.socialdistortion.com/tours" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Social Distortion</a>
@@ -6672,7 +6728,7 @@
       <a href="https://www.ticketmaster.com/social-distortion-hollywood-california-10-02-2026/event/09006455A7E2BF66" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-spin-doctors" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.spindoctors.com/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Spin Doctors</a>
@@ -6710,7 +6766,7 @@
       <a href="https://seatgeek.com/blues-traveler-tickets/clearwater-florida-the-baycare-sound-at-coachman-park-2026-09-01-6-pm/concert/18021176" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-st-paul-and-the-broken-bones" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.stpaulandthebrokenbones.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">St. Paul and the Broken Bones</a>
@@ -6748,7 +6804,7 @@
       <a href="https://www.ticketmaster.com/st-paul-and-the-broken-bones-santa-ana-california-08-25-2026/event/0900645101506DB9" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-stone-temple-pilots" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>
     <a href="https://stonetemplepilots.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Stone Temple Pilots</a>
@@ -6801,7 +6857,7 @@
       <a href="https://www.ticketmaster.com/godsmack-the-rise-of-rock-world-anaheim-california-09-17-2026/event/09006435A321E22F" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-strokes" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#dc2626;flex-shrink:0"></span>
     <a href="https://www.thestrokes.com/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The Strokes</a>
@@ -6840,7 +6896,7 @@
     </div>
   </div></div>
 <div id="letter-T" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">T</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-tedeschi-trucks-band" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://tedeschitrucksband.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Tedeschi Trucks Band</a>
@@ -7028,7 +7084,7 @@
       <a href="https://www.ticketmaster.com/tedeschi-trucks-band-future-soul-2026-chicago-illinois-10-27-2026/event/07006436AB9A68BD" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-third-eye-blind" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>
     <a href="https://3eb.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Third Eye Blind</a>
@@ -7051,7 +7107,7 @@
       <a href="https://on.fgtix.com/trk/jpFM" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-thrice" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://thrice.net/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Thrice</a>
@@ -7074,7 +7130,7 @@
       <a href="https://www.ticketmaster.com/my-chemical-romance-with-special-guest-hollywood-california-10-31-2026/event/0B006332CBE839B4" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-thrice" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://thrice.net/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">THRICE</a>
@@ -7097,7 +7153,7 @@
       <a href="https://www.ticketmaster.com/my-chemical-romance-with-special-guest-hollywood-california-10-31-2026/event/0B006332CBE839B4" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-toad-the-wet-sprocket" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.toadthewetsprocket.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Toad the Wet Sprocket</a>
@@ -7120,7 +7176,7 @@
       <a href="https://seatgeek.com/men-at-work-tickets/los-angeles-california-the-united-theater-on-broadway-2026-08-20-7-pm/concert/18036922" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-turnpike-troubadours" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://turnpiketroubadours.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Turnpike Troubadours</a>
@@ -7174,7 +7230,7 @@
     </div>
   </div></div>
 <div id="letter-V" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">V</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-violent-femmes" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://vfrocks.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Violent Femmes</a>
@@ -7198,7 +7254,7 @@
     </div>
   </div></div>
 <div id="letter-W" style="margin-top:32px"><h2 style="font-size:20px;font-weight:700;color:#a3a3a3;margin:0 0 12px;padding-bottom:4px;border-bottom:2px solid #e5e5e5">W</h2></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-the-war-on-drugs" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></span>
     <a href="https://www.thewarondrugs.net/tour" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">The War On Drugs</a>
@@ -7221,7 +7277,7 @@
       <a href="https://on.fgtix.com/trk/kchM" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-weezer" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></span>
     <a href="https://weezer.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Weezer</a>
@@ -7349,7 +7405,7 @@
       <a href="https://www.ticketmaster.com/weezer-the-gathering-los-angeles-california-10-24-2026/event/2C00646D97C50FA8" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:8px 16px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-bottom:24px;padding-top:4px">
+<div id="band-whiskey-myers" style="margin-bottom:24px;padding-top:4px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a3a3a3;flex-shrink:0"></span>
     <a href="https://www.whiskeymyers.com/tour/" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">Whiskey Myers</a>
@@ -9120,6 +9176,18 @@ function filterCalendar() {
   } else {
     counter.textContent = shown + ' of ' + total + ' shows';
   }
+}
+
+function scrollToBand(slug) {
+  if (currentView !== 'band') setView('band');
+  setTimeout(function() {
+    var target = document.getElementById('band-' + slug);
+    if (target) {
+      var navH = document.getElementById('nav-bar').offsetHeight;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - navH - 12;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  }, currentView !== 'band' ? 50 : 0);
 }
 
 function scrollToCal(month) {
