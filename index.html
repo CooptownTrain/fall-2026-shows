@@ -3,11 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fall 2026 Shows for Travel</title>
-<meta property="og:title" content="Fall 2026 Shows for Travel">
-<meta property="og:description" content="123 shows, 56 artists, 8 cities. Search by city or band. Every ticket link included.">
-<meta property="og:type" content="website">
-<meta name="description" content="Fall 2026 concert guide across Charleston, Chicago, Denver, DC, LA, Phoenix, Syracuse, and Tampa.">
+<title>Fall 2026 Concert Guide</title>
 <style>
   * { box-sizing: border-box; }
   .view-section { display: none; }
@@ -42,6 +38,7 @@
   <div style="display:flex;justify-content:center;gap:4px;margin-bottom:8px">
     <button onclick="setView('city')" id="view-city" style="padding:6px 20px;font-size:13px;font-weight:700;border:2px solid #f8f7f4;border-radius:6px;background:#f8f7f4;color:#1a1a1a;cursor:pointer;transition:all 0.15s">By City</button>
     <button onclick="setView('band')" id="view-band" style="padding:6px 20px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer;transition:all 0.15s">By Band</button>
+    <button onclick="setView('calendar')" id="view-calendar" style="padding:6px 20px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer;transition:all 0.15s">Calendar</button>
   </div>
   <!-- City buttons -->
   <div id="city-nav" style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:900px;margin:0 auto">    <button onclick="scrollToCity('charleston')" style="padding:7px 13px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;transition:all 0.15s" id="btn-charleston">Charleston <span style="opacity:0.5;font-size:11px">11</span></button>
@@ -80,6 +77,13 @@
     <button onclick="scrollToLetter('X')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #3f3f46;border-radius:4px;background:transparent;color:#52525b;cursor:default;transition:all 0.15s">X</button>
     <button onclick="scrollToLetter('Y')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #3f3f46;border-radius:4px;background:transparent;color:#52525b;cursor:default;transition:all 0.15s">Y</button>
     <button onclick="scrollToLetter('Z')" style="padding:4px 7px;font-size:12px;font-weight:600;border:1px solid #3f3f46;border-radius:4px;background:transparent;color:#52525b;cursor:default;transition:all 0.15s">Z</button>
+  </div>
+  <!-- Calendar month nav -->
+  <div id="cal-nav" style="display:none;flex-wrap:wrap;justify-content:center;gap:6px;max-width:900px;margin:0 auto">
+    <button onclick="scrollToCal('aug')" style="padding:7px 16px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer">August</button>
+    <button onclick="scrollToCal('sep')" style="padding:7px 16px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer">September</button>
+    <button onclick="scrollToCal('oct')" style="padding:7px 16px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer">October</button>
+    <button onclick="scrollToCal('nov')" style="padding:7px 16px;font-size:13px;font-weight:600;border:1px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer">November</button>
   </div>
 </div>
 
@@ -4877,6 +4881,816 @@
     </div>
   </div></div>
 </div>
+<div id="view-calendar-content" class="view-section">
+<div id="cal-aug" style="margin-bottom:40px">
+  <h2 style="font-size:24px;font-weight:700;margin:32px 0 16px;color:#1a1a1a;text-align:center">August 2026</h2>
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e5e5e5;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden">
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Sun</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Mon</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Tue</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Wed</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Thu</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Fri</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Sat</div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">1</div>
+    </div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">2</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">3</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">4</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">5</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">6</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">7</div>
+    </div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">8</div>
+    </div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">9</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">10</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">11</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">12</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">13</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">14</div>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7raON" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Mt. Joy - Red Rocks Amphitheatre, Denver, CO">
+        <span style="font-weight:700">Mt. Joy</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-6pZ" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Head And The Heart - Pacific Amphitheatre, Los Angeles, CA">
+        <span style="font-weight:700">The Head And The Heart</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">15</div>
+      <a href="https://www.ticketmaster.com/blues-travelergin-blossoms-with-spin-doctors-new-york-new-york-08-15-2026/event/0000642DFA2FC860" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Blues Traveler - Capital One City Parks Foundation SummerStage, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Blues Traveler</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/turnpike-troubadours-bethel-new-york-08-15-2026/event/00006474F4E45D5A" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Turnpike Troubadours - Bethel Woods Center for the Arts, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Turnpike Troubadours</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7rKrd" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Mt. Joy - Fiddlers Green Amphitheatre, Denver, CO">
+        <span style="font-weight:700">Mt. Joy</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">16</div>
+      <a href="https://www.ticketmaster.com/brandi-carlile-the-human-tour-bethel-new-york-08-16-2026/event/0000646BF0C24040" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Brandi Carlile - Bethel Woods Center for the Arts, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Brandi Carlile</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">17</div>
+      <a href="https://www.ticketmaster.com/foo-fighters-take-cover-tour-2026-washington-district-of-columbia-08-17-2026/event/15006350F5A2A8F5" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Foo Fighters - Nationals Park, Washington, DC">
+        <span style="font-weight:700">Foo Fighters</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+      <a href="https://www.ticketmaster.com/the-black-crowes-tedeschi-trucks-band-hollywood-california-08-17-2026/event/0B00643ABF0C3FD9" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Black Crowes - Hollywood Bowl, Los Angeles, CA">
+        <span style="font-weight:700">The Black Crowes</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">18</div>
+      <a href="https://www.ticketmaster.com/my-chemical-romance-the-black-parade-washington-district-of-columbia-08-18-2026/event/15006331B08D75C0" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="My Chemical Romance - Nationals Park, Washington, DC">
+        <span style="font-weight:700">My Chemical Romance</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+      <a href="https://www.ticketmaster.com/dirty-heads-and-311-so-glad-long-beach-california-08-18-2026/event/0B006472DE335F0F" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="311 - Long Beach Amphitheater, Los Angeles, CA">
+        <span style="font-weight:700">311</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">19</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">20</div>
+      <a href="https://www.ticketmaster.com/mt-joy-2026-celebrating-10-years-los-angeles-california-08-20-2026/event/09006379E445BED5" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Mt. Joy - Greek Theatre, Los Angeles, CA">
+        <span style="font-weight:700">Mt. Joy</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">21</div>
+      <a href="https://www.ticketmaster.com/collective-soul-lincoln-rhode-island-08-21-2026/event/01006429A17B8B42" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Collective Soul - Bally's Event Center, Charleston, SC">
+        <span style="font-weight:700">Collective Soul</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-6aS" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Caamp - Fiddlers Green Amphitheatre, Denver, CO">
+        <span style="font-weight:700">Caamp</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+      <a href="https://www.ticketmaster.com/mt-joy-2026-celebrating-10-years-los-angeles-california-08-21-2026/event/09006379E448BED8" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Mt. Joy - Greek Theatre, Los Angeles, CA">
+        <span style="font-weight:700">Mt. Joy</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">22</div>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-6aV" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Caamp - Fiddlers Green Amphitheatre, Denver, CO">
+        <span style="font-weight:700">Caamp</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">23</div>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7Ok8d" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Joe Bonamassa - Red Rocks Amphitheatre, Denver, CO">
+        <span style="font-weight:700">Joe Bonamassa</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+      <a href="https://www.ticketmaster.com/trombone-shorty-orleans-avenue-and-st-paso-robles-california-08-23-2026/event/090064529C2EB44F" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="St. Paul and the Broken Bones - Vina Robles Amphitheatre, Los Angeles, CA">
+        <span style="font-weight:700">St. Paul and the Broken Bones</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">24</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">25</div>
+      <a href="https://www.ticketmaster.com/outlaw-festival-willie-nelson-avett-brothers-tinley-park-illinois-08-25-2026/event/04006472ECE6A21D" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Avett Brothers - Credit Union 1 Amphitheatre, Chicago, IL">
+        <span style="font-weight:700">The Avett Brothers</span> <span style="color:#737373;font-size:11px">CHI</span>
+      </a>
+      <a href="https://www.ticketmaster.com/st-paul-and-the-broken-bones-santa-ana-california-08-25-2026/event/0900645101506DB9" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="St. Paul and the Broken Bones - The Observatory, Los Angeles, CA">
+        <span style="font-weight:700">St. Paul and the Broken Bones</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">26</div>
+      <a href="https://www.ticketmaster.com/chris-stapletons-allamerican-road-show-wantagh-new-york-08-26-2026/event/1D00639EAD073B5D" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chris Stapleton - Northwell at Jones Beach Theater, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Chris Stapleton</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">27</div>
+      <a href="https://www.ticketmaster.com/my-chemical-romance-the-black-parade-denver-colorado-08-27-2026/event/1E006328CEEB1AAE" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="My Chemical Romance - Coors Field, Denver, CO">
+        <span style="font-weight:700">My Chemical Romance</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">28</div>
+      <a href="https://www.ticketmaster.com/outlaw-festival-willie-nelson-avett-brothers-wantagh-new-york-08-28-2026/event/1D006476CF358AF5" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Avett Brothers - Northwell at Jones Beach Theater, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">The Avett Brothers</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/chris-stapletons-allamerican-road-show-camden-new-jersey-08-28-2026/event/0200639690BE74A1" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chris Stapleton - Freedom Mortgage Pavilion , Tampa / St. Pete, FL">
+        <span style="font-weight:700">Chris Stapleton</span> <span style="color:#737373;font-size:11px">TPA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">29</div>
+      <a href="https://www.ticketmaster.com/outlaw-festival-willie-nelson-family-the-bethel-new-york-08-29-2026/event/0000647402C184F7" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Avett Brothers - Bethel Woods Center for the Arts, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">The Avett Brothers</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/chris-stapletons-allamerican-road-show-camden-new-jersey-08-29-2026/event/020064277C4D3134" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chris Stapleton - Freedom Mortgage Pavilion , Tampa / St. Pete, FL">
+        <span style="font-weight:700">Chris Stapleton</span> <span style="color:#737373;font-size:11px">TPA</span>
+      </a>
+      <a href="https://www.ticketmaster.com/courtney-barnett-creature-of-habit-tour-hollywood-california-08-29-2026/event/0900642DC297B2B9" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Built To Spill - Hollywood Palladium, Los Angeles, CA">
+        <span style="font-weight:700">Built To Spill</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">30</div>
+      <a href="https://www.ticketmaster.com/outlaw-festival-willie-nelson-avett-brothers-saratoga-springs-new-york-08-30-2026/event/00006472D057F0D4" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Avett Brothers - Albany Med Health System at SPAC, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">The Avett Brothers</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">31</div>
+      <a href="https://www.ticketmaster.com/tedeschi-trucks-band-future-soul-2026-bethel-new-york-08-31-2026/event/00006436CF488E71" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#8b5cf615;border-left:3px solid #8b5cf6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Tedeschi Trucks Band - Bethel Woods Center for the Arts, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Tedeschi Trucks Band</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+    </div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+  </div>
+</div>
+<div id="cal-sep" style="margin-bottom:40px">
+  <h2 style="font-size:24px;font-weight:700;margin:32px 0 16px;color:#1a1a1a;text-align:center">September 2026</h2>
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e5e5e5;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden">
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Sun</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Mon</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Tue</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Wed</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Thu</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Fri</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Sat</div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">1</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">2</div>
+      <a href="https://www.ticketmaster.com/mmr-presents-breaking-benjamin-camden-new-jersey-09-02-2026/event/0200644AD1D1B825" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chevelle - Freedom Mortgage Pavilion , Tampa / St. Pete, FL">
+        <span style="font-weight:700">Chevelle</span> <span style="color:#737373;font-size:11px">TPA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">3</div>
+      <a href="https://www.ticketmaster.com/breaking-benjamin-bridgeport-connecticut-09-03-2026/event/1D00644B11DD6B42" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chevelle - Hartford HealthCare Amphitheater, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Chevelle</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">4</div>
+      <a href="https://www.ticketmaster.com/social-distortion-washington-district-of-columbia-09-04-2026/event/15006452E2B559E9" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Social Distortion - The Anthem, Washington, DC">
+        <span style="font-weight:700">Social Distortion</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+      <a href="https://www.ticketmaster.com/tedeschi-trucks-band-and-very-special-bridgeport-connecticut-09-04-2026/event/1D006435D23B6737" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Tedeschi Trucks Band - Hartford HealthCare Amphitheater, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Tedeschi Trucks Band</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/phish-commerce-city-colorado-09-04-2026/event/1E00644C89B192C2" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Phish - DICK'S Sporting Goods Park, Denver, CO">
+        <span style="font-weight:700">Phish</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">5</div>
+      <a href="https://www.ticketmaster.com/social-distortion-born-to-kill-world-asbury-park-new-jersey-09-05-2026/event/00006454F47EBE66" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Social Distortion - Stone Pony Summer Stage, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Social Distortion</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/tedeschi-trucks-band-and-very-special-bridgeport-connecticut-09-05-2026/event/1D006435D23E673A" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Tedeschi Trucks Band - Hartford HealthCare Amphitheater, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Tedeschi Trucks Band</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/breaking-benjamin-wantagh-new-york-09-05-2026/event/1D00644B92932245" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chevelle - Northwell at Jones Beach Theater, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Chevelle</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/phish-commerce-city-colorado-09-05-2026/event/1E00644CEC052D6C" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Phish - DICK'S Sporting Goods Park, Denver, CO">
+        <span style="font-weight:700">Phish</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">6</div>
+      <a href="https://www.ticketmaster.com/goo-goo-dolls-summer-2026-uncasville-connecticut-09-06-2026/event/1D00637EE7D367CF" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Goo Goo Dolls - Mohegan Sun Arena, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Goo Goo Dolls</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/tedeschi-trucks-band-future-soul-2026-gilford-new-hampshire-09-06-2026/event/01006435D500EFF1" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Tedeschi Trucks Band - BankNH Pavilion, Charleston, SC">
+        <span style="font-weight:700">Tedeschi Trucks Band</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+      <a href="https://www.ticketmaster.com/breaking-benjamin-holmdel-new-jersey-09-06-2026/event/0200644BAF5A920D" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chevelle - PNC Bank Arts Center, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Chevelle</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/oar-three-decades-tour-chicago-illinois-09-06-2026/event/0400635867E61BE8" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="O.A.R. - Huntington Bank Pavilion at Northerly Island, Chicago, IL">
+        <span style="font-weight:700">O.A.R.</span> <span style="color:#737373;font-size:11px">CHI</span>
+      </a>
+      <a href="https://www.ticketmaster.com/phish-commerce-city-colorado-09-06-2026/event/1E00644CEC172D93" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Phish - DICK'S Sporting Goods Park, Denver, CO">
+        <span style="font-weight:700">Phish</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">7</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">8</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">9</div>
+      <a href="https://www.ticketmaster.com/godsmack-the-rise-of-rock-world-denver-colorado-09-09-2026/event/1E006435A7639C41" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Stone Temple Pilots - JUNKYARD, Denver, CO">
+        <span style="font-weight:700">Stone Temple Pilots</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">10</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">11</div>
+      <a href="https://www.ticketmaster.com/social-distortion-brooklyn-new-york-09-11-2026/event/00006453B599B94E" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Social Distortion - Brooklyn Paramount, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Social Distortion</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/eric-clapton-chicago-illinois-09-11-2026/event/04006459DA12324A" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Eric Clapton - United Center, Chicago, IL">
+        <span style="font-weight:700">Eric Clapton</span> <span style="color:#737373;font-size:11px">CHI</span>
+      </a>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-tjp" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Brandi Carlile - Red Rocks Amphitheatre, Denver, CO">
+        <span style="font-weight:700">Brandi Carlile</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">12</div>
+      <a href="https://www.ticketmaster.com/social-distortion-brooklyn-new-york-09-12-2026/event/00006453B59CB954" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Social Distortion - Brooklyn Paramount, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Social Distortion</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/marcus-king-band-darling-blue-pt2-new-york-new-york-09-12-2026/event/00006464A5B0C04C" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Marcus King Band - Capital One City Parks Foundation SummerStage, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Marcus King Band</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/rush-fifty-something-boston-massachusetts-09-12-2026/event/01006350AF37C5D5" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="RUSH - TD Garden, Charleston, SC">
+        <span style="font-weight:700">RUSH</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+      <a href="https://www.ticketmaster.com/my-chemical-romance-the-black-parade-san-antonio-texas-09-12-2026/event/3A006330E4B55E47" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="My Chemical Romance - Alamodome, Syracuse, NY">
+        <span style="font-weight:700">My Chemical Romance</span> <span style="color:#737373;font-size:11px">SYR</span>
+      </a>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-t_k" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Brandi Carlile - Red Rocks Amphitheatre, Denver, CO">
+        <span style="font-weight:700">Brandi Carlile</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">13</div>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-Vje" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Brandi Carlile - Red Rocks Amphitheatre, Denver, CO">
+        <span style="font-weight:700">Brandi Carlile</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+      <a href="https://www.ticketmaster.com/oar-three-decades-tour-gilford-new-hampshire-09-13-2026/event/01006358D653DF2B" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="O.A.R. - BankNH Pavilion, Charleston, SC">
+        <span style="font-weight:700">O.A.R.</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">14</div>
+      <a href="https://www.ticketmaster.com/rush-fifty-something-boston-massachusetts-09-14-2026/event/01006355EB160EFC" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="RUSH - TD Garden, Charleston, SC">
+        <span style="font-weight:700">RUSH</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">15</div>
+      <a href="https://www.ticketmaster.com/oar-three-decades-tour-boston-massachusetts-09-15-2026/event/01006358D6D6DFC1" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="O.A.R. - Leader Bank Pavilion, Charleston, SC">
+        <span style="font-weight:700">O.A.R.</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">16</div>
+      <a href="https://www.ticketmaster.com/weezer-the-gathering-denver-colorado-09-16-2026/event/1E00646D0AD949BE" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Weezer - Ball Arena, Denver, CO">
+        <span style="font-weight:700">Weezer</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">17</div>
+      <a href="https://www.ticketmaster.com/godsmack-the-rise-of-rock-world-anaheim-california-09-17-2026/event/09006435A321E22F" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Stone Temple Pilots - Honda Center, Los Angeles, CA">
+        <span style="font-weight:700">Stone Temple Pilots</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+      <a href="https://www.ticketmaster.com/oar-three-decades-tour-holmdel-new-jersey-09-17-2026/event/02006358A6146BA1" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="O.A.R. - PNC Bank Arts Center, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">O.A.R.</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/mt-joy-2026-celebrating-10-years-new-york-new-york-09-17-2026/event/3B0063769EF534BD" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Mt. Joy - Madison Square Garden, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Mt. Joy</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">18</div>
+      <a href="https://on.fgtix.com/trk/ef0J" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Marcus King Band - Telluride Town Park, Denver, CO">
+        <span style="font-weight:700">The Marcus King Band</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+      <a href="https://www.ticketmaster.com/oar-three-decades-tour-wantagh-new-york-09-18-2026/event/1D00635BA6E01CF4" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="O.A.R. - Northwell at Jones Beach Theater, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">O.A.R.</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/breaking-benjamin-tinley-park-illinois-09-18-2026/event/0400644BD1F691A7" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chevelle - Credit Union 1 Amphitheatre, Chicago, IL">
+        <span style="font-weight:700">Chevelle</span> <span style="color:#737373;font-size:11px">CHI</span>
+      </a>
+      <a href="https://www.ticketmaster.com/mt-joy-2026-celebrating-10-years-columbia-maryland-09-18-2026/event/15006378EC88A6F2" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Mt. Joy - Merriweather Post Pavilion, Washington, DC">
+        <span style="font-weight:700">Mt. Joy</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">19</div>
+      <a href="https://on.fgtix.com/trk/kchM" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Offspring - North Beach Asbury Park , Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">The Offspring</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://on.fgtix.com/trk/ef0J" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Marcus King Band - Telluride Town Park, Denver, CO">
+        <span style="font-weight:700">The Marcus King Band</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+      <a href="https://www.ticketmaster.com/oar-three-decades-tour-saratoga-springs-new-york-09-19-2026/event/00006356E376A18C" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="O.A.R. - Albany Med Health System at SPAC, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">O.A.R.</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/mt-joy-2026-celebrating-10-years-boston-massachusetts-09-19-2026/event/01006372C6E0E90A" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Mt. Joy - TD Garden, Charleston, SC">
+        <span style="font-weight:700">Mt. Joy</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+      <a href="https://www.ticketmaster.com/big-thief-ojai-california-09-19-2026/event/090064522F1977A2" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Big Thief - Libbey Bowl, Los Angeles, CA">
+        <span style="font-weight:700">Big Thief</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">20</div>
+      <a href="https://on.fgtix.com/trk/kchM" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#dc262615;border-left:3px solid #dc2626;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Strokes - North Beach Asbury Park , Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">The Strokes</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://on.fgtix.com/trk/ef0J" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Marcus King Band - Telluride Town Park, Denver, CO">
+        <span style="font-weight:700">The Marcus King Band</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+      <a href="https://www.ticketmaster.com/oar-three-decades-tour-bridgeport-connecticut-09-20-2026/event/1D00635868960B2B" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="O.A.R. - Hartford HealthCare Amphitheater, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">O.A.R.</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/big-thief-ojai-california-09-20-2026/event/090064522F1B77B9" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Big Thief - Libbey Bowl, Los Angeles, CA">
+        <span style="font-weight:700">Big Thief</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">21</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">22</div>
+      <a href="https://www.ticketmaster.com/weezer-the-gathering-chicago-illinois-09-22-2026/event/0400646DBFA1850E" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Weezer - United Center, Chicago, IL">
+        <span style="font-weight:700">Weezer</span> <span style="color:#737373;font-size:11px">CHI</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">23</div>
+      <a href="https://www.ticketmaster.com/rush-fifty-something-san-antonio-texas-09-23-2026/event/3A00635195066C5C" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="RUSH - Frost Bank Center, Syracuse, NY">
+        <span style="font-weight:700">RUSH</span> <span style="color:#737373;font-size:11px">SYR</span>
+      </a>
+      <a href="https://www.ticketmaster.com/mt-joy-2026-celebrating-10-years-portland-maine-09-23-2026/event/01006436E7969506" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Mt. Joy - Thompson's Point, Charleston, SC">
+        <span style="font-weight:700">Mt. Joy</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">24</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">25</div>
+      <a href="https://www.ticketmaster.com/rush-fifty-something-san-antonio-texas-09-25-2026/event/3A006351950B6C61" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="RUSH - Frost Bank Center, Syracuse, NY">
+        <span style="font-weight:700">RUSH</span> <span style="color:#737373;font-size:11px">SYR</span>
+      </a>
+      <a href="https://www.ticketmaster.com/mt-joy-2026-celebrating-10-years-camden-new-jersey-09-25-2026/event/0200637490A59865" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Mt. Joy - Freedom Mortgage Pavilion , Tampa / St. Pete, FL">
+        <span style="font-weight:700">Mt. Joy</span> <span style="color:#737373;font-size:11px">TPA</span>
+      </a>
+      <a href="https://on.fgtix.com/trk/jpFM" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="O.A.R. - Ocean City Inlet, Washington, DC">
+        <span style="font-weight:700">O.A.R.</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+      <a href="https://www.axs.com/events/1342115/the-revivalists-tickets" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Revivalists - Red Rocks Amphitheatre, Denver, CO">
+        <span style="font-weight:700">The Revivalists</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">26</div>
+      <a href="https://on.fgtix.com/trk/jpFM" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Goo Goo Dolls - Ocean City Inlet, Washington, DC">
+        <span style="font-weight:700">Goo Goo Dolls</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-YvY" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Deer Tick - Bluebird Theatre, Denver, CO">
+        <span style="font-weight:700">Deer Tick</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">27</div>
+      <a href="https://www.ticketmaster.com/weezer-the-gathering-boston-massachusetts-09-27-2026/event/0100646DD3FEBD78" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Weezer - TD Garden, Charleston, SC">
+        <span style="font-weight:700">Weezer</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+      <a href="https://on.fgtix.com/trk/jpFM" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Caamp - Ocean City Inlet, Washington, DC">
+        <span style="font-weight:700">Caamp</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">28</div>
+      <a href="https://www.ticketmaster.com/breaking-benjamin-denver-colorado-09-28-2026/event/1E00644BCF879C9D" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chevelle - Ball Arena, Denver, CO">
+        <span style="font-weight:700">Chevelle</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">29</div>
+      <a href="https://www.ticketmaster.com/sex-pistols-steve-jones-paul-cook-washington-district-of-columbia-09-29-2026/event/1500627A14967C90" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Sex Pistols - 9:30 CLUB, Washington, DC">
+        <span style="font-weight:700">Sex Pistols</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">30</div>
+      <a href="https://www.ticketmaster.com/weezer-the-gathering-brooklyn-new-york-09-30-2026/event/3000646DEDC399B4" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Weezer - Barclays Center, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Weezer</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/fruit-bats-los-angeles-california-09-30-2026/event/09006472D6B8BDF4" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Fruit Bats - The Bellwether, Los Angeles, CA">
+        <span style="font-weight:700">Fruit Bats</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+  </div>
+</div>
+<div id="cal-oct" style="margin-bottom:40px">
+  <h2 style="font-size:24px;font-weight:700;margin:32px 0 16px;color:#1a1a1a;text-align:center">October 2026</h2>
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e5e5e5;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden">
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Sun</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Mon</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Tue</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Wed</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Thu</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Fri</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Sat</div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">1</div>
+      <a href="https://www.ticketmaster.com/social-distortion-hollywood-california-10-01-2026/event/09006455A7CEBF3A" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Social Distortion - Hollywood Palladium, Los Angeles, CA">
+        <span style="font-weight:700">Social Distortion</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+      <a href="https://www.ticketmaster.com/charley-crockett-age-of-the-ram-new-york-new-york-10-01-2026/event/0000645AA369C7CF" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Durand Jones & The Indications - Capital One City Parks Foundation SummerStage, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Durand Jones & The Indications</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">2</div>
+      <a href="https://www.ticketmaster.com/weezer-the-gathering-washington-district-of-columbia-10-02-2026/event/150064659BA28862" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Weezer - Capital One Arena, Washington, DC">
+        <span style="font-weight:700">Weezer</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+      <a href="https://www.ticketmaster.com/social-distortion-hollywood-california-10-02-2026/event/09006455A7E2BF66" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Social Distortion - Hollywood Palladium, Los Angeles, CA">
+        <span style="font-weight:700">Social Distortion</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+      <a href="https://www.ticketmaster.com/chris-stapletons-allamerican-road-show-bristow-virginia-10-02-2026/event/15006426AF4A6453" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chris Stapleton - Jiffy Lube Live, Washington, DC">
+        <span style="font-weight:700">Chris Stapleton</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+      <a href="https://www.ticketmaster.com/charley-crockett-age-of-the-ram-asbury-park-new-jersey-10-02-2026/event/00006454ED4DAA90" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Durand Jones & The Indications - Stone Pony Summer Stage, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">Durand Jones & The Indications</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">3</div>
+      <a href="https://www.ticketmaster.com/mt-joy-2026-celebrating-10-years-chicago-illinois-10-03-2026/event/04006379961B566A" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Mt. Joy - Huntington Bank Pavilion at Northerly Island, Chicago, IL">
+        <span style="font-weight:700">Mt. Joy</span> <span style="color:#737373;font-size:11px">CHI</span>
+      </a>
+      <a href="https://www.ticketmaster.com/breaking-benjamin-anaheim-california-10-03-2026/event/0900644BB38E9BE4" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chevelle - Honda Center, Los Angeles, CA">
+        <span style="font-weight:700">Chevelle</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">4</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">5</div>
+      <a href="https://www.ticketmaster.com/club-level-seating-rush-denver-colorado-10-05-2026/event/1E00635B664C152F" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="RUSH - Ball Arena, Denver, CO">
+        <span style="font-weight:700">RUSH</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">6</div>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-J4N" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Big Thief - Red Rocks Amphitheatre, Denver, CO">
+        <span style="font-weight:700">Big Thief</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">7</div>
+      <a href="https://www.ticketmaster.com/rush-fifty-something-denver-colorado-10-07-2026/event/1E006350ABE76A15" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="RUSH - Ball Arena, Denver, CO">
+        <span style="font-weight:700">RUSH</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">8</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">9</div>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A74pvg" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Sex Pistols - Ogden Theatre, Denver, CO">
+        <span style="font-weight:700">Sex Pistols</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+      <a href="https://www.ticketmaster.com/deer-tick-los-angeles-california-10-09-2026/event/09006463FEFD2184" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Deer Tick - Teragram Ballroom, Los Angeles, CA">
+        <span style="font-weight:700">Deer Tick</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">10</div>
+      <a href="https://www.ticketmaster.com/deer-tick-santa-ana-california-10-10-2026/event/09006463CB1BCFA9" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Deer Tick - Constellation Room, Los Angeles, CA">
+        <span style="font-weight:700">Deer Tick</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">11</div>
+      <a href="https://www.ticketmaster.com/the-black-keys-peaches-n-kream-portland-maine-10-11-2026/event/01006443E48AF722" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="The Black Keys - Cross Insurance Arena , Charleston, SC">
+        <span style="font-weight:700">The Black Keys</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">12</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">13</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">14</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">15</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">16</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">17</div>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-z8p" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Fruit Bats - Mission Ballroom, Denver, CO">
+        <span style="font-weight:700">Fruit Bats</span> <span style="color:#737373;font-size:11px">DEN</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">18</div>
+      <a href="https://www.ticketmaster.com/sex-pistols-steve-jones-paul-cook-hollywood-california-10-18-2026/event/0900627AEA50512B" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Sex Pistols - Hollywood Palladium, Los Angeles, CA">
+        <span style="font-weight:700">Sex Pistols</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">19</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">20</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">21</div>
+      <a href="https://www.ticketmaster.com/my-chemical-romance-the-black-parade-hollywood-california-10-21-2026/event/0B006332CBDC3993" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="My Chemical Romance - Hollywood Bowl, Los Angeles, CA">
+        <span style="font-weight:700">My Chemical Romance</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">22</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">23</div>
+      <a href="https://www.ticketmaster.com/tedeschi-trucks-band-future-soul-2026-chicago-illinois-10-23-2026/event/07006436AB8B6888" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Tedeschi Trucks Band - The Chicago Theatre, Chicago, IL">
+        <span style="font-weight:700">Tedeschi Trucks Band</span> <span style="color:#737373;font-size:11px">CHI</span>
+      </a>
+      <a href="https://www.ticketmaster.com/my-chemical-romance-the-black-parade-hollywood-california-10-23-2026/event/0B006332CBDF3996" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="My Chemical Romance - Hollywood Bowl, Los Angeles, CA">
+        <span style="font-weight:700">My Chemical Romance</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">24</div>
+      <a href="https://www.ticketmaster.com/weezer-the-gathering-los-angeles-california-10-24-2026/event/2C00646D97C50FA8" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#f59e0b15;border-left:3px solid #f59e0b;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Weezer - Crypto.com Arena, Los Angeles, CA">
+        <span style="font-weight:700">Weezer</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+      <a href="https://www.ticketmaster.com/tedeschi-trucks-band-future-soul-2026-chicago-illinois-10-24-2026/event/07006436AB9068AC" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Tedeschi Trucks Band - The Chicago Theatre, Chicago, IL">
+        <span style="font-weight:700">Tedeschi Trucks Band</span> <span style="color:#737373;font-size:11px">CHI</span>
+      </a>
+      <a href="https://www.ticketmaster.com/my-chemical-romance-the-black-parade-hollywood-california-10-24-2026/event/0B006332CBE23998" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="My Chemical Romance - Hollywood Bowl, Los Angeles, CA">
+        <span style="font-weight:700">My Chemical Romance</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+      <a href="https://www.ticketmaster.com/breaking-benjamin-bristow-virginia-10-24-2026/event/1500644BECB9E648" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Chevelle - Jiffy Lube Live, Washington, DC">
+        <span style="font-weight:700">Chevelle</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">25</div>
+      <a href="https://www.ticketmaster.com/rush-fifty-something-washington-district-of-columbia-10-25-2026/event/15006350B9E88887" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="RUSH - Capital One Arena, Washington, DC">
+        <span style="font-weight:700">RUSH</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">26</div>
+      <a href="https://www.ticketmaster.com/tedeschi-trucks-band-future-soul-2026-chicago-illinois-10-26-2026/event/07006436AB9568B7" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Tedeschi Trucks Band - The Chicago Theatre, Chicago, IL">
+        <span style="font-weight:700">Tedeschi Trucks Band</span> <span style="color:#737373;font-size:11px">CHI</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">27</div>
+      <a href="https://www.ticketmaster.com/tedeschi-trucks-band-future-soul-2026-chicago-illinois-10-27-2026/event/07006436AB9A68BD" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Tedeschi Trucks Band - The Chicago Theatre, Chicago, IL">
+        <span style="font-weight:700">Tedeschi Trucks Band</span> <span style="color:#737373;font-size:11px">CHI</span>
+      </a>
+      <a href="https://www.ticketmaster.com/rush-fifty-something-washington-district-of-columbia-10-27-2026/event/150063551C7BC232" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="RUSH - Capital One Arena, Washington, DC">
+        <span style="font-weight:700">RUSH</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">28</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">29</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">30</div>
+      <a href="https://www.ticketmaster.com/rush-fifty-something-uncasville-connecticut-10-30-2026/event/1D00634FC2971B16" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="RUSH - Mohegan Sun Arena, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">RUSH</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+      <a href="https://www.ticketmaster.com/my-chemical-romance-with-special-guest-hollywood-california-10-30-2026/event/0B006332CBE5399E" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="My Chemical Romance - Hollywood Bowl, Los Angeles, CA">
+        <span style="font-weight:700">My Chemical Romance</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">31</div>
+      <a href="https://www.ticketmaster.com/my-chemical-romance-with-special-guest-hollywood-california-10-31-2026/event/0B006332CBE839B4" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="My Chemical Romance - Hollywood Bowl, Los Angeles, CA">
+        <span style="font-weight:700">My Chemical Romance</span> <span style="color:#737373;font-size:11px">LA</span>
+      </a>
+    </div>
+  </div>
+</div>
+<div id="cal-nov" style="margin-bottom:40px">
+  <h2 style="font-size:24px;font-weight:700;margin:32px 0 16px;color:#1a1a1a;text-align:center">November 2026</h2>
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:#e5e5e5;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden">
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Sun</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Mon</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Tue</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Wed</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Thu</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Fri</div>
+    <div style="background:#27272a;color:#e4e4e7;padding:8px 4px;text-align:center;font-size:13px;font-weight:700">Sat</div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">1</div>
+      <a href="https://www.ticketmaster.com/rush-fifty-something-uncasville-connecticut-11-01-2026/event/1D006355E4FB3094" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#3b82f615;border-left:3px solid #3b82f6;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="RUSH - Mohegan Sun Arena, Phoenix / Scottsdale, AZ">
+        <span style="font-weight:700">RUSH</span> <span style="color:#737373;font-size:11px">PHX</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">2</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">3</div>
+      <a href="https://www.ticketmaster.com/choir-choir-choir-presents-an-epic-alexandria-virginia-11-03-2026/event/1500646AE8B5C033" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Fleetwood Mac - Birchmere, Washington, DC">
+        <span style="font-weight:700">Fleetwood Mac</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">4</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">5</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">6</div>
+    </div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">7</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">8</div>
+      <a href="https://www.ticketmaster.com/fruit-bats-portland-maine-11-08-2026/event/01006473D1928C5E" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Fruit Bats - State Theatre, Charleston, SC">
+        <span style="font-weight:700">Fruit Bats</span> <span style="color:#737373;font-size:11px">CHS</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">9</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">10</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">11</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">12</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">13</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">14</div>
+      <a href="https://www.ticketmaster.com/fruit-bats-washington-district-of-columbia-11-14-2026/event/15006472FA98DF66" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Fruit Bats - 9:30 CLUB, Washington, DC">
+        <span style="font-weight:700">Fruit Bats</span> <span style="color:#737373;font-size:11px">DC</span>
+      </a>
+    </div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">15</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">16</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">17</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">18</div>
+    </div>
+    <div style="background:#fff;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:4px">19</div>
+      <a href="https://www.ticketmaster.com/event/Z7r9jZ1A7-0C6" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:3px;padding:3px 6px;background:#a3a3a315;border-left:3px solid #a3a3a3;border-radius:0 4px 4px 0;text-decoration:none;font-size:12px;line-height:1.3;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="Deer Tick - House of Independents, Tampa / St. Pete, FL">
+        <span style="font-weight:700">Deer Tick</span> <span style="color:#737373;font-size:11px">TPA</span>
+      </a>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">20</div>
+    </div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">21</div>
+    </div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">22</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">23</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">24</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">25</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">26</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">27</div>
+    </div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">28</div>
+    </div>
+    <div style="background:#f5f3f0;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">29</div>
+    </div>
+    <div style="background:#faf9f7;min-height:120px;padding:6px 8px;vertical-align:top">
+      <div style="font-size:14px;font-weight:700;color:#a3a3a3;margin-bottom:4px">30</div>
+    </div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+    <div style="background:#f0eeeb;min-height:120px"></div>
+  </div>
+</div>
+</div>
 </div>
 
 <script>
@@ -4886,18 +5700,20 @@ function setView(view) {
   currentView = view;
   document.getElementById('view-city-content').className = 'view-section' + (view === 'city' ? ' active' : '');
   document.getElementById('view-band-content').className = 'view-section' + (view === 'band' ? ' active' : '');
+  document.getElementById('view-calendar-content').className = 'view-section' + (view === 'calendar' ? ' active' : '');
   document.getElementById('city-nav').style.display = view === 'city' ? 'flex' : 'none';
   document.getElementById('band-nav').style.display = view === 'band' ? 'flex' : 'none';
+  document.getElementById('cal-nav').style.display = view === 'calendar' ? 'flex' : 'none';
 
-  var cityBtn = document.getElementById('view-city');
-  var bandBtn = document.getElementById('view-band');
-  if (view === 'city') {
-    cityBtn.style.background = '#f8f7f4'; cityBtn.style.color = '#1a1a1a'; cityBtn.style.borderColor = '#f8f7f4';
-    bandBtn.style.background = 'transparent'; bandBtn.style.color = '#e4e4e7'; bandBtn.style.borderColor = '#52525b';
-  } else {
-    bandBtn.style.background = '#f8f7f4'; bandBtn.style.color = '#1a1a1a'; bandBtn.style.borderColor = '#f8f7f4';
-    cityBtn.style.background = 'transparent'; cityBtn.style.color = '#e4e4e7'; cityBtn.style.borderColor = '#52525b';
-  }
+  var btns = ['view-city','view-band','view-calendar'];
+  btns.forEach(function(id) {
+    var b = document.getElementById(id);
+    if (id === 'view-' + view) {
+      b.style.background = '#f8f7f4'; b.style.color = '#1a1a1a'; b.style.borderColor = '#f8f7f4';
+    } else {
+      b.style.background = 'transparent'; b.style.color = '#e4e4e7'; b.style.borderColor = '#52525b';
+    }
+  });
   window.scrollTo({ top: 0 });
 }
 
@@ -4923,6 +5739,18 @@ function scrollToLetter(letter) {
       window.scrollTo({ top: top, behavior: 'smooth' });
     }
   }, currentView !== 'band' ? 50 : 0);
+}
+
+function scrollToCal(month) {
+  if (currentView !== 'calendar') setView('calendar');
+  setTimeout(function() {
+    var target = document.getElementById('cal-' + month);
+    if (target) {
+      var navH = document.getElementById('nav-bar').offsetHeight;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - navH - 12;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  }, currentView !== 'calendar' ? 50 : 0);
 }
 
 // Measure nav bar and set CSS variable for sticky headers
