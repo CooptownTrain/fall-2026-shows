@@ -36,35 +36,84 @@
     <button onclick="setView('band')" id="view-band" style="padding:6px 20px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer">By Band</button>
     <button onclick="setView('calendar')" id="view-calendar" style="padding:6px 20px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer">Calendar</button>
   </div>
-  <div id="city-nav" style="display:flex;justify-content:center;gap:8px;max-width:900px;margin:0 auto;align-items:center;flex-wrap:wrap">
-    <label style="font-size:13px;font-weight:600;color:#a3a3a3">Jump to:</label>
-    <select id="city-jump" onchange="if(this.value)scrollToCity(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:220px">
-      <option value="">Select a city...</option>      <optgroup label="United States">      <option value="ac">Atlantic City, NJ (25)</option>
-      <option value="charleston">Charleston, SC (27)</option>
-      <option value="chicago">Chicago, IL (95)</option>
-      <option value="denver">Denver, CO (66)</option>
-      <option value="vegas">Las Vegas (Sphere) (24)</option>
-      <option value="la">Los Angeles, CA (35)</option>
-      <option value="nyc">New York City, NY (128)</option>
-      <option value="phoenix">Phoenix / Scottsdale, AZ (30)</option>
-      <option value="syracuse">Syracuse, NY (11)</option>
-      <option value="tampa">Tampa / St. Pete, FL (29)</option>
-      <option value="dc">Washington, DC (60)</option>
-      </optgroup><optgroup label="Europe">      <option value="amsterdam">Amsterdam, Netherlands (28)</option>
-      <option value="athens">Athens, Greece (4)</option>
-      <option value="barcelona">Barcelona, Spain (7)</option>
-      <option value="berlin">Berlin, Germany (8)</option>
-      <option value="dublin">Dublin, Ireland (24)</option>
-      <option value="lisbon">Lisbon, Portugal (7)</option>
-      <option value="london">London, UK (31)</option>
-      <option value="madrid">Madrid, Spain (7)</option>
-      <option value="manchester">Manchester, UK (17)</option>
-      <option value="milan">Milan, Italy (9)</option>
-      <option value="paris">Paris, France (1)</option>
-      <option value="rome">Rome, Italy (3)</option>
-      <option value="zagreb">Zagreb, Croatia (1)</option>
-      </optgroup>
-    </select>
+  <div id="city-nav" style="display:flex;flex-direction:column;align-items:center;gap:8px;max-width:900px;margin:0 auto">
+    <!-- US / International tabs -->
+    <div style="display:flex;gap:4px">
+      <button onclick="setRegion('us')" id="region-us" style="padding:6px 20px;font-size:12px;font-weight:700;border:2px solid #f8f7f4;border-radius:6px;background:#f8f7f4;color:#1a1a1a;cursor:pointer">United States</button>
+      <button onclick="setRegion('eu')" id="region-eu" style="padding:6px 20px;font-size:12px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer">International</button>
+    </div>
+    <!-- Dropdowns -->
+    <div style="display:flex;justify-content:center;gap:8px;align-items:center;flex-wrap:wrap">
+      <label style="font-size:13px;font-weight:600;color:#a3a3a3">Jump to:</label>
+      <select id="city-jump-us" onchange="if(this.value)scrollToCity(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:260px">
+        <option value="">Select a US city...</option>        <optgroup label="Arizona">
+          <option value="phoenix">Phoenix / Scottsdale, AZ (30)</option>
+        </optgroup>
+        <optgroup label="California">
+          <option value="la">Los Angeles, CA (35)</option>
+        </optgroup>
+        <optgroup label="Colorado">
+          <option value="denver">Denver, CO (66)</option>
+        </optgroup>
+        <optgroup label="District of Columbia">
+          <option value="dc">Washington, DC (60)</option>
+        </optgroup>
+        <optgroup label="Florida">
+          <option value="tampa">Tampa / St. Pete, FL (29)</option>
+        </optgroup>
+        <optgroup label="Illinois">
+          <option value="chicago">Chicago, IL (95)</option>
+        </optgroup>
+        <optgroup label="Nevada">
+          <option value="vegas">Las Vegas (Sphere) (24)</option>
+        </optgroup>
+        <optgroup label="New Jersey">
+          <option value="ac">Atlantic City, NJ (25)</option>
+        </optgroup>
+        <optgroup label="New York">
+          <option value="nyc">New York City, NY (128)</option>
+          <option value="syracuse">Syracuse, NY (11)</option>
+        </optgroup>
+        <optgroup label="South Carolina">
+          <option value="charleston">Charleston, SC (27)</option>
+        </optgroup>
+      </select>
+      <select id="city-jump-eu" onchange="if(this.value)scrollToCity(this.value)" style="display:none;padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:260px">
+        <option value="">Select a city...</option>        <optgroup label="Croatia">
+          <option value="zagreb">Zagreb, Croatia (1)</option>
+        </optgroup>
+        <optgroup label="France">
+          <option value="paris">Paris, France (1)</option>
+        </optgroup>
+        <optgroup label="Germany">
+          <option value="berlin">Berlin, Germany (8)</option>
+        </optgroup>
+        <optgroup label="Greece">
+          <option value="athens">Athens, Greece (4)</option>
+        </optgroup>
+        <optgroup label="Ireland">
+          <option value="dublin">Dublin, Ireland (24)</option>
+        </optgroup>
+        <optgroup label="Italy">
+          <option value="milan">Milan, Italy (9)</option>
+          <option value="rome">Rome, Italy (3)</option>
+        </optgroup>
+        <optgroup label="Netherlands">
+          <option value="amsterdam">Amsterdam, Netherlands (28)</option>
+        </optgroup>
+        <optgroup label="Portugal">
+          <option value="lisbon">Lisbon, Portugal (7)</option>
+        </optgroup>
+        <optgroup label="Spain">
+          <option value="barcelona">Barcelona, Spain (7)</option>
+          <option value="madrid">Madrid, Spain (7)</option>
+        </optgroup>
+        <optgroup label="United Kingdom">
+          <option value="london">London, UK (31)</option>
+          <option value="manchester">Manchester, UK (17)</option>
+        </optgroup>
+      </select>
+    </div>
   </div>
   <div id="band-nav" style="display:none;justify-content:center;gap:8px;max-width:900px;margin:0 auto;align-items:center">
     <label style="font-size:13px;font-weight:600;color:#a3a3a3">Jump to:</label>
@@ -235,7 +284,7 @@
 
 <div style="max-width:900px;margin:0 auto;padding:16px">
 <div id="view-city-content" class="view-section active">
-<div style="margin-top:32px;margin-bottom:8px"><h1 style="font-size:14px;font-weight:800;color:#737373;letter-spacing:2px;margin:0;padding:12px 0;border-bottom:3px solid #1a1a1a">UNITED STATES</h1></div>
+<div class="region-header" style="margin-top:32px;margin-bottom:8px"><h1 style="font-size:14px;font-weight:800;color:#737373;letter-spacing:2px;margin:0;padding:12px 0;border-bottom:3px solid #1a1a1a">UNITED STATES</h1></div>
 <div id="city-ac" class="city-section" data-city-key="ac" style="padding-top:8px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);border-bottom:2px solid #e5e5e5;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
     <h2 style="font-size:22px;font-weight:700;margin:0;color:#1a1a1a">Atlantic City, NJ <span style="font-size:14px;font-weight:400;color:#737373;margin-left:8px">25 shows</span></h2>
@@ -8319,7 +8368,7 @@
       <a href="https://www.ticketmaster.com/rush-fifty-something-washington-district-of-columbia-10-27-2026/event/150063551C7BC232" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:10px 20px;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap;align-self:center">Buy Tickets</a>
     </div>
   </div></div>
-<div style="margin-top:32px;margin-bottom:8px"><h1 style="font-size:14px;font-weight:800;color:#737373;letter-spacing:2px;margin:0;padding:12px 0;border-bottom:3px solid #1a1a1a">EUROPE</h1></div>
+<div class="region-header" style="margin-top:32px;margin-bottom:8px"><h1 style="font-size:14px;font-weight:800;color:#737373;letter-spacing:2px;margin:0;padding:12px 0;border-bottom:3px solid #1a1a1a">EUROPE</h1></div>
 <div id="city-amsterdam" class="city-section" data-city-key="amsterdam" style="padding-top:8px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);border-bottom:2px solid #e5e5e5;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
     <h2 style="font-size:22px;font-weight:700;margin:0;color:#1a1a1a">Amsterdam, Netherlands <span style="font-size:14px;font-weight:400;color:#737373;margin-left:8px">28 shows</span></h2>
@@ -28454,6 +28503,43 @@
 
 <script>
 var currentView = 'city';
+var currentRegion = 'us';
+
+var EU_CITY_KEYS = ['amsterdam','athens','barcelona','berlin','dublin','lisbon','london','madrid','manchester','milan','paris','porto','rome','zagreb'];
+
+function setRegion(r) {
+  currentRegion = r;
+  var usBtn = document.getElementById('region-us');
+  var euBtn = document.getElementById('region-eu');
+  var usDD = document.getElementById('city-jump-us');
+  var euDD = document.getElementById('city-jump-eu');
+
+  if (r === 'us') {
+    usBtn.style.background = '#f8f7f4'; usBtn.style.color = '#1a1a1a'; usBtn.style.borderColor = '#f8f7f4';
+    euBtn.style.background = 'transparent'; euBtn.style.color = '#e4e4e7'; euBtn.style.borderColor = '#52525b';
+    usDD.style.display = ''; euDD.style.display = 'none';
+  } else {
+    euBtn.style.background = '#f8f7f4'; euBtn.style.color = '#1a1a1a'; euBtn.style.borderColor = '#f8f7f4';
+    usBtn.style.background = 'transparent'; usBtn.style.color = '#e4e4e7'; usBtn.style.borderColor = '#52525b';
+    euDD.style.display = ''; usDD.style.display = 'none';
+  }
+
+  // Filter city sections
+  document.querySelectorAll('.city-section').forEach(function(el) {
+    var key = el.getAttribute('data-city-key');
+    var isEU = EU_CITY_KEYS.indexOf(key) !== -1;
+    var showThisRegion = (r === 'us' && !isEU) || (r === 'eu' && isEU);
+    el.setAttribute('data-region-hidden', showThisRegion ? '' : '1');
+    el.style.display = showThisRegion ? '' : 'none';
+  });
+
+  // Filter region header rows (UNITED STATES / EUROPE) - hide all
+  document.querySelectorAll('.region-header').forEach(function(el) {
+    el.style.display = 'none';
+  });
+
+  window.scrollTo({ top: 0 });
+}
 
 function setView(view) {
   currentView = view;
@@ -28566,6 +28652,7 @@ function applyFavFilter() {
 }
 function clearAllFavs() { favs = {}; saveFavs(); renderFavStars(); if (favFilterOn) applyFavFilter(); }
 renderFavStars(); updateFavCount();
+setRegion('us');
 
 // Hidden
 var hiddenBands = {};
