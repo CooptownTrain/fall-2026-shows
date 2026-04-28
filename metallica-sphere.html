@@ -4,504 +4,582 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Metallica at Sphere + Venetian Hotel</title>
-<meta property="og:title" content="Metallica at Sphere + Venetian Hotel">
-<meta property="og:description" content="All 12 Metallica Sphere dates with ticket and hotel links">
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; padding: 0; background: #0a0a0a; color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.5; }
   a { color: #f59e0b; text-decoration: none; }
   a:hover { text-decoration: underline; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px 40px; }
-  .header { background: linear-gradient(180deg, #18181b 0%, #0a0a0a 100%); padding: 40px 16px; text-align: center; border-bottom: 3px solid #dc2626; }
-  .header h1 { margin: 0; font-size: 32px; font-weight: 800; letter-spacing: -0.5px; color: #fff; }
-  .header .sub { margin-top: 8px; color: #a3a3a3; font-size: 15px; }
-  .header .pills { margin-top: 14px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-  .pill { display: inline-block; padding: 4px 12px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px; border-radius: 999px; text-transform: uppercase; }
-  .pill-dates { background: #dc2626; color: #fff; }
-  .pill-venue { background: #f59e0b; color: #1a1a1a; }
-  .pill-hotel { background: #3b82f6; color: #fff; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+  .header { background: linear-gradient(180deg, #18181b 0%, #0a0a0a 100%); padding: 32px 16px; text-align: center; border-bottom: 3px solid #dc2626; }
+  .header h1 { margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.5px; color: #fff; }
+  .header h2 { margin: 4px 0 0; font-size: 16px; font-weight: 500; color: #fbbf24; }
+  .header .sub { margin-top: 6px; color: #a3a3a3; font-size: 13px; }
 
-  .legend { background: #1f1f23; padding: 14px 18px; border-radius: 8px; margin-bottom: 16px; display: flex; gap: 18px; flex-wrap: wrap; align-items: center; font-size: 13px; color: #d4d4d8; }
-  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; }
-  .tag-tickets { background: #1e293b; color: #93c5fd; }
-  .tag-hotel { background: #422006; color: #fbbf24; }
-  .tag-package { background: #4a044e; color: #f0abfc; }
+  .card { background: #18181b; border-radius: 12px; margin-bottom: 14px; overflow: hidden; border: 1px solid #27272a; }
+  .card.weekend { border-left: 4px solid #f59e0b; }
+  .card-row { display: grid; grid-template-columns: 140px 1fr 1fr; gap: 0; }
+  .date-block { padding: 16px; background: #1f1f23; border-right: 1px solid #27272a; }
+  .date-block .day { font-size: 11px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 1px; }
+  .date-block .date { font-size: 24px; font-weight: 800; color: #fff; margin-top: 2px; }
+  .date-block .time { font-size: 12px; color: #a3a3a3; margin-top: 6px; }
+  .weekend-tag { display: inline-block; margin-top: 6px; padding: 2px 6px; background: #f59e0b; color: #1a1a1a; font-size: 9px; font-weight: 800; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  table { width: 100%; border-collapse: collapse; background: #18181b; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
-  thead { background: #27272a; }
-  th { padding: 14px 12px; text-align: left; font-size: 11px; font-weight: 800; color: #a3a3a3; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #3f3f46; }
-  td { padding: 14px 12px; border-bottom: 1px solid #27272a; vertical-align: top; font-size: 14px; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover { background: #1f1f23; }
-  .date-cell { font-weight: 700; }
-  .date-cell .day { color: #71717a; font-size: 12px; font-weight: 500; }
-  .date-cell .full { font-size: 16px; color: #fff; }
-  .price-cell { font-weight: 600; color: #fbbf24; }
-  .price-cell .label { font-size: 11px; color: #71717a; font-weight: 500; display: block; margin-bottom: 2px; }
+  .section { padding: 14px 16px; }
+  .section-title { font-size: 10px; font-weight: 800; color: #f59e0b; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px; }
+  .price { font-size: 22px; font-weight: 800; color: #fbbf24; }
+  .price-label { font-size: 11px; color: #71717a; margin-bottom: 2px; }
+  .price-source { font-size: 10px; color: #71717a; margin-top: 2px; }
 
-  .links { display: flex; flex-direction: column; gap: 4px; }
-  .links a { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 4px; white-space: nowrap; transition: background 0.15s; }
-  .links a:hover { text-decoration: none; }
-  .a-tm { background: #1e3a8a; color: #dbeafe; }
-  .a-tm:hover { background: #1e40af; }
-  .a-sg { background: #7c2d12; color: #fed7aa; }
-  .a-sg:hover { background: #9a3412; }
-  .a-sh { background: #7f1d1d; color: #fecaca; }
-  .a-sh:hover { background: #991b1b; }
-  .a-vb { background: #422006; color: #fbbf24; }
-  .a-vb:hover { background: #4a2410; }
-  .a-bk { background: #1e293b; color: #93c5fd; }
-  .a-bk:hover { background: #1f2a3a; }
-  .a-vibee { background: #4a044e; color: #f0abfc; }
-  .a-vibee:hover { background: #5a045f; }
+  .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .link-btn { display: inline-block; padding: 5px 10px; font-size: 11px; font-weight: 600; border-radius: 4px; white-space: nowrap; }
+  .l-tp { background: #15803d; color: #d1fae5; }
+  .l-tm { background: #1e3a8a; color: #dbeafe; }
+  .l-sh { background: #7f1d1d; color: #fecaca; }
+  .l-sg { background: #7c2d12; color: #fed7aa; }
+  .l-vs { background: #581c87; color: #e9d5ff; }
+  .l-bk { background: #075985; color: #bae6fd; }
+  .l-ex { background: #155e75; color: #a5f3fc; }
+  .l-ho { background: #831843; color: #fbcfe8; }
+  .l-kk { background: #4338ca; color: #c7d2fe; }
+  .l-tr { background: #166534; color: #bbf7d0; }
+  .l-ven { background: #422006; color: #fed7aa; }
+  .l-vibee { background: #4a044e; color: #f0abfc; }
 
-  .col-group { background: #0a0a0a; }
-  .col-group th { color: #fbbf24; }
+  .hotel-note { padding: 8px 12px; font-size: 11px; color: #a3a3a3; background: #1f1f23; border-top: 1px solid #27272a; }
+  .hotel-note strong { color: #fbbf24; }
 
-  .info-card { background: #1f1f23; border-left: 4px solid #f59e0b; padding: 16px 20px; border-radius: 8px; margin-bottom: 16px; }
-  .info-card h3 { margin: 0 0 6px; font-size: 14px; color: #fbbf24; text-transform: uppercase; letter-spacing: 1px; }
-  .info-card p { margin: 0; font-size: 13px; color: #d4d4d8; }
+  .info-card { background: #1f1f23; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; color: #d4d4d8; }
+  .info-card h3 { margin: 0 0 6px; font-size: 13px; color: #fbbf24; text-transform: uppercase; letter-spacing: 1px; }
 
   @media (max-width: 760px) {
+    .card-row { grid-template-columns: 100px 1fr; }
+    .card .section.hotel-section { grid-column: 1 / -1; border-top: 1px solid #27272a; }
     .header h1 { font-size: 24px; }
-    table { font-size: 12px; }
-    th, td { padding: 10px 6px; }
-    .links a { font-size: 10px; padding: 3px 8px; }
-    .date-cell .full { font-size: 14px; }
-    .container { padding: 16px 8px 60px; }
-    /* Hide some columns on narrow screens or stack */
+    .price { font-size: 18px; }
+    .date-block .date { font-size: 18px; }
+    .container { padding: 12px 8px 30px; }
+  }
+  @media (max-width: 460px) {
+    .card-row { grid-template-columns: 1fr; }
+    .date-block { border-right: none; border-bottom: 1px solid #27272a; }
   }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>METALLICA</h1>
-  <h2 style="margin: 6px 0 0; font-size: 18px; font-weight: 600; color: #fbbf24;">Life Burns Faster &middot; The Sphere</h2>
-  <div class="sub">12 shows &middot; October &amp; November 2026 &middot; Pair tickets with a Venetian stay</div>
-  <div class="pills">
-    <span class="pill pill-dates">12 Dates</span>
-    <span class="pill pill-venue">Sphere Las Vegas</span>
-    <span class="pill pill-hotel">Venetian Hotel</span>
-  </div>
+  <h1>METALLICA AT SPHERE</h1>
+  <h2>Life Burns Faster Residency</h2>
+  <div class="sub">12 shows &middot; October &amp; November 2026 &middot; Sphere, Las Vegas</div>
 </div>
 
 <div class="container">
 
 <div class="info-card">
-  <h3>How to use this page</h3>
-  <p>Each row is one Metallica show. <strong>Compare ticket prices</strong> on Ticketmaster (face value), SeatGeek (resale), and StubHub (resale). <strong>Book a hotel</strong> at the Venetian via direct booking, Booking.com, or Expedia for the show date. The official <strong>Metallica + Vibee package</strong> bundles tickets with hotel rooms at the Venetian.</p>
+  <h3>Real prices, per-show links</h3>
+  <p style="margin:0">Ticket prices below are <strong>actual lowest prices from TickPick</strong> for each specific date (not the generic Metallica page). Hotel prices change too fast to scrape live, so each hotel link is pre-filled with that show's date - click to see the live rate. <strong>No December dates exist</strong> - the residency resumes Jan 28, 2027.</p>
 </div>
 
-<div class="legend">
-  <span><span class="tag tag-tickets">Tickets</span> Ticketmaster (TM), SeatGeek (SG), StubHub (SH)</span>
-  <span><span class="tag tag-hotel">Hotel</span> Venetian direct, Booking.com, Expedia</span>
-  <span><span class="tag tag-package">Package</span> Vibee = official Metallica + Sphere + hotel bundle</span>
+
+<div class="card">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Thursday</div>
+      <div class="date">Oct 1</div>
+      <div class="time">8:00 PM</div>
+      
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$730</div>
+      <div class="price-source">via TickPick (resale) &middot; 2-day pass $929</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-10-1-26-8pm/7758706/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-10-01" target="_blank" rel="noopener noreferrer">StubHub (2026-10-01)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-01&end_date=2026-10-01" target="_blank" rel="noopener noreferrer">SeatGeek (2026-10-01)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Oct 1 → Oct 2</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-10-01&checkout=2026-10-02&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-01&chkout=2026-10-02" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-10-01&q-check-out=2026-10-02&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-10-01/2026-10-02/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-10-01&aDateRange%5Bdep%5D=2026-10-02&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-01&depart=2026-10-02&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekday rate:</strong> Thursday Venetian rates typically run $200-$400. Best value for a Vegas trip.</div>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Show Date</th>
-      <th>Floor Start</th>
-      <th>Tickets</th>
-      <th>Venetian Hotel<br><span style="font-weight:400;color:#71717a;font-size:10px">Check-in</span></th>
-      <th>Package</th>
-    </tr>
-  </thead>
-  <tbody>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Thu</div>
-        <div class="full">Oct 1</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:00 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $676
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-01&end_date=2026-10-01" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261001" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-01&depart=2026-10-02&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-10-01&checkout=2026-10-02&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-01&chkout=2026-10-02" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Sat</div>
-        <div class="full">Oct 3</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:00 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $785
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-03&end_date=2026-10-03" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261003" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-03&depart=2026-10-04&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-10-03&checkout=2026-10-04&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-03&chkout=2026-10-04" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Thu</div>
-        <div class="full">Oct 8</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:30 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $600
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-08&end_date=2026-10-08" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261008" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-08&depart=2026-10-09&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-10-08&checkout=2026-10-09&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-08&chkout=2026-10-09" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Sat</div>
-        <div class="full">Oct 10</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:30 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $616
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-10&end_date=2026-10-10" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261010" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-10&depart=2026-10-11&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-10-10&checkout=2026-10-11&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-10&chkout=2026-10-11" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Thu</div>
-        <div class="full">Oct 15</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:00 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $617
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-15&end_date=2026-10-15" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261015" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-15&depart=2026-10-16&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-10-15&checkout=2026-10-16&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-15&chkout=2026-10-16" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Sat</div>
-        <div class="full">Oct 17</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:00 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $728
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-17&end_date=2026-10-17" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261017" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-17&depart=2026-10-18&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-10-17&checkout=2026-10-18&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-17&chkout=2026-10-18" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Thu</div>
-        <div class="full">Oct 22</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:00 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $644
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-22&end_date=2026-10-22" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261022" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-22&depart=2026-10-23&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-10-22&checkout=2026-10-23&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-22&chkout=2026-10-23" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Sat</div>
-        <div class="full">Oct 24</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:00 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $720
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-24&end_date=2026-10-24" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261024" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-24&depart=2026-10-25&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-10-24&checkout=2026-10-25&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-24&chkout=2026-10-25" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Thu</div>
-        <div class="full">Oct 29</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:00 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $624
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-29&end_date=2026-10-29" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261029" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-29&depart=2026-10-30&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-10-29&checkout=2026-10-30&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-29&chkout=2026-10-30" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Sat</div>
-        <div class="full">Oct 31</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:00 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $662
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-31&end_date=2026-10-31" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261031" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-31&depart=2026-11-01&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-10-31&checkout=2026-11-01&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-31&chkout=2026-11-01" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Thu</div>
-        <div class="full">Nov 5</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:30 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $556
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-11-05&end_date=2026-11-05" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261105" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-11-05&depart=2026-11-06&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-11-05&checkout=2026-11-06&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-11-05&chkout=2026-11-06" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-    <tr>
-      <td class="date-cell">
-        <div class="day">Sat</div>
-        <div class="full">Nov 7</div>
-        <div style="font-size:11px;color:#71717a;margin-top:2px">8:30 PM</div>
-      </td>
-      <td class="price-cell">
-        <span class="label">From</span>
-        $676
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster &rarr;</a>
-          <a class="a-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-11-07&end_date=2026-11-07" target="_blank" rel="noopener noreferrer">SeatGeek &rarr;</a>
-          <a class="a-sh" href="https://www.stubhub.com/secure/search?q=metallica+sphere+20261107" target="_blank" rel="noopener noreferrer">StubHub &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vb" href="https://www.venetianresort.com/hotel.html?arrive=2026-11-07&depart=2026-11-08&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com &rarr;</a>
-          <a class="a-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Las+Vegas&checkin=2026-11-07&checkout=2026-11-08&group_adults=2" target="_blank" rel="noopener noreferrer">Booking &rarr;</a>
-          <a class="a-bk" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-11-07&chkout=2026-11-08" target="_blank" rel="noopener noreferrer">Expedia &rarr;</a>
-        </div>
-      </td>
-      <td>
-        <div class="links">
-          <a class="a-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package &rarr;</a>
-        </div>
-      </td>
-    </tr>
-    
-  </tbody>
-</table>
+<div class="card weekend">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Saturday</div>
+      <div class="date">Oct 3</div>
+      <div class="time">8:00 PM</div>
+      <div class="weekend-tag">Weekend</div>
+    </div>
 
-<div class="info-card" style="margin-top: 24px; border-left-color: #dc2626">
-  <h3>Important notes</h3>
-  <p>
-    <strong>Floor prices</strong> shown are starting prices from Ticketmaster's official listings. Actual GA floor (standing pit) tickets are limited and often sell at higher prices on resale. <br><br>
-    <strong>Venetian rates</strong> click through to live booking systems with the show date pre-filled. Rates fluctuate. <strong>Saturday shows</strong> (Oct 3, 10, 17, 24, 31, Nov 7) command premium hotel rates due to weekend demand. <br><br>
-    <strong>Vibee package</strong> is the official Metallica + Sphere bundle - includes show ticket, Venetian room, and exclusive merch. Check there first if you want everything in one transaction.
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$839</div>
+      <div class="price-source">via TickPick (resale)</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-10-3-26-8pm/7758708/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-10-03" target="_blank" rel="noopener noreferrer">StubHub (2026-10-03)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-03&end_date=2026-10-03" target="_blank" rel="noopener noreferrer">SeatGeek (2026-10-03)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Oct 3 → Oct 4</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-10-03&checkout=2026-10-04&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-03&chkout=2026-10-04" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-10-03&q-check-out=2026-10-04&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-10-03/2026-10-04/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-10-03&aDateRange%5Bdep%5D=2026-10-04&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-03&depart=2026-10-04&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekend rate:</strong> Saturday-night Venetian rates typically run $400-$800+. Check Vibee for bundled show + room deals.</div>
+</div>
+
+<div class="card">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Thursday</div>
+      <div class="date">Oct 8</div>
+      <div class="time">8:30 PM</div>
+      
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$581</div>
+      <div class="price-source">via TickPick (resale) &middot; 2-day pass $676</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-10-8-26-8pm/7775745/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-10-08" target="_blank" rel="noopener noreferrer">StubHub (2026-10-08)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-08&end_date=2026-10-08" target="_blank" rel="noopener noreferrer">SeatGeek (2026-10-08)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Oct 8 → Oct 9</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-10-08&checkout=2026-10-09&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-08&chkout=2026-10-09" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-10-08&q-check-out=2026-10-09&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-10-08/2026-10-09/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-10-08&aDateRange%5Bdep%5D=2026-10-09&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-08&depart=2026-10-09&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekday rate:</strong> Thursday Venetian rates typically run $200-$400. Best value for a Vegas trip.</div>
+</div>
+
+<div class="card weekend">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Saturday</div>
+      <div class="date">Oct 10</div>
+      <div class="time">8:30 PM</div>
+      <div class="weekend-tag">Weekend</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$649</div>
+      <div class="price-source">via TickPick (resale)</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-10-10-26-8pm/7775746/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-10-10" target="_blank" rel="noopener noreferrer">StubHub (2026-10-10)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-10&end_date=2026-10-10" target="_blank" rel="noopener noreferrer">SeatGeek (2026-10-10)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Oct 10 → Oct 11</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-10-10&checkout=2026-10-11&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-10&chkout=2026-10-11" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-10-10&q-check-out=2026-10-11&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-10-10/2026-10-11/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-10-10&aDateRange%5Bdep%5D=2026-10-11&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-10&depart=2026-10-11&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekend rate:</strong> Saturday-night Venetian rates typically run $400-$800+. Check Vibee for bundled show + room deals.</div>
+</div>
+
+<div class="card">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Thursday</div>
+      <div class="date">Oct 15</div>
+      <div class="time">8:00 PM</div>
+      
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$669</div>
+      <div class="price-source">via TickPick (resale) &middot; 2-day pass $955</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-10-15-26-8pm/7758709/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-10-15" target="_blank" rel="noopener noreferrer">StubHub (2026-10-15)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-15&end_date=2026-10-15" target="_blank" rel="noopener noreferrer">SeatGeek (2026-10-15)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Oct 15 → Oct 16</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-10-15&checkout=2026-10-16&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-15&chkout=2026-10-16" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-10-15&q-check-out=2026-10-16&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-10-15/2026-10-16/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-10-15&aDateRange%5Bdep%5D=2026-10-16&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-15&depart=2026-10-16&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekday rate:</strong> Thursday Venetian rates typically run $200-$400. Best value for a Vegas trip.</div>
+</div>
+
+<div class="card weekend">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Saturday</div>
+      <div class="date">Oct 17</div>
+      <div class="time">8:00 PM</div>
+      <div class="weekend-tag">Weekend</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$703</div>
+      <div class="price-source">via TickPick (resale)</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-10-17-26-8pm/7758710/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-10-17" target="_blank" rel="noopener noreferrer">StubHub (2026-10-17)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-17&end_date=2026-10-17" target="_blank" rel="noopener noreferrer">SeatGeek (2026-10-17)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Oct 17 → Oct 18</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-10-17&checkout=2026-10-18&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-17&chkout=2026-10-18" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-10-17&q-check-out=2026-10-18&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-10-17/2026-10-18/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-10-17&aDateRange%5Bdep%5D=2026-10-18&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-17&depart=2026-10-18&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekend rate:</strong> Saturday-night Venetian rates typically run $400-$800+. Check Vibee for bundled show + room deals.</div>
+</div>
+
+<div class="card">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Thursday</div>
+      <div class="date">Oct 22</div>
+      <div class="time">8:00 PM</div>
+      
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$608</div>
+      <div class="price-source">via TickPick (resale) &middot; 2-day pass $857</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-10-22-26-8pm/7758711/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-10-22" target="_blank" rel="noopener noreferrer">StubHub (2026-10-22)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-22&end_date=2026-10-22" target="_blank" rel="noopener noreferrer">SeatGeek (2026-10-22)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Oct 22 → Oct 23</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-10-22&checkout=2026-10-23&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-22&chkout=2026-10-23" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-10-22&q-check-out=2026-10-23&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-10-22/2026-10-23/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-10-22&aDateRange%5Bdep%5D=2026-10-23&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-22&depart=2026-10-23&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekday rate:</strong> Thursday Venetian rates typically run $200-$400. Best value for a Vegas trip.</div>
+</div>
+
+<div class="card weekend">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Saturday</div>
+      <div class="date">Oct 24</div>
+      <div class="time">8:00 PM</div>
+      <div class="weekend-tag">Weekend</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$634</div>
+      <div class="price-source">via TickPick (resale)</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-10-24-26-8pm/7758712/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-10-24" target="_blank" rel="noopener noreferrer">StubHub (2026-10-24)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-24&end_date=2026-10-24" target="_blank" rel="noopener noreferrer">SeatGeek (2026-10-24)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Oct 24 → Oct 25</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-10-24&checkout=2026-10-25&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-24&chkout=2026-10-25" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-10-24&q-check-out=2026-10-25&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-10-24/2026-10-25/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-10-24&aDateRange%5Bdep%5D=2026-10-25&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-24&depart=2026-10-25&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekend rate:</strong> Saturday-night Venetian rates typically run $400-$800+. Check Vibee for bundled show + room deals.</div>
+</div>
+
+<div class="card">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Thursday</div>
+      <div class="date">Oct 29</div>
+      <div class="time">8:00 PM</div>
+      
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$596</div>
+      <div class="price-source">via TickPick (resale) &middot; 2-day pass $751</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-10-29-26-8pm/7759026/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-10-29" target="_blank" rel="noopener noreferrer">StubHub (2026-10-29)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-29&end_date=2026-10-29" target="_blank" rel="noopener noreferrer">SeatGeek (2026-10-29)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Oct 29 → Oct 30</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-10-29&checkout=2026-10-30&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-29&chkout=2026-10-30" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-10-29&q-check-out=2026-10-30&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-10-29/2026-10-30/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-10-29&aDateRange%5Bdep%5D=2026-10-30&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-29&depart=2026-10-30&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekday rate:</strong> Thursday Venetian rates typically run $200-$400. Best value for a Vegas trip.</div>
+</div>
+
+<div class="card weekend">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Saturday</div>
+      <div class="date">Oct 31</div>
+      <div class="time">8:00 PM</div>
+      <div class="weekend-tag">Weekend</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$615</div>
+      <div class="price-source">via TickPick (resale)</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-10-31-26-8pm/7759027/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-10-31" target="_blank" rel="noopener noreferrer">StubHub (2026-10-31)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-10-31&end_date=2026-10-31" target="_blank" rel="noopener noreferrer">SeatGeek (2026-10-31)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Oct 31 → Nov 1</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-10-31&checkout=2026-11-01&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-10-31&chkout=2026-11-01" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-10-31&q-check-out=2026-11-01&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-10-31/2026-11-01/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-10-31&aDateRange%5Bdep%5D=2026-11-01&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-10-31&depart=2026-11-01&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekend rate:</strong> Saturday-night Venetian rates typically run $400-$800+. Check Vibee for bundled show + room deals.</div>
+</div>
+
+<div class="card">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Thursday</div>
+      <div class="date">Nov 5</div>
+      <div class="time">8:30 PM</div>
+      
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$545</div>
+      <div class="price-source">via TickPick (resale) &middot; 2-day pass $575</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-11-5-26-8pm/7775510/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-11-05" target="_blank" rel="noopener noreferrer">StubHub (2026-11-05)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-11-05&end_date=2026-11-05" target="_blank" rel="noopener noreferrer">SeatGeek (2026-11-05)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Nov 5 → Nov 6</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-11-05&checkout=2026-11-06&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-11-05&chkout=2026-11-06" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-11-05&q-check-out=2026-11-06&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-11-05/2026-11-06/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-11-05&aDateRange%5Bdep%5D=2026-11-06&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-11-05&depart=2026-11-06&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekday rate:</strong> Thursday Venetian rates typically run $200-$400. Best value for a Vegas trip.</div>
+</div>
+
+<div class="card weekend">
+  <div class="card-row">
+    <div class="date-block">
+      <div class="day">Saturday</div>
+      <div class="date">Nov 7</div>
+      <div class="time">8:30 PM</div>
+      <div class="weekend-tag">Weekend</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tickets (Lowest Price)</div>
+      <div class="price-label">From</div>
+      <div class="price">$580</div>
+      <div class="price-source">via TickPick (resale)</div>
+      <div class="links">
+        <a class="link-btn l-tp" href="https://www.tickpick.com/buy-metallica-tickets-sphere-11-7-26-8pm/7775511/" target="_blank" rel="noopener noreferrer">TickPick (this date) &rarr;</a>
+        <a class="link-btn l-tm" href="https://www.ticketmaster.com/metallica-tickets/artist/735647?venueId=189524" target="_blank" rel="noopener noreferrer">Ticketmaster</a>
+        <a class="link-btn l-sh" href="https://www.stubhub.com/search?q=metallica+sphere&dateLocal=2026-11-07" target="_blank" rel="noopener noreferrer">StubHub (2026-11-07)</a>
+        <a class="link-btn l-sg" href="https://seatgeek.com/search?search=metallica+sphere&start_date=2026-11-07&end_date=2026-11-07" target="_blank" rel="noopener noreferrer">SeatGeek (2026-11-07)</a>
+        <a class="link-btn l-vs" href="https://www.vividseats.com/search?searchTerm=metallica+sphere" target="_blank" rel="noopener noreferrer">Vivid Seats</a>
+      </div>
+    </div>
+
+    <div class="section hotel-section">
+      <div class="section-title">Venetian Hotel · Nov 7 → Nov 8</div>
+      <div class="price-label">Compare rates</div>
+      <div class="links" style="margin-top:6px">
+        <a class="link-btn l-bk" href="https://www.booking.com/searchresults.html?ss=The+Venetian+Resort+Las+Vegas&checkin=2026-11-07&checkout=2026-11-08&group_adults=2&no_rooms=1" target="_blank" rel="noopener noreferrer">Booking.com</a>
+        <a class="link-btn l-ex" href="https://www.expedia.com/Las-Vegas-Hotels-The-Venetian-Resort-Hotel-Casino.h2829.Hotel-Information?chkin=2026-11-07&chkout=2026-11-08" target="_blank" rel="noopener noreferrer">Expedia</a>
+        <a class="link-btn l-ho" href="https://www.hotels.com/ho123014/?q-check-in=2026-11-07&q-check-out=2026-11-08&q-rooms=1&q-room-0-adults=2" target="_blank" rel="noopener noreferrer">Hotels.com</a>
+        <a class="link-btn l-kk" href="https://www.kayak.com/hotels/The-Venetian,Las-Vegas,NV/2026-11-07/2026-11-08/2adults" target="_blank" rel="noopener noreferrer">Kayak</a>
+        <a class="link-btn l-tr" href="https://www.trivago.com/en-US/odr/hotels-las-vegas-united-states?aDateRange%5Barr%5D=2026-11-07&aDateRange%5Bdep%5D=2026-11-08&iRoomType=7&aRooms%5B0%5D%5Badults%5D=2&iIncludedHotels=200%2F67049" target="_blank" rel="noopener noreferrer">Trivago</a>
+        <a class="link-btn l-ven" href="https://www.venetianresort.com/hotel.html?arrive=2026-11-07&depart=2026-11-08&guests=2&rooms=1" target="_blank" rel="noopener noreferrer">Venetian.com</a>
+        <a class="link-btn l-vibee" href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer">Vibee Package</a>
+      </div>
+    </div>
+  </div>
+  <div class="hotel-note"><strong>Weekend rate:</strong> Saturday-night Venetian rates typically run $400-$800+. Check Vibee for bundled show + room deals.</div>
+</div>
+
+
+<div class="info-card" style="border-left-color: #4a044e">
+  <h3>Vibee Package (one-stop)</h3>
+  <p style="margin:0"><a href="https://metallica.vibee.com/" target="_blank" rel="noopener noreferrer" style="color:#f0abfc">metallica.vibee.com</a> bundles your show ticket + Venetian room + exclusive merch. Best if you want everything in one transaction without comparing prices.</p>
+</div>
+
+<div class="info-card" style="border-left-color: #dc2626">
+  <h3>Pricing notes</h3>
+  <p style="margin:0">
+    Ticket prices are <strong>"get-in" prices</strong> (cheapest available seat) from TickPick. Floor / pit / VIP seats run $1,000-$3,000+. Saturday shows command 10-20% premium.
+    <br><br>
+    <strong>2-day passes</strong> are available for some weekend pairs (Oct 1+3, Oct 8+10, Oct 15+17, Oct 22+24, Oct 29+31, Nov 5+7) on TickPick - usually save 15-25% vs buying both individually.
   </p>
 </div>
 
-<div class="info-card" style="margin-top: 16px; border-left-color: #3b82f6">
-  <h3>December 2026?</h3>
-  <p>Metallica has no December 2026 dates at the Sphere. The residency picks back up January 28-30, 2027 and continues through March 13. If you want a December trip, Backstreet Boys are at the Sphere starting December 26 instead.</p>
-</div>
-
-<div style="text-align: center; margin-top: 32px; font-size: 12px; color: #52525b">
+<div style="text-align: center; margin-top: 20px; font-size: 12px; color: #52525b">
   <a href="https://cooptowntrain.github.io/fall-2026-shows/" style="color: #71717a">&larr; Back to main concert guide</a>
+  &nbsp;&middot;&nbsp;
+  Last updated Apr 28, 2026
 </div>
 
 </div>
