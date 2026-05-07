@@ -15,7 +15,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { TM_KEY, SG_KEY, US_CITIES, EU_CITIES, VENUE_MAP, EU_CITY_KEYS, sleep } = require('./config');
+const { TM_KEY, SG_KEY, US_CITIES, EU_CITIES, VENUE_MAP, EU_CITY_KEYS, sleep, classifyTheaterEvent } = require('./config');
 
 const REPO_ROOT = path.join(__dirname, '..');
 const SELECTED_PATH = path.join(REPO_ROOT, 'data', 'selected-artists.json');
@@ -292,6 +292,55 @@ async function searchTM_Comedy(cityKey, cityInfo) {
   return events;
 }
 
+// Theater pull (Arts & Theatre segment) - tagged broadway or off-broadway by venue
+async function searchTM_Theatre(cityKey, cityInfo) {
+  const events = [];
+  let page = 0;
+  while (page < 5) {
+    const params = new URLSearchParams({
+      apikey: TM_KEY, segmentName: 'Arts & Theatre',
+      startDateTime: TODAY + 'T00:00:00Z',
+      endDateTime: '2026-12-31T23:59:59Z',
+      size: '200', page: String(page), sort: 'date,asc',
+    });
+    if (cityInfo.kind === 'dma') params.set('dmaId', cityInfo.dmaId);
+    else { params.set('city', cityInfo.city); params.set('stateCode', cityInfo.state); }
+    const res = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?${params}`);
+    if (res.status === 429) { await sleep(2000); continue; }
+    if (!res.ok) break;
+    const data = await res.json();
+    if (!data._embedded?.events) break;
+    for (const ev of data._embedded.events) {
+      const venue = (ev._embedded?.venues || [{}])[0];
+      const vc = (venue.city?.name || '').toLowerCase();
+      const resolvedCity = VENUE_MAP[vc] || cityKey;
+      if (!US_CITIES[resolvedCity]) continue;
+
+      const cat = classifyTheaterEvent(ev.name, venue.name);
+      if (!cat) continue; // skip if not Broadway or Off-Broadway
+
+      const attractions = ev._embedded?.attractions || [];
+      let artists = attractions.map(a => a.name).filter(Boolean);
+      if (artists.length === 0) artists = [ev.name || 'Theater Show'];
+      const start = ev.dates?.start || {};
+      const pr = ev.priceRanges || [];
+      events.push({
+        id: ev.id, name: ev.name || '', artists,
+        date: start.localDate || '', time: start.localTime || '',
+        venue: venue.name || '', venueCity: venue.city?.name || '',
+        url: ev.url || '',
+        minPrice: pr[0]?.min || null,
+        city: resolvedCity, cityLabel: US_CITIES[resolvedCity].label, region: 'US',
+        source: 'ticketmaster', category: cat,  // 'broadway' or 'off-broadway'
+      });
+    }
+    if (page >= (data.page?.totalPages || 1) - 1) break;
+    page++;
+    await sleep(250);
+  }
+  return events;
+}
+
 // Static Sphere shows (Metallica + Backstreet Boys residencies)
 function getSphereShows() {
   const events = [];
@@ -360,7 +409,22 @@ async function main() {
   for (const [k, info] of Object.entries(US_CITIES)) {
     console.log(info.label);
     const tm = await safeRun('TM', () => searchTM_Comedy(k, info));
-    if (tm) all.push(...tm); else failures.push(`tm-comedy-${k}`);
+    if (tm) {
+      // Re-classify theater events that came in via Comedy classification
+      for (const ev of tm) {
+        const cat = classifyTheaterEvent(ev.name, ev.venue);
+        if (cat) ev.category = cat;
+      }
+      all.push(...tm);
+    } else failures.push(`tm-comedy-${k}`);
+    await sleep(300);
+  }
+
+  console.log('\n=== US Theater (Broadway / Off-Broadway) ===');
+  for (const [k, info] of Object.entries(US_CITIES)) {
+    console.log(info.label);
+    const tm = await safeRun('TM', () => searchTM_Theatre(k, info));
+    if (tm) all.push(...tm); else failures.push(`tm-theater-${k}`);
     await sleep(300);
   }
 

@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 /**
  * Build index.html from concert-results.json + selected-artists.json
+ *
+ * Categories: 'music', 'comedy', 'broadway', 'off-broadway'
+ * UI: multi-select category pills, multi-band filter with chips, day-click modal, auto-prune past months
  */
 const fs = require('fs');
 const path = require('path');
@@ -8,6 +11,9 @@ const path = require('path');
 const REPO_ROOT = path.join(__dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data', 'concert-results.json'), 'utf8'));
 const selectedArtists = new Set(JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data', 'selected-artists.json'),'utf8')).map(a => a.toLowerCase()));
+
+const TODAY = new Date().toISOString().substring(0, 10);
+const TODAY_MONTH = parseInt(TODAY.substring(5, 7));
 
 const CITY_ORDER = [
   'ac','charleston','chicago','denver','vegas','la','nyc','philadelphia','phoenix','syracuse','tampa','dc',
@@ -55,26 +61,33 @@ const EU_COUNTRIES = {
   london: 'United Kingdom', manchester: 'United Kingdom',
 };
 
-// Major artist tour pages (rest fall back to Google search)
 const ARTIST_URLS = {
   'pearl jam':'https://pearljam.com/tour','bruce springsteen':'https://brucespringsteen.net/shows/',
-  'foo fighters':'https://foofighters.com/tour-dates/','the strokes':'https://www.thestrokes.com/',
-  'blues traveler':'https://bluestraveler.com/tour/','green day':'https://greenday.com/tour',
-  'billy joel':'https://www.billyjoel.com/tour/','harry styles':'https://www.hstyles.co.uk/tour/',
-  'metallica':'https://www.metallica.com/tour/','backstreet boys':'https://www.backstreetboys.com/events/',
+  'foo fighters':'https://foofighters.com/tour-dates/','metallica':'https://www.metallica.com/tour/',
   'ed sheeran':'https://www.edsheeran.com/tour/','zach bryan':'https://www.zachbryan.com/tour',
   'sting':'https://www.sting.com/','dave matthews band':'https://www.davematthewsband.com/tours/',
   'guns n\' roses':'https://www.gunsnroses.com/tour','eric clapton':'https://www.ericclapton.com/tour/',
-  'mumford & sons':'https://www.mumfordandsons.com/tour/','twenty one pilots':'https://www.twentyonepilots.com/tour/',
-  'matchbox twenty':'https://matchboxtwenty.com/tour/','hootie & the blowfish':'https://www.hootie.com/tour/',
-  'goo goo dolls':'https://www.googoodolls.com/tour/','third eye blind':'https://3eb.com/tour/',
+  'harry styles':'https://www.hstyles.co.uk/tour/','backstreet boys':'https://www.backstreetboys.com/events/',
+  'billy joel':'https://www.billyjoel.com/tour/','mumford & sons':'https://www.mumfordandsons.com/tour/',
+  'twenty one pilots':'https://www.twentyonepilots.com/tour/','iron maiden':'https://ironmaiden.com/tour/',
+  'matchbox twenty':'https://matchboxtwenty.com/tour/','goo goo dolls':'https://www.googoodolls.com/tour/',
+  'hootie & the blowfish':'https://www.hootie.com/tour/','third eye blind':'https://3eb.com/tour/',
   'weezer':'https://weezer.com/tour/','jimmy eat world':'https://www.jimmyeatworld.com/',
-  'iron maiden':'https://ironmaiden.com/tour/','muse':'https://muse.mu/tour/',
+  'muse':'https://muse.mu/tour/','blues traveler':'https://bluestraveler.com/tour/',
+  'green day':'https://greenday.com/tour','the strokes':'https://www.thestrokes.com/',
 };
 const getArtistUrl = n => {
   const known = ARTIST_URLS[(n||'').toLowerCase()];
   if (known) return known;
   return `https://www.google.com/search?q=${encodeURIComponent((n||'').trim() + ' tour 2026')}`;
+};
+
+// Category metadata
+const CAT_INFO = {
+  'music':         { label: 'Music',          color: '#1e3a8a', bg: '#dbeafe' },
+  'comedy':        { label: 'Comedy',         color: '#92400e', bg: '#fef3c7' },
+  'broadway':      { label: 'Broadway',       color: '#7c2d12', bg: '#fed7aa' },
+  'off-broadway':  { label: 'Off-Broadway',   color: '#581c87', bg: '#e9d5ff' },
 };
 
 // Filter & process
@@ -84,21 +97,24 @@ for (const ev of data) {
   for (const a of (ev.artists || [])) {
     if (selectedArtists.has(a.toLowerCase())) cleanArtists.push(a);
   }
-  // For comedy events, accept all artists (no selection filter)
-  if (ev.category === 'comedy') {
+  // For comedy/theater, accept all artists (no selection filter)
+  if (ev.category && ev.category !== 'music') {
     if (cleanArtists.length === 0) cleanArtists.push(...(ev.artists || []));
   }
   if (cleanArtists.length === 0) continue;
   if (!CITY_ORDER.includes(ev.city)) continue;
+  // Filter past events
+  if (ev.date < TODAY) continue;
   ev.artists = cleanArtists;
   ev.region = EU_CITY_KEYS.includes(ev.city) ? 'EU' : 'US';
+  if (!ev.category) ev.category = 'music';
   events.push(ev);
 }
 
 // Dedup
 const deduped = new Map();
 for (const ev of events) {
-  const key = `${ev.date}|${ev.venue}|${ev.artists[0]}|${ev.city}`;
+  const key = `${ev.date}|${ev.venue}|${ev.artists[0]}|${ev.city}|${ev.category}`;
   if (!deduped.has(key)) deduped.set(key, ev);
 }
 events = Array.from(deduped.values());
@@ -141,14 +157,17 @@ function eventCard(ev, showCityTag) {
   const tmUrl = isTM ? ev.url : `https://www.ticketmaster.com/search?q=${artistQ}`;
   const sgUrl = isSG ? ev.url : `https://seatgeek.com/search?search=${artistQ}`;
   const shUrl = `https://www.stubhub.com/secure/search?q=${artistQ}+${cityQ}`;
+  const cat = ev.category || 'music';
+  const catInfo = CAT_INFO[cat] || CAT_INFO.music;
+  const allArtists = ev.artists.map(a => a.toLowerCase()).join('|');
   return `
-  <div class="event-card" data-fav-id="${favId}" data-category="${ev.category||'music'}" data-search="${(ev.artists.join(' ')+' '+ev.venue+' '+cityLabel).toLowerCase()}" style="background:#fff;border:1px solid #e5e5e5;border-radius:12px;margin-bottom:16px;padding:20px 24px">
+  <div class="event-card" data-fav-id="${favId}" data-category="${cat}" data-artist-keys="${allArtists}" data-city="${ev.city}" data-search="${(ev.artists.join(' ')+' '+ev.venue+' '+cityLabel).toLowerCase()}" style="background:#fff;border:1px solid #e5e5e5;border-radius:12px;margin-bottom:16px;padding:20px 24px">
     <div class="event-flex" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
       <div style="flex:1;min-width:200px">
         <div class="fav-artist-row" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
           <button onclick="toggleFav('${favId}',this)" class="fav-btn" data-fav="${favId}" style="background:none;border:none;cursor:pointer;font-size:22px;padding:0;line-height:1;color:#d4d4d4">&#9734;</button>
           <span class="artist-line">${artistDisp}</span>
-          <span style="display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:2px 8px;border-radius:4px;background:${ev.category==='comedy'?'#fef3c7':'#dbeafe'};color:${ev.category==='comedy'?'#92400e':'#1e3a8a'}">${ev.category==='comedy'?'Comedy':'Music'}</span>
+          <span style="display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:2px 8px;border-radius:4px;background:${catInfo.bg};color:${catInfo.color}">${catInfo.label}</span>
         </div>
         ${supportingHtml ? `<div class="pad-left" style="font-size:14px;color:#525252;margin-top:4px;padding-left:32px">w/ ${supportingHtml}</div>` : ''}
         <div class="pad-left" style="font-size:14px;color:#737373;margin-top:6px;padding-left:32px">${formatDate(ev.date)} &middot; ${ev.venue}${ev.venueCity ? ', ' + ev.venueCity : ''}</div>
@@ -156,9 +175,9 @@ function eventCard(ev, showCityTag) {
         ${price ? `<div class="pad-left" style="font-size:13px;color:#525252;font-weight:500;margin-top:6px;padding-left:32px">${price}</div>` : ''}
       </div>
       <div class="buy-btn" style="display:flex;flex-direction:row;gap:4px;align-self:center;flex-wrap:wrap">
-        <a href="${tmUrl}" target="_blank" rel="noopener noreferrer" class="src-btn" style="display:inline-block;padding:4px 10px;background:#1a1a1a;color:#fff;font-size:11px;font-weight:600;border-radius:4px;text-decoration:none;${isTM?'':';opacity:0.65'}">TM</a>
-        <a href="${sgUrl}" target="_blank" rel="noopener noreferrer" class="src-btn" style="display:inline-block;padding:4px 10px;background:#ff5b49;color:#fff;font-size:11px;font-weight:600;border-radius:4px;text-decoration:none;${isSG?'':';opacity:0.65'}">SG</a>
-        <a href="${shUrl}" target="_blank" rel="noopener noreferrer" class="src-btn" style="display:inline-block;padding:4px 10px;background:#ed1b2e;color:#fff;font-size:11px;font-weight:600;border-radius:4px;text-decoration:none;opacity:0.65">SH</a>
+        <a href="${tmUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:4px 10px;background:#1a1a1a;color:#fff;font-size:11px;font-weight:600;border-radius:4px;text-decoration:none;${isTM?'':';opacity:0.65'}">TM</a>
+        <a href="${sgUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:4px 10px;background:#ff5b49;color:#fff;font-size:11px;font-weight:600;border-radius:4px;text-decoration:none;${isSG?'':';opacity:0.65'}">SG</a>
+        <a href="${shUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:4px 10px;background:#ed1b2e;color:#fff;font-size:11px;font-weight:600;border-radius:4px;text-decoration:none;opacity:0.65">SH</a>
       </div>
     </div>
   </div>`;
@@ -176,14 +195,19 @@ const bandsAlpha = Array.from(bandMap.entries()).sort((a, b) => a[0].replace(/^t
 let lastRefreshMeta = {};
 try { lastRefreshMeta = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data', 'last-refresh.json'),'utf8')); } catch(e) {}
 
+const musicCount = events.filter(e => e.category === 'music').length;
+const comedyCount = events.filter(e => e.category === 'comedy').length;
+const broadwayCount = events.filter(e => e.category === 'broadway').length;
+const offBroadwayCount = events.filter(e => e.category === 'off-broadway').length;
+
 let html = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 Music and Comedy Shows</title>
-<meta property="og:title" content="2026 Music and Comedy Shows">
-<meta property="og:description" content="${events.length} shows, ${bandMap.size} artists. Auto-refreshed every Sunday.">
+<title>2026 Music and Theater Shows</title>
+<meta property="og:title" content="2026 Music and Theater Shows">
+<meta property="og:description" content="${events.length} shows. Music, Comedy, Broadway, Off-Broadway across 26 cities. Auto-refreshed weekly.">
 <style>
   * { box-sizing: border-box; }
   body { -webkit-text-size-adjust: 100%; }
@@ -191,10 +215,61 @@ let html = `<!DOCTYPE html>
   .view-section.active { display: block; }
   .sticky-header { position: sticky; z-index: 50; background: #f8f7f4; padding: 12px 0 8px; margin: 0; }
   @media print { #nav-bar { position: relative !important; } .sticky-header { position: relative !important; } }
+
+  /* Calendar day cells - clickable */
+  .cal-day { cursor: pointer; transition: background 0.1s; }
+  .cal-day.has-events:hover { background: #fef9c3 !important; }
+
+  /* Day modal */
+  .modal-backdrop {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7); z-index: 1000;
+    display: none; align-items: flex-start; justify-content: center;
+    overflow-y: auto; padding: 40px 16px;
+  }
+  .modal-backdrop.active { display: flex; }
+  .modal-content {
+    background: #f8f7f4; max-width: 800px; width: 100%;
+    border-radius: 14px; padding: 24px 28px; position: relative;
+    max-height: calc(100vh - 80px); overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute; top: 14px; right: 14px;
+    width: 36px; height: 36px; border: none; border-radius: 999px;
+    background: #1a1a1a; color: #fff; font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Multi-band filter */
+  .band-filter-panel {
+    background: #fff; border: 1px solid #e5e5e5; border-radius: 10px;
+    padding: 14px 18px; margin: 10px 0;
+  }
+  .band-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; background: #1a1a1a; color: #fff;
+    font-size: 12px; font-weight: 600; border-radius: 999px;
+    margin: 2px;
+  }
+  .band-chip button {
+    background: none; border: none; color: #fff; font-size: 14px;
+    cursor: pointer; padding: 0; line-height: 1;
+  }
+  .band-suggestions {
+    max-height: 200px; overflow-y: auto;
+    border: 1px solid #e5e5e5; border-radius: 6px;
+    background: #fff; margin-top: 6px;
+  }
+  .band-suggestion {
+    padding: 6px 12px; font-size: 13px; cursor: pointer;
+    border-bottom: 1px solid #f4f4f5;
+  }
+  .band-suggestion:hover { background: #f4f4f5; }
+  .band-suggestion:last-child { border-bottom: none; }
+
   @media (max-width: 640px) {
     .page-title { font-size: 22px !important; }
     .page-header { padding: 20px 16px !important; }
-    .search-wrap { padding: 0 16px 14px !important; }
     #search-box { font-size: 16px !important; }
     #nav-bar { padding: 10px 8px !important; }
     #nav-bar button { padding: 7px 12px !important; font-size: 12px !important; }
@@ -205,15 +280,16 @@ let html = `<!DOCTYPE html>
     .event-card { padding: 14px 16px !important; margin-bottom: 12px !important; }
     .event-card .buy-btn { width: auto !important; margin-top: 8px; flex-direction: row !important; justify-content: flex-start !important; gap: 5px !important; padding-left: 32px; }
     .city-section h2 { font-size: 19px !important; }
-    .calendar-grid { grid-template-columns: repeat(7, minmax(60px, 1fr)) !important; overflow-x: auto !important; font-size: 11px !important; }
+    .calendar-grid { grid-template-columns: repeat(7, minmax(50px, 1fr)) !important; font-size: 10px !important; }
+    .modal-content { padding: 16px 18px; }
   }
 </style>
 </head>
 <body style="margin:0;padding:0;background:#f8f7f4;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#1a1a1a;line-height:1.6">
 
 <div class="page-header" style="background:#1a1a1a;padding:32px 24px;text-align:center">
-  <h1 class="page-title" style="margin:0;color:#f8f7f4;font-size:28px;font-weight:700;letter-spacing:-0.5px">2026 Music and Comedy Shows</h1>
-  <p class="page-subtitle" style="margin:8px 0 0;color:#a3a3a3;font-size:15px">${events.length} shows, ${bandMap.size} artists. ${lastRefreshMeta.timestamp ? 'Last refreshed ' + new Date(lastRefreshMeta.timestamp).toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}) + (lastRefreshMeta.newCount ? ` &middot; ${lastRefreshMeta.newCount} new this week` : '') : ''}</p>
+  <h1 class="page-title" style="margin:0;color:#f8f7f4;font-size:28px;font-weight:700;letter-spacing:-0.5px">2026 Music and Theater Shows</h1>
+  <p style="margin:8px 0 0;color:#a3a3a3;font-size:14px">${events.length} shows &middot; ${musicCount} music &middot; ${comedyCount} comedy &middot; ${broadwayCount} Broadway &middot; ${offBroadwayCount} Off-Broadway${lastRefreshMeta.timestamp ? ' &middot; refreshed ' + new Date(lastRefreshMeta.timestamp).toLocaleDateString('en-US', {month:'short',day:'numeric'}) : ''}</p>
 </div>
 
 <div class="search-wrap" style="background:#1a1a1a;padding:0 24px 16px;text-align:center">
@@ -224,12 +300,16 @@ let html = `<!DOCTYPE html>
 </div>
 
 <div style="background:#27272a;padding:12px 16px;text-align:center;position:sticky;top:0;z-index:100" id="nav-bar">
-  <div style="display:flex;justify-content:center;gap:6px;margin-bottom:10px">
-    <button onclick="setCategory('all')" id="cat-all" style="padding:8px 22px;font-size:14px;font-weight:800;border:none;border-radius:999px;background:#f8f7f4;color:#1a1a1a;cursor:pointer">All</button>
-    <button onclick="setCategory('music')" id="cat-music" style="padding:8px 22px;font-size:14px;font-weight:800;border:none;border-radius:999px;background:#3f3f46;color:#e4e4e7;cursor:pointer">Music</button>
-    <button onclick="setCategory('comedy')" id="cat-comedy" style="padding:8px 22px;font-size:14px;font-weight:800;border:none;border-radius:999px;background:#3f3f46;color:#e4e4e7;cursor:pointer">Comedy</button>
+  <!-- Multi-select category pills -->
+  <div style="display:flex;justify-content:center;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+    <button onclick="toggleCategory('music')" id="cat-music" data-active="1" style="padding:7px 16px;font-size:13px;font-weight:800;border:none;border-radius:999px;background:#dbeafe;color:#1e3a8a;cursor:pointer">&#127925; Music (${musicCount})</button>
+    <button onclick="toggleCategory('comedy')" id="cat-comedy" data-active="1" style="padding:7px 16px;font-size:13px;font-weight:800;border:none;border-radius:999px;background:#fef3c7;color:#92400e;cursor:pointer">&#127917; Comedy (${comedyCount})</button>
+    <button onclick="toggleCategory('broadway')" id="cat-broadway" data-active="1" style="padding:7px 16px;font-size:13px;font-weight:800;border:none;border-radius:999px;background:#fed7aa;color:#7c2d12;cursor:pointer">Broadway (${broadwayCount})</button>
+    <button onclick="toggleCategory('off-broadway')" id="cat-off-broadway" data-active="1" style="padding:7px 16px;font-size:13px;font-weight:800;border:none;border-radius:999px;background:#e9d5ff;color:#581c87;cursor:pointer">Off-Broadway (${offBroadwayCount})</button>
   </div>
+  <!-- View buttons + Region -->
   <div class="view-tabs" style="display:flex;justify-content:center;gap:4px;margin-bottom:8px;flex-wrap:wrap;align-items:center">
+    <button onclick="setView('city')" id="view-city" style="padding:6px 18px;font-size:13px;font-weight:700;border:2px solid #f8f7f4;border-radius:6px;background:#f8f7f4;color:#1a1a1a;cursor:pointer">By City</button>
     <button onclick="setView('band')" id="view-band" style="padding:6px 18px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer">By Band</button>
     <button onclick="setView('month')" id="view-month" style="padding:6px 18px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer">By Month</button>
     <button onclick="setView('calendar')" id="view-calendar" style="padding:6px 18px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer">Calendar</button>
@@ -239,7 +319,7 @@ let html = `<!DOCTYPE html>
   </div>
   <div id="city-nav" style="display:flex;flex-direction:column;align-items:center;gap:8px;max-width:900px;margin:0 auto">
     <div style="display:flex;justify-content:center;gap:8px;align-items:center;flex-wrap:wrap">
-      <select id="city-jump-us" onchange="if(this.value)scrollToCity(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:260px">
+      <select id="city-jump-us" onchange="if(this.value)scrollToCity(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:240px">
         <option value="">Select a US city...</option>`;
 
 const usCities = CITY_ORDER.filter(c => !EU_CITY_KEYS.includes(c));
@@ -258,7 +338,7 @@ for (const st of Object.keys(stateGroups).sort()) {
 }
 
 html += `</select>
-      <select id="city-jump-eu" onchange="if(this.value)scrollToCity(this.value)" style="display:none;padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:260px">
+      <select id="city-jump-eu" onchange="if(this.value)scrollToCity(this.value)" style="display:none;padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:240px">
         <option value="">Select a city...</option>`;
 
 const countryGroups = {};
@@ -279,16 +359,30 @@ html += `</select>
   </div>
 </div>
 
-<div style="max-width:900px;margin:20px auto 0;padding:0 16px">
-  <div class="fav-bar" style="background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:14px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span style="font-size:20px">&#9733;</span>
-      <span style="font-size:14px;font-weight:600">Click the star to favorite.</span>
-      <span id="fav-count" style="font-size:13px;color:#737373">0 favorites</span>
+<!-- Multi-band filter (always visible) -->
+<div style="max-width:900px;margin:14px auto 0;padding:0 16px">
+  <div class="band-filter-panel">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span style="font-size:13px;font-weight:700;color:#1a1a1a">Filter by band:</span>
+      <input type="text" id="band-filter-input" placeholder="Type a band name..." oninput="updateBandSuggestions(this.value)" onfocus="updateBandSuggestions(this.value)" style="flex:1;min-width:140px;padding:6px 10px;font-size:13px;border:1px solid #e5e5e5;border-radius:6px;outline:none">
+      <button onclick="clearAllBands()" style="padding:6px 10px;font-size:11px;border:1px solid #e5e5e5;border-radius:6px;background:#f4f4f5;color:#737373;cursor:pointer">Clear</button>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-      <button onclick="toggleFavFilter()" id="fav-filter-btn" style="padding:8px 16px;font-size:13px;font-weight:700;border:2px solid #e5e5e5;border-radius:6px;background:#fff;color:#1a1a1a;cursor:pointer">Show Favorites Only</button>
-      <button onclick="clearAllFavs()" style="padding:8px 12px;font-size:12px;font-weight:500;border:1px solid #e5e5e5;border-radius:6px;background:#f4f4f5;color:#737373;cursor:pointer">Clear Favs</button>
+    <div id="band-chips" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px"></div>
+    <div id="band-suggestions" class="band-suggestions" style="display:none"></div>
+  </div>
+</div>
+
+<!-- Favorites bar -->
+<div style="max-width:900px;margin:10px auto 0;padding:0 16px">
+  <div class="fav-bar" style="background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:12px 18px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span style="font-size:18px">&#9733;</span>
+      <span style="font-size:13px;font-weight:600">Click the star to favorite.</span>
+      <span id="fav-count" style="font-size:12px;color:#737373">0 favorites</span>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button onclick="toggleFavFilter()" id="fav-filter-btn" style="padding:7px 14px;font-size:12px;font-weight:700;border:2px solid #e5e5e5;border-radius:6px;background:#fff;color:#1a1a1a;cursor:pointer">Favorites Only</button>
+      <button onclick="clearAllFavs()" style="padding:7px 12px;font-size:11px;font-weight:500;border:1px solid #e5e5e5;border-radius:6px;background:#f4f4f5;color:#737373;cursor:pointer">Clear Favs</button>
     </div>
   </div>
 </div>
@@ -297,6 +391,7 @@ html += `</select>
 <div id="view-city-content" class="view-section active">
 `;
 
+// CITY VIEW
 for (const cityKey of CITY_ORDER) {
   const cityEvents = events.filter(e => e.city === cityKey);
   if (cityEvents.length === 0) continue;
@@ -318,12 +413,12 @@ for (const cityKey of CITY_ORDER) {
 }
 html += `</div>`;
 
-// Band view
+// BAND VIEW
 html += `<div id="view-band-content" class="view-section">`;
 for (const [name, evs] of bandsAlpha) {
   const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   const cityCount = new Set(evs.map(e => e.city)).size;
-  html += `<div id="band-${slug}" class="band-section" data-band-slug="${slug}" style="margin-bottom:32px">
+  html += `<div id="band-${slug}" class="band-section" data-band-slug="${slug}" data-band-name="${name.toLowerCase()}" style="margin-bottom:32px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #e5e5e5;padding-bottom:8px">
     <a href="${getArtistUrl(name)}" target="_blank" rel="noopener noreferrer" style="font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;border-bottom:2px dashed #a3a3a3">${name}</a>
     <span style="font-size:13px;color:#737373">${evs.length} show${evs.length>1?'s':''} in ${cityCount} cit${cityCount>1?'ies':'y'}</span>
@@ -333,10 +428,10 @@ for (const [name, evs] of bandsAlpha) {
 }
 html += `</div></div>`;
 
-// Month view
+// MONTH VIEW (separate container)
 html += `<div id="view-month-content" class="view-section" style="max-width:900px;margin:0 auto;padding:16px">`;
 const MONTH_KEYS = {4:'apr',5:'may',6:'jun',7:'jul',8:'aug',9:'sep',10:'oct',11:'nov',12:'dec'};
-const MONTH_NAMES = {4:'Late April 2026',5:'May 2026',6:'June 2026',7:'July 2026',8:'August 2026',9:'September 2026',10:'October 2026',11:'November 2026',12:'December 2026'};
+const MONTH_NAMES = {4:'April 2026',5:'May 2026',6:'June 2026',7:'July 2026',8:'August 2026',9:'September 2026',10:'October 2026',11:'November 2026',12:'December 2026'};
 const monthMap = {};
 for (const ev of events) {
   if (!ev.date) continue;
@@ -345,7 +440,8 @@ for (const ev of events) {
   if (!monthMap[m][ev.city]) monthMap[m][ev.city] = [];
   monthMap[m][ev.city].push(ev);
 }
-for (const m of Object.keys(monthMap).map(Number).sort((a,b)=>a-b)) {
+const visibleMonths = Object.keys(monthMap).map(Number).filter(m => m >= TODAY_MONTH).sort((a,b)=>a-b);
+for (const m of visibleMonths) {
   html += `<div id="month-${MONTH_KEYS[m]}" class="month-section" style="margin-bottom:40px">
   <div class="sticky-header" style="top:var(--nav-h, 90px);border-bottom:2px solid #1a1a1a;margin-bottom:16px;padding-top:16px">
     <h2 style="font-size:24px;font-weight:700;margin:0">${MONTH_NAMES[m]}</h2>
@@ -361,7 +457,7 @@ for (const m of Object.keys(monthMap).map(Number).sort((a,b)=>a-b)) {
 }
 html += `</div>`;
 
-// Calendar view (simplified - just lists by month, since full grid is complex)
+// CALENDAR VIEW (auto-prune past months)
 html += `<div id="view-calendar-content" class="view-section" style="max-width:1400px;margin:0 auto;padding:0 12px">`;
 const eventsByDate = {};
 for (const ev of events) {
@@ -369,17 +465,18 @@ for (const ev of events) {
   if (!eventsByDate[ev.date]) eventsByDate[ev.date] = [];
   eventsByDate[ev.date].push(ev);
 }
-const calMonths = [
-  {key:'apr',year:2026,month:3,label:'April 2026'},
-  {key:'may',year:2026,month:4,label:'May 2026'},
-  {key:'jun',year:2026,month:5,label:'June 2026'},
-  {key:'jul',year:2026,month:6,label:'July 2026'},
-  {key:'aug',year:2026,month:7,label:'August 2026'},
-  {key:'sep',year:2026,month:8,label:'September 2026'},
-  {key:'oct',year:2026,month:9,label:'October 2026'},
-  {key:'nov',year:2026,month:10,label:'November 2026'},
-  {key:'dec',year:2026,month:11,label:'December 2026'},
+const calMonthsAll = [
+  {key:'apr',year:2026,month:3,label:'April 2026',num:4},
+  {key:'may',year:2026,month:4,label:'May 2026',num:5},
+  {key:'jun',year:2026,month:5,label:'June 2026',num:6},
+  {key:'jul',year:2026,month:6,label:'July 2026',num:7},
+  {key:'aug',year:2026,month:7,label:'August 2026',num:8},
+  {key:'sep',year:2026,month:8,label:'September 2026',num:9},
+  {key:'oct',year:2026,month:9,label:'October 2026',num:10},
+  {key:'nov',year:2026,month:10,label:'November 2026',num:11},
+  {key:'dec',year:2026,month:11,label:'December 2026',num:12},
 ];
+const calMonths = calMonthsAll.filter(m => m.num >= TODAY_MONTH);
 const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 for (const cm of calMonths) {
   const firstDay = new Date(cm.year, cm.month, 1);
@@ -393,13 +490,22 @@ for (const cm of calMonths) {
   for (let day = 1; day <= daysInMonth; day++) {
     const ds = `${cm.year}-${String(cm.month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
     const dayEvs = eventsByDate[ds] || [];
-    html += `<div style="background:${dayEvs.length>0?'#fff':'#faf9f7'};min-height:120px;padding:6px 8px">
-      <div style="font-size:14px;font-weight:700;color:${dayEvs.length>0?'#1a1a1a':'#a3a3a3'};margin-bottom:4px">${day}</div>`;
-    for (const ev of dayEvs.slice(0, 8)) {
+    const isPast = ds < TODAY;
+    const hasEvents = dayEvs.length > 0;
+    const bg = isPast ? '#e7e5e0' : (hasEvents ? '#fff' : '#faf9f7');
+    const cls = `cal-day${hasEvents ? ' has-events' : ''}`;
+    const onclick = hasEvents ? ` onclick="openDayModal('${ds}')"` : '';
+    html += `<div class="${cls}" data-date="${ds}"${onclick} style="background:${bg};min-height:120px;padding:6px 8px;${isPast?'opacity:0.4;':''}">
+      <div style="font-size:14px;font-weight:700;color:${hasEvents?'#1a1a1a':'#a3a3a3'};margin-bottom:4px">${day}</div>`;
+    for (const ev of dayEvs.slice(0, 6)) {
       const cc = CITY_COLORS[ev.city] || '#525252';
-      html += `<div style="margin-bottom:3px"><a href="${ev.url}" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;padding:2px 5px;border-left:3px solid ${cc};font-size:11px;line-height:1.2;color:#1a1a1a;font-weight:600">${ev.artists[0]}<br><span style="font-size:9px;color:${cc}">${CITY_SHORT[ev.city]}</span></a></div>`;
+      const cat = ev.category || 'music';
+      html += `<div class="cal-event" data-cat="${cat}" data-city="${ev.city}" data-artists="${ev.artists.map(a=>a.toLowerCase()).join('|')}" style="margin-bottom:3px;padding:2px 5px;border-left:3px solid ${cc};font-size:11px;line-height:1.2">
+        <div style="font-weight:600;color:#1a1a1a">${ev.artists[0]}</div>
+        <div style="font-size:9px;color:${cc};font-weight:700">${CITY_SHORT[ev.city]}</div>
+      </div>`;
     }
-    if (dayEvs.length > 8) html += `<div style="font-size:10px;color:#737373;margin-top:2px">+${dayEvs.length-8} more</div>`;
+    if (dayEvs.length > 6) html += `<div style="font-size:10px;color:#737373;margin-top:2px;font-weight:600">+${dayEvs.length-6} more</div>`;
     html += `</div>`;
   }
   const totalCells = startDow + daysInMonth;
@@ -409,19 +515,65 @@ for (const cm of calMonths) {
 }
 html += `</div>`;
 
+// Build the day events lookup as JSON for the modal
+const dayLookup = {};
+for (const [date, evs] of Object.entries(eventsByDate)) {
+  dayLookup[date] = evs.map(e => ({
+    artists: e.artists,
+    primary: e.artists[0],
+    city: e.city,
+    cityLabel: CITY_LABELS[e.city] || e.cityLabel,
+    cityColor: CITY_COLORS[e.city] || '#525252',
+    venue: e.venue,
+    time: e.time,
+    url: e.url,
+    category: e.category || 'music',
+    minPrice: e.minPrice,
+    artistKeys: e.artists.map(a => a.toLowerCase()).join('|'),
+  }));
+}
+
+const allBandsForFilter = bandsAlpha.map(([name, evs]) => ({
+  name, lower: name.toLowerCase(), count: evs.length,
+}));
+
 html += `
+<!-- Day Modal -->
+<div id="day-modal" class="modal-backdrop" onclick="if(event.target===this)closeDayModal()">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeDayModal()">&times;</button>
+    <div id="day-modal-body"></div>
+  </div>
+</div>
+
 <script>
-var currentView='city',currentRegion='us',currentCategory='all',currentCity=null;
+var DAY_DATA = ${JSON.stringify(dayLookup)};
+var ALL_BANDS = ${JSON.stringify(allBandsForFilter)};
+var CITY_LABELS = ${JSON.stringify(CITY_LABELS)};
+var CITY_COLORS = ${JSON.stringify(CITY_COLORS)};
+var CAT_INFO = ${JSON.stringify(CAT_INFO)};
+
+var currentView='city',currentRegion='us',currentCity=null;
+var activeCategories=new Set(['music','comedy','broadway','off-broadway']);
+var selectedBands=new Set(); // lowercase artist names
+var favFilterOn=false;
 var EU_KEYS=['amsterdam','athens','barcelona','berlin','dublin','lisbon','london','madrid','manchester','milan','paris','porto','rome','zagreb'];
-function setCategory(c){
-  currentCategory=c;
-  ['cat-all','cat-music','cat-comedy'].forEach(function(id){
-    var b=document.getElementById(id);
-    if(id==='cat-'+c){b.style.background=c==='comedy'?'#fef3c7':c==='music'?'#dbeafe':'#f8f7f4';b.style.color=c==='comedy'?'#92400e':c==='music'?'#1e3a8a':'#1a1a1a';}
-    else{b.style.background='#3f3f46';b.style.color='#e4e4e7';}
-  });
+
+function toggleCategory(cat){
+  if(activeCategories.has(cat)) activeCategories.delete(cat);
+  else activeCategories.add(cat);
+  var btn=document.getElementById('cat-'+cat);
+  var info=CAT_INFO[cat];
+  if(activeCategories.has(cat)){
+    btn.style.background=info.bg; btn.style.color=info.color; btn.style.opacity='1';
+    btn.setAttribute('data-active','1');
+  } else {
+    btn.style.background='#3f3f46'; btn.style.color='#a3a3a3'; btn.style.opacity='0.5';
+    btn.setAttribute('data-active','0');
+  }
   applyAllFilters();
 }
+
 function setRegion(r){
   currentRegion=r;
   var u=document.getElementById('region-us'),e=document.getElementById('region-eu');
@@ -436,19 +588,21 @@ function setRegion(r){
   });
   window.scrollTo({top:0});
 }
+
 function setView(v){
   currentView=v;
   document.getElementById('view-city-content').className='view-section'+(v==='city'?' active':'');
   document.getElementById('view-band-content').className='view-section'+(v==='band'?' active':'');
   document.getElementById('view-month-content').className='view-section'+(v==='month'?' active':'');
   document.getElementById('view-calendar-content').className='view-section'+(v==='calendar'?' active':'');
-  ['view-band','view-month','view-calendar'].forEach(function(id){
+  ['view-city','view-band','view-month','view-calendar'].forEach(function(id){
     var b=document.getElementById(id);
     if(id==='view-'+v){b.style.background='#f8f7f4';b.style.color='#1a1a1a';b.style.borderColor='#f8f7f4';}
     else{b.style.background='transparent';b.style.color='#e4e4e7';b.style.borderColor='#52525b';}
   });
   window.scrollTo({top:0});
 }
+
 function scrollToCity(city){
   currentCity=city;
   if(currentView!=='city')setView('city');
@@ -457,36 +611,164 @@ function scrollToCity(city){
     if(t){var nh=document.getElementById('nav-bar').offsetHeight;window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-nh-12,behavior:'smooth'});}
   },50);
 }
+
 function applyAllFilters(){
   document.querySelectorAll('.event-card').forEach(function(el){
     var cat=el.getAttribute('data-category');
-    var catMatch=(currentCategory==='all')||cat===currentCategory;
-    if(!catMatch){el.style.display='none';return;}
+    var artists=el.getAttribute('data-artist-keys').split('|');
+    if(!activeCategories.has(cat)){el.style.display='none';return;}
+    if(selectedBands.size>0){
+      var match=false;
+      for(var a of artists){if(selectedBands.has(a)){match=true;break;}}
+      if(!match){el.style.display='none';return;}
+    }
     if(favFilterOn){var id=el.getAttribute('data-fav-id');if(!favs[id]){el.style.display='none';return;}}
+    el.style.display='';
+  });
+  // Calendar event filter
+  document.querySelectorAll('.cal-event').forEach(function(el){
+    var cat=el.getAttribute('data-cat');
+    var artists=el.getAttribute('data-artists').split('|');
+    if(!activeCategories.has(cat)){el.style.display='none';return;}
+    if(selectedBands.size>0){
+      var match=false;
+      for(var a of artists){if(selectedBands.has(a)){match=true;break;}}
+      if(!match){el.style.display='none';return;}
+    }
     el.style.display='';
   });
   setTimeout(restoreScrollPosition,0);
 }
+
 function restoreScrollPosition(){
   if(currentView==='city'&&currentCity){
     var t=document.getElementById('city-'+currentCity);
     if(t){var nh=document.getElementById('nav-bar').offsetHeight;window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-nh-12});}
   }
 }
+
 function updateNavHeight(){var nh=document.getElementById('nav-bar').offsetHeight;document.documentElement.style.setProperty('--nav-h',nh+'px');}
 updateNavHeight();window.addEventListener('resize',updateNavHeight);
+
+// Multi-band filter
+function updateBandSuggestions(query){
+  var q=(query||'').toLowerCase().trim();
+  var box=document.getElementById('band-suggestions');
+  if(!q){box.style.display='none';return;}
+  var matches=ALL_BANDS.filter(function(b){return b.lower.indexOf(q)!==-1 && !selectedBands.has(b.lower);}).slice(0,30);
+  if(matches.length===0){box.style.display='none';return;}
+  box.innerHTML=matches.map(function(b){return '<div class="band-suggestion" onclick="addBand(\\''+b.lower.replace(/'/g,"\\\\'")+'\\',\\''+b.name.replace(/'/g,"\\\\'")+'\\')">'+b.name+' <span style="color:#a3a3a3;font-size:11px">('+b.count+')</span></div>';}).join('');
+  box.style.display='block';
+}
+function addBand(lower,name){
+  selectedBands.add(lower);
+  document.getElementById('band-filter-input').value='';
+  document.getElementById('band-suggestions').style.display='none';
+  renderBandChips();
+  applyAllFilters();
+}
+function removeBand(lower){
+  selectedBands.delete(lower);
+  renderBandChips();
+  applyAllFilters();
+}
+function clearAllBands(){
+  selectedBands.clear();
+  renderBandChips();
+  applyAllFilters();
+}
+function renderBandChips(){
+  var box=document.getElementById('band-chips');
+  if(selectedBands.size===0){box.innerHTML='';return;}
+  var chips=[];
+  selectedBands.forEach(function(b){
+    var nm=ALL_BANDS.find(function(x){return x.lower===b;});
+    var label=nm?nm.name:b;
+    chips.push('<span class="band-chip">'+label+' <button onclick="removeBand(\\''+b.replace(/'/g,"\\\\'")+'\\')">&times;</button></span>');
+  });
+  box.innerHTML=chips.join('');
+}
+
+// Day modal
+function openDayModal(dateStr){
+  var evs=DAY_DATA[dateStr]||[];
+  // Apply current filters
+  var filtered=evs.filter(function(e){
+    if(!activeCategories.has(e.category))return false;
+    if(selectedBands.size>0){
+      var artists=e.artistKeys.split('|');
+      var match=false;
+      for(var a of artists){if(selectedBands.has(a)){match=true;break;}}
+      if(!match)return false;
+    }
+    return true;
+  });
+  // Group by city alphabetically
+  var byCity={};
+  filtered.forEach(function(e){if(!byCity[e.cityLabel])byCity[e.cityLabel]=[];byCity[e.cityLabel].push(e);});
+  var cities=Object.keys(byCity).sort();
+
+  var dt=new Date(dateStr+'T12:00:00');
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var dateLabel=days[dt.getDay()]+', '+months[dt.getMonth()]+' '+dt.getDate()+', 2026';
+
+  var html='<h2 style="margin:0 0 4px;font-size:22px;font-weight:800">'+dateLabel+'</h2>';
+  html+='<div style="font-size:13px;color:#737373;margin-bottom:16px">'+filtered.length+' show'+(filtered.length!==1?'s':'')+' across '+cities.length+' cit'+(cities.length!==1?'ies':'y')+'</div>';
+
+  if(filtered.length===0){
+    html+='<div style="padding:24px;text-align:center;color:#737373">No shows match your current filters.</div>';
+  } else {
+    cities.forEach(function(city){
+      var color=byCity[city][0].cityColor;
+      html+='<h3 style="font-size:14px;font-weight:800;margin:16px 0 8px;padding:6px 12px;background:'+color+'20;border-left:4px solid '+color+';border-radius:4px">'+city+' <span style="font-size:12px;font-weight:500;color:#737373;margin-left:6px">('+byCity[city].length+')</span></h3>';
+      byCity[city].forEach(function(e){
+        var catInfo=CAT_INFO[e.category]||CAT_INFO.music;
+        var time=e.time?formatTime(e.time):'';
+        var primary=e.primary;
+        var supp=e.artists.length>1?' <span style="color:#525252">w/ '+e.artists.slice(1).join(', ')+'</span>':'';
+        var price=e.minPrice?'<span style="font-size:12px;color:#525252;margin-left:8px">From $'+Math.round(e.minPrice)+'</span>':'';
+        html+='<div style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">'+
+          '<div style="flex:1;min-width:180px"><div style="font-size:15px;font-weight:700">'+primary+supp+' <span style="display:inline-block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 6px;border-radius:3px;background:'+catInfo.bg+';color:'+catInfo.color+';margin-left:4px">'+catInfo.label+'</span></div>'+
+          '<div style="font-size:12px;color:#737373;margin-top:2px">'+(time?time+' · ':'')+e.venue+price+'</div></div>'+
+          '<a href="'+e.url+'" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;background:#1a1a1a;color:#fff;font-size:12px;font-weight:600;border-radius:5px;text-decoration:none">Tickets</a>'+
+        '</div>';
+      });
+    });
+  }
+  document.getElementById('day-modal-body').innerHTML=html;
+  document.getElementById('day-modal').classList.add('active');
+}
+function closeDayModal(){document.getElementById('day-modal').classList.remove('active');}
+function formatTime(t){
+  if(!t)return '';
+  var p=t.split(':');var h=parseInt(p[0]);var m=p[1]||'00';
+  return (h>12?h-12:(h===0?12:h))+':'+m+' '+(h>=12?'PM':'AM');
+}
+
+// Favorites
 var favs={};try{favs=JSON.parse(localStorage.getItem('concert-favs')||'{}');}catch(e){}
-var favFilterOn=false;
 function saveFavs(){localStorage.setItem('concert-favs',JSON.stringify(favs));updateFavCount();}
 function updateFavCount(){var c=Object.keys(favs).length;var el=document.getElementById('fav-count');if(el)el.textContent=c+' favorite'+(c!==1?'s':'');}
-function toggleFav(id){if(favs[id])delete favs[id];else favs[id]=true;saveFavs();renderFavStars();if(favFilterOn)applyAllFilters();}
+function toggleFav(id){if(favs[id])delete favs[id];else favs[id]=true;saveFavs();renderFavStars();applyAllFilters();}
 function renderFavStars(){document.querySelectorAll('.fav-btn').forEach(function(b){var id=b.getAttribute('data-fav');b.innerHTML=favs[id]?'&#9733;':'&#9734;';b.style.color=favs[id]?'#f59e0b':'#d4d4d4';});}
-function toggleFavFilter(){favFilterOn=!favFilterOn;var b=document.getElementById('fav-filter-btn');if(favFilterOn){b.textContent='Show All';b.style.background='#1a1a1a';b.style.color='#fff';b.style.borderColor='#1a1a1a';}else{b.textContent='Show Favorites Only';b.style.background='#fff';b.style.color='#1a1a1a';b.style.borderColor='#e5e5e5';}applyAllFilters();}
+function toggleFavFilter(){favFilterOn=!favFilterOn;var b=document.getElementById('fav-filter-btn');if(favFilterOn){b.textContent='Show All';b.style.background='#1a1a1a';b.style.color='#fff';b.style.borderColor='#1a1a1a';}else{b.textContent='Favorites Only';b.style.background='#fff';b.style.color='#1a1a1a';b.style.borderColor='#e5e5e5';}applyAllFilters();}
 function clearAllFavs(){favs={};saveFavs();renderFavStars();applyAllFilters();}
 function handleSearch(q){q=q.toLowerCase().trim();document.querySelectorAll('.event-card').forEach(function(el){var d=el.getAttribute('data-search')||'';el.style.display=(!q||d.includes(q))?'':'none';});}
+
+// Click outside band suggestions to close
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#band-filter-input')&&!e.target.closest('#band-suggestions')){
+    document.getElementById('band-suggestions').style.display='none';
+  }
+});
+
+// Escape key to close modal
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDayModal();});
+
 renderFavStars();updateFavCount();setRegion('us');
 </script>
 </body></html>`;
 
 fs.writeFileSync(path.join(REPO_ROOT, 'index.html'), html);
-console.log(`Built index.html: ${events.length} events, ${bandMap.size} artists`);
+console.log(`Built index.html: ${events.length} events, ${bandMap.size} artists | ${musicCount} music, ${comedyCount} comedy, ${broadwayCount} broadway, ${offBroadwayCount} off-broadway`);

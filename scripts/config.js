@@ -64,4 +64,69 @@ const ALL_CITY_KEYS = [...Object.keys(US_CITIES), ...EU_CITY_KEYS];
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-module.exports = { TM_KEY, SG_KEY, US_CITIES, EU_CITIES, VENUE_MAP, EU_CITY_KEYS, ALL_CITY_KEYS, sleep };
+// NYC Broadway theaters (the official 41) - any show at these venues = "broadway"
+const BROADWAY_VENUES = new Set([
+  'al hirschfeld theatre', 'ambassador theatre', 'american airlines theatre',
+  'august wilson theatre', 'belasco theatre', 'bernard b. jacobs theatre', 'bernard b jacobs theatre',
+  'booth theatre', 'broadhurst theatre', 'broadway theatre', 'brooks atkinson theatre',
+  'circle in the square theatre', "eugene o'neill theatre", 'eugene oneill theatre',
+  'gerald schoenfeld theatre', 'gershwin theatre', 'helen hayes theater', 'helen hayes theatre',
+  'hudson theatre', 'imperial theatre', 'james earl jones theatre', 'john golden theatre',
+  'lena horne theatre', 'longacre theatre', 'lunt-fontanne theatre', 'lunt fontanne theatre',
+  'lyceum theatre', 'lyric theatre', 'majestic theatre', 'marquis theatre',
+  'minskoff theatre', 'music box theatre', 'nederlander theatre', 'neil simon theatre',
+  'new amsterdam theatre', 'palace theatre', 'richard rodgers theatre', 'samuel j. friedman theatre',
+  'samuel j friedman theatre', 'shubert theatre', 'st. james theatre', 'st james theatre',
+  'stephen sondheim theatre', 'studio 54', 'todd haimes theatre', 'vivian beaumont theater',
+  'walter kerr theatre', 'winter garden theatre',
+]);
+
+// Known touring Broadway productions (they tour to non-NYC cities and stay "broadway")
+const TOURING_BROADWAY_TITLES = [
+  'wicked', 'hamilton', 'the lion king', 'aladdin', 'six', 'mj', 'mj the musical',
+  'the play that goes wrong', "the book of mormon", 'chicago', 'phantom of the opera',
+  'frozen', 'come from away', 'mean girls', 'beetlejuice', 'tina', 'moulin rouge',
+  'company', 'a strange loop', 'death becomes her', 'stranger things',
+  'schmigadoon', 'ain\'t too proud', 'jagged little pill',
+  '& juliet', 'and juliet', 'sweeney todd', 'parade', 'kimberly akimbo',
+  'some like it hot', 'shucked', 'water for elephants',
+  'cabaret', 'merrily we roll along', 'spamalot', 'pretty woman',
+  'pretty in pink', 'tommy', 'the wiz', 'back to the future',
+  'mrs. doubtfire', 'mrs doubtfire', 'beauty and the beast',
+  'rent', 'les misérables', 'les miserables',
+];
+
+// Known Off-Broadway venues (NYC + a few other cities)
+const OFF_BROADWAY_VENUES = new Set([
+  'atlantic theater company', 'atlantic theater', 'public theater', "joe's pub",
+  'signature theatre', 'playwrights horizons', 'new york theatre workshop',
+  'second stage', 'mcc theater', 'manhattan theatre club', 'vineyard theatre',
+  'classic stage company', 'classic stage', 'lincoln center theater',
+  'roundabout theatre', 'cherry lane theatre', 'minetta lane theatre',
+  "audible's minetta lane theatre", 'lucille lortel theatre',
+  'astor place theatre', 'orpheum theatre nyc', 'orpheum theatre',
+  'westside theatre', 'soho playhouse', 'new world stages',
+  'la mama', 'la mama experimental theatre', 'dixon place',
+  'st. ann\'s warehouse', 'st anns warehouse', 'bam', 'brooklyn academy of music',
+  'irondale', 'rattlestick playwrights theater', 'theatre row',
+  'pershing square signature center', 'the theater center',
+]);
+
+function classifyTheaterEvent(eventName, venueName) {
+  const v = (venueName || '').toLowerCase().trim();
+  const n = (eventName || '').toLowerCase();
+
+  // 1) NYC Broadway venue
+  if (BROADWAY_VENUES.has(v)) return 'broadway';
+
+  // 2) Known touring Broadway title
+  if (TOURING_BROADWAY_TITLES.some(t => n.includes(t))) return 'broadway';
+
+  // 3) Off-Broadway venue
+  if (OFF_BROADWAY_VENUES.has(v)) return 'off-broadway';
+  for (const vv of OFF_BROADWAY_VENUES) if (v.includes(vv)) return 'off-broadway';
+
+  return null; // not theater-classified
+}
+
+module.exports = { TM_KEY, SG_KEY, US_CITIES, EU_CITIES, VENUE_MAP, EU_CITY_KEYS, ALL_CITY_KEYS, sleep, classifyTheaterEvent };
