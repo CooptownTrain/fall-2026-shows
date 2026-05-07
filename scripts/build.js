@@ -757,7 +757,7 @@ function openDayModal(dateStr){
   } else {
     cities.forEach(function(city){
       var color=byCity[city][0].cityColor;
-      bodyHtml+='<h3 style="font-size:14px;font-weight:800;margin:16px 0 8px;padding:6px 12px;background:'+color+'20;border-left:4px solid '+color+';border-radius:4px">'+city+' <span style="font-size:12px;font-weight:500;color:#737373;margin-left:6px">('+byCity[city].length+')</span></h3>';
+      bodyHtml+='<h3 style="position:sticky;top:0;z-index:5;font-size:14px;font-weight:800;margin:16px 0 8px;padding:10px 12px;background:'+color+';color:#fff;border-radius:4px;box-shadow:0 2px 4px rgba(0,0,0,0.1)">'+city+' <span style="font-size:12px;font-weight:500;opacity:0.85;margin-left:6px">('+byCity[city].length+')</span></h3>';
       byCity[city].forEach(function(e){
         var catInfo=CAT_INFO[e.category]||CAT_INFO.music;
         var time=e.time?formatTime(e.time):'';
