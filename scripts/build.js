@@ -111,11 +111,31 @@ for (const ev of data) {
   events.push(ev);
 }
 
-// Dedup
+// Dedup - aggressive, normalize venue and artist
+function normalizeVenue(v) {
+  return (v || '').toLowerCase()
+    .replace(/^the /, '')
+    .replace(/\s+(at|@)\s+.*/i, '')        // "Filene Center at The Wolf Trap" -> "Filene Center"
+    .replace(/\s*[-–]\s*.*$/, '')          // "Capital One Arena - DC" -> "Capital One Arena"
+    .replace(/\(.*?\)/g, '')               // remove parentheticals
+    .replace(/[^\w\s]/g, '')               // strip punctuation
+    .replace(/\s+/g, ' ').trim();
+}
+function dedupKey(ev) {
+  // Same date + same city + same primary artist (lowercase) = same event regardless of venue string
+  return `${ev.date}|${ev.city}|${(ev.artists[0]||'').toLowerCase().trim()}`;
+}
 const deduped = new Map();
 for (const ev of events) {
-  const key = `${ev.date}|${ev.venue}|${ev.artists[0]}|${ev.city}|${ev.category}`;
-  if (!deduped.has(key)) deduped.set(key, ev);
+  const key = dedupKey(ev);
+  if (!deduped.has(key)) {
+    deduped.set(key, ev);
+  } else {
+    // Merge: prefer event with price data, prefer Ticketmaster source
+    const existing = deduped.get(key);
+    const prefer = (ev.minPrice && !existing.minPrice) || (ev.source === 'ticketmaster' && existing.source !== 'ticketmaster');
+    if (prefer) deduped.set(key, ev);
+  }
 }
 events = Array.from(deduped.values());
 events.sort((a, b) => a.date.localeCompare(b.date));
@@ -220,25 +240,40 @@ let html = `<!DOCTYPE html>
   .cal-day { cursor: pointer; transition: background 0.1s; }
   .cal-day.has-events:hover { background: #fef9c3 !important; }
 
-  /* Day modal */
+  /* Day modal - fixed full screen, content scrolls */
   .modal-backdrop {
-    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    position: fixed; inset: 0;
     background: rgba(0,0,0,0.7); z-index: 1000;
-    display: none; align-items: flex-start; justify-content: center;
-    overflow-y: auto; padding: 40px 16px;
+    display: none;
   }
-  .modal-backdrop.active { display: flex; }
+  .modal-backdrop.active { display: block; }
   .modal-content {
-    background: #f8f7f4; max-width: 800px; width: 100%;
-    border-radius: 14px; padding: 24px 28px; position: relative;
-    max-height: calc(100vh - 80px); overflow-y: auto;
+    position: fixed;
+    top: 5vh; left: 50%; transform: translateX(-50%);
+    background: #f8f7f4; max-width: 800px; width: calc(100% - 32px);
+    border-radius: 14px; height: 90vh;
+    display: flex; flex-direction: column;
+    z-index: 1001;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .modal-header {
+    flex: 0 0 auto; padding: 20px 56px 14px 24px;
+    border-bottom: 1px solid #e5e5e5;
+    background: #f8f7f4; border-radius: 14px 14px 0 0;
+  }
+  .modal-body {
+    flex: 1 1 auto; overflow-y: auto;
+    padding: 16px 24px 24px;
+    -webkit-overflow-scrolling: touch;
   }
   .modal-close {
     position: absolute; top: 14px; right: 14px;
     width: 36px; height: 36px; border: none; border-radius: 999px;
     background: #1a1a1a; color: #fff; font-size: 20px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
+    z-index: 2;
   }
+  body.modal-open { overflow: hidden; }
 
   /* Multi-band filter */
   .band-filter-panel {
@@ -539,11 +574,11 @@ const allBandsForFilter = bandsAlpha.map(([name, evs]) => ({
 
 html += `
 <!-- Day Modal -->
-<div id="day-modal" class="modal-backdrop" onclick="if(event.target===this)closeDayModal()">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeDayModal()">&times;</button>
-    <div id="day-modal-body"></div>
-  </div>
+<div id="day-modal" class="modal-backdrop" onclick="closeDayModal()"></div>
+<div id="day-modal-content" class="modal-content" style="display:none" onclick="event.stopPropagation()">
+  <button class="modal-close" onclick="closeDayModal()">&times;</button>
+  <div class="modal-header" id="day-modal-header"></div>
+  <div class="modal-body" id="day-modal-body"></div>
 </div>
 
 <script>
@@ -713,22 +748,23 @@ function openDayModal(dateStr){
   var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var dateLabel=days[dt.getDay()]+', '+months[dt.getMonth()]+' '+dt.getDate()+', 2026';
 
-  var html='<h2 style="margin:0 0 4px;font-size:22px;font-weight:800">'+dateLabel+'</h2>';
-  html+='<div style="font-size:13px;color:#737373;margin-bottom:16px">'+filtered.length+' show'+(filtered.length!==1?'s':'')+' across '+cities.length+' cit'+(cities.length!==1?'ies':'y')+'</div>';
+  var headerHtml='<h2 style="margin:0 0 4px;font-size:22px;font-weight:800">'+dateLabel+'</h2>'+
+    '<div style="font-size:13px;color:#737373">'+filtered.length+' show'+(filtered.length!==1?'s':'')+' across '+cities.length+' cit'+(cities.length!==1?'ies':'y')+'</div>';
 
+  var bodyHtml='';
   if(filtered.length===0){
-    html+='<div style="padding:24px;text-align:center;color:#737373">No shows match your current filters.</div>';
+    bodyHtml='<div style="padding:40px;text-align:center;color:#737373">No shows match your current filters.</div>';
   } else {
     cities.forEach(function(city){
       var color=byCity[city][0].cityColor;
-      html+='<h3 style="font-size:14px;font-weight:800;margin:16px 0 8px;padding:6px 12px;background:'+color+'20;border-left:4px solid '+color+';border-radius:4px">'+city+' <span style="font-size:12px;font-weight:500;color:#737373;margin-left:6px">('+byCity[city].length+')</span></h3>';
+      bodyHtml+='<h3 style="font-size:14px;font-weight:800;margin:16px 0 8px;padding:6px 12px;background:'+color+'20;border-left:4px solid '+color+';border-radius:4px">'+city+' <span style="font-size:12px;font-weight:500;color:#737373;margin-left:6px">('+byCity[city].length+')</span></h3>';
       byCity[city].forEach(function(e){
         var catInfo=CAT_INFO[e.category]||CAT_INFO.music;
         var time=e.time?formatTime(e.time):'';
         var primary=e.primary;
         var supp=e.artists.length>1?' <span style="color:#525252">w/ '+e.artists.slice(1).join(', ')+'</span>':'';
         var price=e.minPrice?'<span style="font-size:12px;color:#525252;margin-left:8px">From $'+Math.round(e.minPrice)+'</span>':'';
-        html+='<div style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">'+
+        bodyHtml+='<div style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">'+
           '<div style="flex:1;min-width:180px"><div style="font-size:15px;font-weight:700">'+primary+supp+' <span style="display:inline-block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 6px;border-radius:3px;background:'+catInfo.bg+';color:'+catInfo.color+';margin-left:4px">'+catInfo.label+'</span></div>'+
           '<div style="font-size:12px;color:#737373;margin-top:2px">'+(time?time+' · ':'')+e.venue+price+'</div></div>'+
           '<a href="'+e.url+'" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;background:#1a1a1a;color:#fff;font-size:12px;font-weight:600;border-radius:5px;text-decoration:none">Tickets</a>'+
@@ -736,10 +772,18 @@ function openDayModal(dateStr){
       });
     });
   }
-  document.getElementById('day-modal-body').innerHTML=html;
+  document.getElementById('day-modal-header').innerHTML=headerHtml;
+  document.getElementById('day-modal-body').innerHTML=bodyHtml;
+  document.getElementById('day-modal-body').scrollTop=0;
   document.getElementById('day-modal').classList.add('active');
+  document.getElementById('day-modal-content').style.display='flex';
+  document.body.classList.add('modal-open');
 }
-function closeDayModal(){document.getElementById('day-modal').classList.remove('active');}
+function closeDayModal(){
+  document.getElementById('day-modal').classList.remove('active');
+  document.getElementById('day-modal-content').style.display='none';
+  document.body.classList.remove('modal-open');
+}
 function formatTime(t){
   if(!t)return '';
   var p=t.split(':');var h=parseInt(p[0]);var m=p[1]||'00';
