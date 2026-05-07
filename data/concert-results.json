@@ -52494,6 +52494,25 @@
     "category": "music"
   },
   {
+    "id": "1718v0G61Ll--o2",
+    "name": "School of Rock Chicago",
+    "artists": [
+      "Chicago"
+    ],
+    "date": "2026-06-27",
+    "time": "12:00:00",
+    "venue": "Reggies Rock Club",
+    "venueCity": "Chicago",
+    "url": "https://www.ticketweb.com/event/school-of-rock-chicago-reggies-rock-club-tickets/14908203?REFERRAL_ID=tmfeed",
+    "minPrice": null,
+    "maxPrice": null,
+    "city": "chicago",
+    "cityLabel": "Chicago, IL",
+    "region": "US",
+    "source": "ticketmaster",
+    "category": "music"
+  },
+  {
     "id": "vv1kvZv0bzGA2hfo-",
     "name": "Gorgon City: Enter The Realm Chicago",
     "artists": [
@@ -65319,7 +65338,7 @@
   },
   {
     "id": "vvG1FZ_17qYv95",
-    "name": "\"sweet & Sour Chicks\" Comedy Tour",
+    "name": "Kiki Yeung & Esther Ku: Sweet & Sour Chicks Comedy Tour",
     "artists": [
       "Kiki Yeung",
       "Esther Ku"
@@ -65328,7 +65347,7 @@
     "time": "19:30:00",
     "venue": "Punch Line Philly",
     "venueCity": "Philadelphia",
-    "url": "https://www.ticketmaster.com/sweet-sour-chicks-comedy-tour-philadelphia-pennsylvania-07-30-2026/event/020064A11DC015CB",
+    "url": "https://www.ticketmaster.com/kiki-yeung-esther-ku-sweet-sour-philadelphia-pennsylvania-07-30-2026/event/020064A11DC015CB",
     "minPrice": null,
     "city": "philadelphia",
     "cityLabel": "Philadelphia, PA",
@@ -76234,24 +76253,6 @@
     "category": "music"
   },
   {
-    "id": "sg-18175551",
-    "name": "The Strokes",
-    "artists": [
-      "The Strokes"
-    ],
-    "date": "2026-09-12",
-    "time": "19:00",
-    "venue": "Benchmark International Arena",
-    "venueCity": "Tampa",
-    "url": "https://seatgeek.com/the-strokes-tickets/tampa-florida-benchmark-international-arena-2026-09-12-7-pm/concert/18175551",
-    "minPrice": null,
-    "city": "tampa",
-    "cityLabel": "Tampa / St. Pete, FL",
-    "region": "US",
-    "source": "seatgeek",
-    "category": "music"
-  },
-  {
     "id": "sg-18004669",
     "name": "Bruno Mars with RAYE and DJ Pee .Wee",
     "artists": [
@@ -76262,6 +76263,24 @@
     "venue": "Raymond James Stadium",
     "venueCity": "Tampa",
     "url": "https://seatgeek.com/bruno-mars-tickets/tampa-florida-raymond-james-stadium-2026-09-12-7-pm/concert/18004669",
+    "minPrice": null,
+    "city": "tampa",
+    "cityLabel": "Tampa / St. Pete, FL",
+    "region": "US",
+    "source": "seatgeek",
+    "category": "music"
+  },
+  {
+    "id": "sg-18175551",
+    "name": "The Strokes",
+    "artists": [
+      "The Strokes"
+    ],
+    "date": "2026-09-12",
+    "time": "19:00",
+    "venue": "Benchmark International Arena",
+    "venueCity": "Tampa",
+    "url": "https://seatgeek.com/the-strokes-tickets/tampa-florida-benchmark-international-arena-2026-09-12-7-pm/concert/18175551",
     "minPrice": null,
     "city": "tampa",
     "cityLabel": "Tampa / St. Pete, FL",
@@ -85244,7 +85263,7 @@
   },
   {
     "id": "vv1AeZk3pGkdVX1Cw",
-    "name": "Geese - Getting Killed Again Tour",
+    "name": "WXPN Welcomes: Geese - Getting Killed Again Tour",
     "artists": [
       "Geese"
     ],
@@ -85252,7 +85271,7 @@
     "time": "20:00:00",
     "venue": "The Fillmore Philadelphia",
     "venueCity": "Philadelphia",
-    "url": "https://www.ticketmaster.com/geese-getting-killed-again-tour-philadelphia-pennsylvania-11-07-2026/event/02006496F4F8A3B2",
+    "url": "https://www.ticketmaster.com/wxpn-welcomes-geese-getting-killed-again-philadelphia-pennsylvania-11-07-2026/event/02006496F4F8A3B2",
     "minPrice": null,
     "maxPrice": null,
     "city": "philadelphia",
@@ -85443,7 +85462,7 @@
   },
   {
     "id": "vv1AeZk3pGkdVT1CB",
-    "name": "Geese - Getting Killed Again Tour",
+    "name": "WXPN Welcomes: Geese - Getting Killed Again Tour",
     "artists": [
       "Geese"
     ],
@@ -85451,7 +85470,7 @@
     "time": "20:00:00",
     "venue": "The Fillmore Philadelphia",
     "venueCity": "Philadelphia",
-    "url": "https://www.ticketmaster.com/geese-getting-killed-again-tour-philadelphia-pennsylvania-11-08-2026/event/02006496F4FCA3BA",
+    "url": "https://www.ticketmaster.com/wxpn-welcomes-geese-getting-killed-again-philadelphia-pennsylvania-11-08-2026/event/02006496F4FCA3BA",
     "minPrice": null,
     "maxPrice": null,
     "city": "philadelphia",
