@@ -1,0 +1,46 @@
+name: Sunday Refresh
+
+on:
+  schedule:
+    # Every Sunday at 9:00 AM ET = 14:00 UTC (during EDT) / 13:00 UTC (during EST)
+    # Using 14:00 UTC = 9 AM EDT / 10 AM EST. Close enough year-round.
+    - cron: '0 14 * * 0'
+  workflow_dispatch:  # Manual trigger button in GitHub UI
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run refresh
+        env:
+          TM_KEY: ${{ secrets.TM_KEY }}
+          SG_KEY: ${{ secrets.SG_KEY }}
+        run: node scripts/refresh.js
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ index.html
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          # Read meta for commit message
+          NEW_COUNT=$(node -e "const m=JSON.parse(require('fs').readFileSync('data/last-refresh.json','utf8'));console.log(m.newCount||0)")
+          TOTAL=$(node -e "const m=JSON.parse(require('fs').readFileSync('data/last-refresh.json','utf8'));console.log(m.total||0)")
+
+          git commit -m "Sunday refresh: $NEW_COUNT new shows · $TOTAL total"
+          git push
