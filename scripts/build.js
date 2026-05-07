@@ -240,38 +240,52 @@ let html = `<!DOCTYPE html>
   .cal-day { cursor: pointer; transition: background 0.1s; }
   .cal-day.has-events:hover { background: #fef9c3 !important; }
 
-  /* Day modal - fixed full screen, content scrolls */
+  /* Day modal - full-screen overlay covering entire viewport */
   .modal-backdrop {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7); z-index: 1000;
+    background: rgba(0,0,0,0.85); z-index: 9998;
     display: none;
   }
   .modal-backdrop.active { display: block; }
   .modal-content {
-    position: fixed;
-    top: 5vh; left: 50%; transform: translateX(-50%);
-    background: #f8f7f4; max-width: 800px; width: calc(100% - 32px);
-    border-radius: 14px; height: 90vh;
+    position: fixed; inset: 0;
+    background: #f8f7f4;
+    z-index: 9999;
     display: flex; flex-direction: column;
-    z-index: 1001;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  @media (min-width: 800px) {
+    .modal-content {
+      inset: 24px;
+      border-radius: 14px;
+      max-width: 900px; max-height: calc(100vh - 48px);
+      left: 50%; transform: translateX(-50%); width: calc(100% - 48px);
+    }
   }
   .modal-header {
-    flex: 0 0 auto; padding: 20px 56px 14px 24px;
+    flex: 0 0 auto; padding: 18px 56px 14px 22px;
     border-bottom: 1px solid #e5e5e5;
-    background: #f8f7f4; border-radius: 14px 14px 0 0;
+    background: #f8f7f4;
+    position: sticky; top: 0; z-index: 5;
   }
+  .modal-filters {
+    flex: 0 0 auto; padding: 10px 22px 10px;
+    background: #f8f7f4;
+    border-bottom: 1px solid #e5e5e5;
+    display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  }
+  .modal-filters .mfp { padding: 5px 12px; font-size: 12px; font-weight: 700; border:none; border-radius: 999px; cursor: pointer; }
+  .modal-filters select { padding: 5px 10px; font-size: 12px; border: 1px solid #e5e5e5; border-radius: 6px; background: #fff; cursor: pointer; }
   .modal-body {
     flex: 1 1 auto; overflow-y: auto;
-    padding: 16px 24px 24px;
+    padding: 0 22px 24px;
     -webkit-overflow-scrolling: touch;
   }
   .modal-close {
-    position: absolute; top: 14px; right: 14px;
+    position: absolute; top: 12px; right: 12px;
     width: 36px; height: 36px; border: none; border-radius: 999px;
     background: #1a1a1a; color: #fff; font-size: 20px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    z-index: 2;
+    z-index: 10;
   }
   body.modal-open { overflow: hidden; }
 
@@ -578,6 +592,7 @@ html += `
 <div id="day-modal-content" class="modal-content" style="display:none" onclick="event.stopPropagation()">
   <button class="modal-close" onclick="closeDayModal()">&times;</button>
   <div class="modal-header" id="day-modal-header"></div>
+  <div class="modal-filters" id="day-modal-filters"></div>
   <div class="modal-body" id="day-modal-body"></div>
 </div>
 
@@ -724,47 +739,97 @@ function renderBandChips(){
   box.innerHTML=chips.join('');
 }
 
-// Day modal
+// Day modal - has its own filter state
+var modalState = { date: null, cats: new Set(['music','comedy','broadway','off-broadway']), city: 'all' };
+
 function openDayModal(dateStr){
-  var evs=DAY_DATA[dateStr]||[];
-  // Apply current filters
-  var filtered=evs.filter(function(e){
-    if(!activeCategories.has(e.category))return false;
-    if(selectedBands.size>0){
-      var artists=e.artistKeys.split('|');
-      var match=false;
-      for(var a of artists){if(selectedBands.has(a)){match=true;break;}}
-      if(!match)return false;
+  modalState.date = dateStr;
+  modalState.cats = new Set(activeCategories); // start with global filters
+  modalState.city = 'all';
+  renderDayModal();
+  document.getElementById('day-modal').classList.add('active');
+  document.getElementById('day-modal-content').style.display='flex';
+  document.body.classList.add('modal-open');
+}
+
+function toggleModalCat(cat){
+  if(modalState.cats.has(cat)) modalState.cats.delete(cat);
+  else modalState.cats.add(cat);
+  renderDayModal();
+}
+function setModalCity(c){ modalState.city = c; renderDayModal(); }
+
+function renderDayModal(){
+  var dateStr = modalState.date;
+  if (!dateStr) return;
+  var evs = DAY_DATA[dateStr] || [];
+
+  // Apply modal-internal filters
+  var filtered = evs.filter(function(e){
+    if(!modalState.cats.has(e.category)) return false;
+    if(modalState.city !== 'all' && e.city !== modalState.city) return false;
+    if(selectedBands.size > 0){
+      var artists = e.artistKeys.split('|');
+      var match = false;
+      for (var a of artists) { if (selectedBands.has(a)) { match = true; break; } }
+      if(!match) return false;
     }
     return true;
   });
-  // Group by city alphabetically
-  var byCity={};
+
+  // Build city options from ALL events that day (not filtered) for the dropdown
+  var allCitiesInDay = [...new Set(evs.map(function(e){return e.city;}))].sort(function(a,b){
+    return (CITY_LABELS[a]||a).localeCompare(CITY_LABELS[b]||b);
+  });
+  var cityCounts = {};
+  evs.forEach(function(e){if(modalState.cats.has(e.category)) cityCounts[e.city]=(cityCounts[e.city]||0)+1;});
+
+  // Group filtered by city alphabetically
+  var byCity = {};
   filtered.forEach(function(e){if(!byCity[e.cityLabel])byCity[e.cityLabel]=[];byCity[e.cityLabel].push(e);});
-  var cities=Object.keys(byCity).sort();
+  var cities = Object.keys(byCity).sort();
 
-  var dt=new Date(dateStr+'T12:00:00');
-  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var dateLabel=days[dt.getDay()]+', '+months[dt.getMonth()]+' '+dt.getDate()+', 2026';
+  var dt = new Date(dateStr+'T12:00:00');
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var dateLabel = days[dt.getDay()]+', '+months[dt.getMonth()]+' '+dt.getDate()+', 2026';
 
-  var headerHtml='<h2 style="margin:0 0 4px;font-size:22px;font-weight:800">'+dateLabel+'</h2>'+
+  // Header
+  var headerHtml = '<h2 style="margin:0 0 4px;font-size:22px;font-weight:800">'+dateLabel+'</h2>'+
     '<div style="font-size:13px;color:#737373">'+filtered.length+' show'+(filtered.length!==1?'s':'')+' across '+cities.length+' cit'+(cities.length!==1?'ies':'y')+'</div>';
 
-  var bodyHtml='';
+  // Filter bar (category pills + city dropdown)
+  var filterHtml = '<span style="font-size:11px;font-weight:700;color:#737373;letter-spacing:0.5px;margin-right:4px">FILTER:</span>';
+  ['music','comedy','broadway','off-broadway'].forEach(function(c){
+    var info = CAT_INFO[c];
+    var active = modalState.cats.has(c);
+    var bg = active ? info.bg : '#e5e5e5';
+    var fg = active ? info.color : '#a3a3a3';
+    var op = active ? '1' : '0.6';
+    filterHtml += '<button class="mfp" onclick="toggleModalCat(\\''+c+'\\')" style="background:'+bg+';color:'+fg+';opacity:'+op+'">'+info.label+'</button>';
+  });
+  filterHtml += '<select onchange="setModalCity(this.value)" style="margin-left:6px"><option value="all">All cities ('+filtered.length+')</option>';
+  allCitiesInDay.forEach(function(c){
+    var sel = modalState.city===c ? ' selected' : '';
+    filterHtml += '<option value="'+c+'"'+sel+'>'+(CITY_LABELS[c]||c)+' ('+(cityCounts[c]||0)+')</option>';
+  });
+  filterHtml += '</select>';
+
+  // Body
+  var bodyHtml = '';
   if(filtered.length===0){
-    bodyHtml='<div style="padding:40px;text-align:center;color:#737373">No shows match your current filters.</div>';
+    bodyHtml = '<div style="padding:40px;text-align:center;color:#737373">No shows match your current filters.</div>';
   } else {
     cities.forEach(function(city){
-      var color=byCity[city][0].cityColor;
-      bodyHtml+='<h3 style="position:sticky;top:0;z-index:5;font-size:14px;font-weight:800;margin:16px 0 8px;padding:10px 12px;background:'+color+';color:#fff;border-radius:4px;box-shadow:0 2px 4px rgba(0,0,0,0.1)">'+city+' <span style="font-size:12px;font-weight:500;opacity:0.85;margin-left:6px">('+byCity[city].length+')</span></h3>';
+      var color = byCity[city][0].cityColor;
+      bodyHtml += '<h3 style="position:sticky;top:0;z-index:5;font-size:14px;font-weight:800;margin:14px 0 8px;padding:10px 12px;background:'+color+';color:#fff;border-radius:4px;box-shadow:0 2px 4px rgba(0,0,0,0.15)">'+city+' <span style="font-size:12px;font-weight:500;opacity:0.85;margin-left:6px">('+byCity[city].length+')</span></h3>';
       byCity[city].forEach(function(e){
-        var catInfo=CAT_INFO[e.category]||CAT_INFO.music;
-        var time=e.time?formatTime(e.time):'';
-        var primary=e.primary;
-        var supp=e.artists.length>1?' <span style="color:#525252">w/ '+e.artists.slice(1).join(', ')+'</span>':'';
-        var price=e.minPrice?'<span style="font-size:12px;color:#525252;margin-left:8px">From $'+Math.round(e.minPrice)+'</span>':'';
-        bodyHtml+='<div style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">'+
+        var catInfo = CAT_INFO[e.category]||CAT_INFO.music;
+        var time = e.time?formatTime(e.time):'';
+        var primary = e.primary;
+        var supp = e.artists.length>1 ? ' <span style="color:#525252">w/ '+e.artists.slice(1).join(', ')+'</span>' : '';
+        var price = e.minPrice ? '<span style="font-size:12px;color:#525252;margin-left:8px">From $'+Math.round(e.minPrice)+'</span>' : '';
+        bodyHtml += '<div style="background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">'+
           '<div style="flex:1;min-width:180px"><div style="font-size:15px;font-weight:700">'+primary+supp+' <span style="display:inline-block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 6px;border-radius:3px;background:'+catInfo.bg+';color:'+catInfo.color+';margin-left:4px">'+catInfo.label+'</span></div>'+
           '<div style="font-size:12px;color:#737373;margin-top:2px">'+(time?time+' · ':'')+e.venue+price+'</div></div>'+
           '<a href="'+e.url+'" target="_blank" rel="noopener noreferrer" style="padding:6px 12px;background:#1a1a1a;color:#fff;font-size:12px;font-weight:600;border-radius:5px;text-decoration:none">Tickets</a>'+
@@ -772,13 +837,13 @@ function openDayModal(dateStr){
       });
     });
   }
-  document.getElementById('day-modal-header').innerHTML=headerHtml;
-  document.getElementById('day-modal-body').innerHTML=bodyHtml;
-  document.getElementById('day-modal-body').scrollTop=0;
-  document.getElementById('day-modal').classList.add('active');
-  document.getElementById('day-modal-content').style.display='flex';
-  document.body.classList.add('modal-open');
+
+  document.getElementById('day-modal-header').innerHTML = headerHtml;
+  document.getElementById('day-modal-filters').innerHTML = filterHtml;
+  document.getElementById('day-modal-body').innerHTML = bodyHtml;
+  document.getElementById('day-modal-body').scrollTop = 0;
 }
+
 function closeDayModal(){
   document.getElementById('day-modal').classList.remove('active');
   document.getElementById('day-modal-content').style.display='none';
