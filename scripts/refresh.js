@@ -268,8 +268,8 @@ async function searchTM_Comedy(cityKey, cityInfo) {
     for (const ev of data._embedded.events) {
       const venue = (ev._embedded?.venues || [{}])[0];
       const vc = (venue.city?.name || '').toLowerCase();
-      const resolvedCity = VENUE_MAP[vc] || cityKey;
-      if (!US_CITIES[resolvedCity]) continue;
+      const resolvedCity = VENUE_MAP[vc];
+      if (!resolvedCity || !US_CITIES[resolvedCity]) continue;  // strict: must match venue map
       const attractions = ev._embedded?.attractions || [];
       let artists = attractions.map(a => a.name).filter(Boolean);
       if (artists.length === 0) artists = [ev.name || 'Comedy Show'];
@@ -313,8 +313,8 @@ async function searchTM_Theatre(cityKey, cityInfo) {
     for (const ev of data._embedded.events) {
       const venue = (ev._embedded?.venues || [{}])[0];
       const vc = (venue.city?.name || '').toLowerCase();
-      const resolvedCity = VENUE_MAP[vc] || cityKey;
-      if (!US_CITIES[resolvedCity]) continue;
+      const resolvedCity = VENUE_MAP[vc];
+      if (!resolvedCity || !US_CITIES[resolvedCity]) continue;  // strict: must match venue map
 
       const cat = classifyTheaterEvent(ev.name, venue.name);
       if (!cat) continue; // skip if not Broadway or Off-Broadway

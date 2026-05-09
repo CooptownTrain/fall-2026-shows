@@ -11,7 +11,7 @@ if (!SG_KEY) console.error('Warning: SG_KEY env var not set');
 
 const US_CITIES = {
   ac:           { kind: 'city', city: 'Atlantic City', state: 'NJ', label: 'Atlantic City, NJ', lat: 39.3643, lon: -74.4229, sgRange: '15mi' },
-  charleston:   { kind: 'dma',  dmaId: '225', label: 'Charleston, SC',           lat: 32.7765, lon: -79.9311, sgRange: '30mi' },
+  charleston:   { kind: 'city', city: 'Charleston', state: 'SC', label: 'Charleston, SC', lat: 32.7765, lon: -79.9311, sgRange: '30mi' },
   chicago:      { kind: 'dma',  dmaId: '249', label: 'Chicago, IL',              lat: 41.8781, lon: -87.6298, sgRange: '30mi' },
   denver:       { kind: 'dma',  dmaId: '264', label: 'Denver, CO',               lat: 39.7392, lon: -104.9903, sgRange: '30mi' },
   dc:           { kind: 'dma',  dmaId: '224', label: 'Washington, DC',           lat: 38.9072, lon: -77.0369, sgRange: '30mi' },
