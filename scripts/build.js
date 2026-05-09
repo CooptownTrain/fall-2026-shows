@@ -104,7 +104,7 @@ for (const ev of data) {
 // Apply per-city per-category caps to keep HTML size manageable
 // Priority: music gets no cap, comedy/broadway/off-broadway get capped
 // User said "focus more on concerts and less on broadway/comedy"
-const CAPS = { music: 99999, comedy: 60, broadway: 60, 'off-broadway': 40 };
+const CAPS = { music: 250, comedy: 50, broadway: 50, 'off-broadway': 30 };
 const grouped = {};
 for (const ev of events) {
   const k = ev.city + '|' + ev.category;
