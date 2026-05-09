@@ -75,16 +75,12 @@ async function searchTM_Music_US(cityKey, cityInfo) {
         const resolvedCity = VENUE_MAP[vc];
         if (!resolvedCity || !US_CITIES[resolvedCity]) continue;
         const attractions = ev._embedded?.attractions || [];
-        const matched = attractions.map(a => a.name).filter(isSelected);
-        const title = (ev.name || '').toLowerCase();
-        for (const sel of selected) {
-          if (sel.length > 4 && title.includes(sel.toLowerCase()) && !matched.some(a => a.toLowerCase() === sel.toLowerCase())) matched.push(sel);
-        }
-        if (matched.length === 0) continue;
+        let artists = attractions.map(a => a.name).filter(Boolean);
+        if (artists.length === 0) artists = [ev.name || 'Music Show'];
         const start = ev.dates?.start || {};
         const pr = ev.priceRanges || [];
         events.push({
-          id: ev.id, name: ev.name || '', artists: matched,
+          id: ev.id, name: ev.name || '', artists,
           date: start.localDate || '', time: start.localTime || '',
           venue: venue.name || '', venueCity: venue.city?.name || '',
           url: ev.url || '',
@@ -123,14 +119,10 @@ async function searchSG_Music_US(cityKey, cityInfo) {
       const resolvedCity = VENUE_MAP[vc];
       if (!resolvedCity || !US_CITIES[resolvedCity]) continue;
       const performers = ev.performers || [];
-      const matched = performers.map(p => p.name).filter(isSelected);
-      const title = (ev.title || '').toLowerCase();
-      for (const sel of selected) {
-        if (sel.length > 4 && title.includes(sel.toLowerCase()) && !matched.some(a => a.toLowerCase() === sel.toLowerCase())) matched.push(sel);
-      }
-      if (matched.length === 0) continue;
+      let artists = performers.map(p => p.name).filter(Boolean);
+      if (artists.length === 0) artists = [ev.title || 'Music Show'];
       events.push({
-        id: 'sg-' + ev.id, name: ev.title || '', artists: matched,
+        id: 'sg-' + ev.id, name: ev.title || '', artists,
         date: (ev.datetime_local || '').substring(0, 10),
         time: (ev.datetime_local || '').substring(11, 16),
         venue: venue.name || '', venueCity: venue.city || '',
@@ -171,16 +163,12 @@ async function searchTM_Music_EU(cityKey, cityInfo) {
       for (const ev of data._embedded.events) {
         const attractions = ev._embedded?.attractions || [];
         const venue = (ev._embedded?.venues || [{}])[0];
-        const matched = attractions.map(a => a.name).filter(isSelected);
-        const title = (ev.name || '').toLowerCase();
-        for (const sel of selected) {
-          if (sel.length > 4 && title.includes(sel.toLowerCase()) && !matched.some(a => a.toLowerCase() === sel.toLowerCase())) matched.push(sel);
-        }
-        if (matched.length === 0) continue;
+        let artists = attractions.map(a => a.name).filter(Boolean);
+        if (artists.length === 0) artists = [ev.name || 'Music Show'];
         const start = ev.dates?.start || {};
         const pr = ev.priceRanges || [];
         events.push({
-          id: ev.id, name: ev.name || '', artists: matched,
+          id: ev.id, name: ev.name || '', artists,
           date: start.localDate || '', time: start.localTime || '',
           venue: venue.name || '', venueCity: venue.city?.name || '',
           url: ev.url || '',
@@ -230,15 +218,11 @@ async function searchSongkick_EU(cityKey, cityInfo) {
               if (!date || (date < '2026-04-24') || (date > '2026-12-31')) continue;
               if (date >= '2026-05-01' && date < '2026-09-01') continue; // EU only Apr 24-30 & Sep-Dec
               const performers = Array.isArray(item.performer) ? item.performer : (item.performer ? [item.performer] : []);
-              const matched = performers.map(p => p.name || p).filter(isSelected);
-              const evName = item.name || '';
-              for (const sel of selected) {
-                if (sel.length > 4 && evName.toLowerCase().includes(sel.toLowerCase()) && !matched.some(a => a.toLowerCase() === sel.toLowerCase())) matched.push(sel);
-              }
-              if (matched.length === 0) continue;
+              let artists = performers.map(p => p.name || p).filter(Boolean);
+              if (artists.length === 0) artists = [item.name || 'Music Show'];
               events.push({
                 id: 'sk-' + (item.url || '').split('/').pop(),
-                name: item.name || '', artists: matched,
+                name: item.name || '', artists,
                 date, time: '',
                 venue: item.location?.name || '', venueCity: item.location?.address?.addressLocality || '',
                 url: item.url || '',

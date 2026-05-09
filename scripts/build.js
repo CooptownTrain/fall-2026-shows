@@ -90,22 +90,12 @@ const CAT_INFO = {
   'off-broadway':  { label: 'Off-Broadway',   color: '#581c87', bg: '#e9d5ff' },
 };
 
-// Filter & process
+// Process - accept all events (no artist filter)
 let events = [];
 for (const ev of data) {
-  const cleanArtists = [];
-  for (const a of (ev.artists || [])) {
-    if (selectedArtists.has(a.toLowerCase())) cleanArtists.push(a);
-  }
-  // For comedy/theater, accept all artists (no selection filter)
-  if (ev.category && ev.category !== 'music') {
-    if (cleanArtists.length === 0) cleanArtists.push(...(ev.artists || []));
-  }
-  if (cleanArtists.length === 0) continue;
+  if (!ev.artists || ev.artists.length === 0) continue;
   if (!CITY_ORDER.includes(ev.city)) continue;
-  // Filter past events
   if (ev.date < TODAY) continue;
-  ev.artists = cleanArtists;
   ev.region = EU_CITY_KEYS.includes(ev.city) ? 'EU' : 'US';
   if (!ev.category) ev.category = 'music';
   events.push(ev);
