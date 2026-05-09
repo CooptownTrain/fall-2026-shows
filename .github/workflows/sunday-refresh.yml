@@ -43,4 +43,11 @@ jobs:
           TOTAL=$(node -e "const m=JSON.parse(require('fs').readFileSync('data/last-refresh.json','utf8'));console.log(m.total||0)")
 
           git commit -m "Sunday refresh: $NEW_COUNT new shows · $TOTAL total"
-          git push
+
+          # Retry on concurrent push conflicts
+          for i in 1 2 3; do
+            if git push; then break; fi
+            echo "Push failed (attempt $i), pulling and retrying..."
+            git pull --rebase --autostash || true
+            sleep 2
+          done
