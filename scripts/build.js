@@ -430,8 +430,8 @@ html += `</select>
 <div style="max-width:900px;margin:14px auto 0;padding:0 16px">
   <div class="band-filter-panel">
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-      <span style="font-size:13px;font-weight:700;color:#1a1a1a">Filter by band:</span>
-      <input type="text" id="band-filter-input" placeholder="Type a band name..." oninput="updateBandSuggestions(this.value)" onfocus="updateBandSuggestions(this.value)" style="flex:1;min-width:140px;padding:6px 10px;font-size:13px;border:1px solid #e5e5e5;border-radius:6px;outline:none">
+      <span style="font-size:13px;font-weight:700;color:#1a1a1a">Filter by event:</span>
+      <input type="text" id="band-filter-input" placeholder="Type an event or artist name..." oninput="updateBandSuggestions(this.value)" onfocus="updateBandSuggestions(this.value)" style="flex:1;min-width:140px;padding:6px 10px;font-size:13px;border:1px solid #e5e5e5;border-radius:6px;outline:none">
       <button onclick="clearAllBands()" style="padding:6px 10px;font-size:11px;border:1px solid #e5e5e5;border-radius:6px;background:#f4f4f5;color:#737373;cursor:pointer">Clear</button>
     </div>
     <div id="band-chips" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px"></div>
