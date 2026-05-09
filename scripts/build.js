@@ -101,6 +101,34 @@ for (const ev of data) {
   events.push(ev);
 }
 
+// Apply per-city per-category caps to keep HTML size manageable
+// Priority: music gets no cap, comedy/broadway/off-broadway get capped
+// User said "focus more on concerts and less on broadway/comedy"
+const CAPS = { music: 99999, comedy: 60, broadway: 60, 'off-broadway': 40 };
+const grouped = {};
+for (const ev of events) {
+  const k = ev.city + '|' + ev.category;
+  if (!grouped[k]) grouped[k] = [];
+  grouped[k].push(ev);
+}
+const capped = [];
+for (const [k, list] of Object.entries(grouped)) {
+  const cat = k.split('|')[1];
+  const cap = CAPS[cat] || 9999;
+  // Sort by: selected artists first, then by minPrice desc (bigger acts first), then date
+  list.sort((a, b) => {
+    const aSel = a.artists.some(x => selectedArtists.has(x.toLowerCase())) ? 1 : 0;
+    const bSel = b.artists.some(x => selectedArtists.has(x.toLowerCase())) ? 1 : 0;
+    if (aSel !== bSel) return bSel - aSel;
+    const ap = a.minPrice || 0;
+    const bp = b.minPrice || 0;
+    if (ap !== bp) return bp - ap;
+    return a.date.localeCompare(b.date);
+  });
+  capped.push(...list.slice(0, cap));
+}
+events = capped;
+
 // Dedup - aggressive, normalize venue and artist
 function normalizeVenue(v) {
   return (v || '').toLowerCase()
