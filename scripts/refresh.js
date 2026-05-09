@@ -44,50 +44,60 @@ try {
 // ============================================================
 
 async function searchTM_Music_US(cityKey, cityInfo) {
+  // Date-chunk to bypass 1000-event API cap
+  const chunks = [
+    { start: '2026-05-01', end: '2026-06-30' },
+    { start: '2026-07-01', end: '2026-08-31' },
+    { start: '2026-09-01', end: '2026-10-31' },
+    { start: '2026-11-01', end: '2026-12-31' },
+  ];
   const events = [];
-  let page = 0;
-  while (page < 5) {
-    const params = new URLSearchParams({
-      apikey: TM_KEY,
-      classificationName: 'music',
-      startDateTime: '2026-05-01T00:00:00Z',
-      endDateTime: '2026-12-31T23:59:59Z',
-      size: '200', page: String(page), sort: 'date,asc',
-    });
-    if (cityInfo.kind === 'dma') params.set('dmaId', cityInfo.dmaId);
-    else { params.set('city', cityInfo.city); params.set('stateCode', cityInfo.state); }
-    const res = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?${params}`);
-    if (res.status === 429) { await sleep(2000); continue; }
-    if (!res.ok) break;
-    const data = await res.json();
-    if (!data._embedded || !data._embedded.events) break;
-    for (const ev of data._embedded.events) {
-      const venue = (ev._embedded?.venues || [{}])[0];
-      const vc = (venue.city?.name || '').toLowerCase();
-      const resolvedCity = VENUE_MAP[vc];
-      if (!resolvedCity || !US_CITIES[resolvedCity]) continue;
-      const attractions = ev._embedded?.attractions || [];
-      const matched = attractions.map(a => a.name).filter(isSelected);
-      const title = (ev.name || '').toLowerCase();
-      for (const sel of selected) {
-        if (sel.length > 4 && title.includes(sel.toLowerCase()) && !matched.some(a => a.toLowerCase() === sel.toLowerCase())) matched.push(sel);
-      }
-      if (matched.length === 0) continue;
-      const start = ev.dates?.start || {};
-      const pr = ev.priceRanges || [];
-      events.push({
-        id: ev.id, name: ev.name || '', artists: matched,
-        date: start.localDate || '', time: start.localTime || '',
-        venue: venue.name || '', venueCity: venue.city?.name || '',
-        url: ev.url || '',
-        minPrice: pr[0]?.min || null, maxPrice: pr[0]?.max || null,
-        city: resolvedCity, cityLabel: US_CITIES[resolvedCity].label, region: 'US',
-        source: 'ticketmaster', category: 'music',
+  for (const chunk of chunks) {
+    let page = 0;
+    while (page < 5) {
+      const params = new URLSearchParams({
+        apikey: TM_KEY,
+        classificationName: 'music',
+        startDateTime: chunk.start + 'T00:00:00Z',
+        endDateTime: chunk.end + 'T23:59:59Z',
+        size: '200', page: String(page), sort: 'date,asc',
       });
+      if (cityInfo.kind === 'dma') params.set('dmaId', cityInfo.dmaId);
+      else { params.set('city', cityInfo.city); params.set('stateCode', cityInfo.state); }
+      const res = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?${params}`);
+      if (res.status === 429) { await sleep(2000); continue; }
+      if (!res.ok) break;
+      const data = await res.json();
+      if (!data._embedded || !data._embedded.events) break;
+      for (const ev of data._embedded.events) {
+        const venue = (ev._embedded?.venues || [{}])[0];
+        const vc = (venue.city?.name || '').toLowerCase();
+        const resolvedCity = VENUE_MAP[vc];
+        if (!resolvedCity || !US_CITIES[resolvedCity]) continue;
+        const attractions = ev._embedded?.attractions || [];
+        const matched = attractions.map(a => a.name).filter(isSelected);
+        const title = (ev.name || '').toLowerCase();
+        for (const sel of selected) {
+          if (sel.length > 4 && title.includes(sel.toLowerCase()) && !matched.some(a => a.toLowerCase() === sel.toLowerCase())) matched.push(sel);
+        }
+        if (matched.length === 0) continue;
+        const start = ev.dates?.start || {};
+        const pr = ev.priceRanges || [];
+        events.push({
+          id: ev.id, name: ev.name || '', artists: matched,
+          date: start.localDate || '', time: start.localTime || '',
+          venue: venue.name || '', venueCity: venue.city?.name || '',
+          url: ev.url || '',
+          minPrice: pr[0]?.min || null, maxPrice: pr[0]?.max || null,
+          city: resolvedCity, cityLabel: US_CITIES[resolvedCity].label, region: 'US',
+          source: 'ticketmaster', category: 'music',
+        });
+      }
+      if (page >= (data.page?.totalPages || 1) - 1) break;
+      page++;
+      await sleep(250);
     }
-    if (page >= (data.page?.totalPages || 1) - 1) break;
-    page++;
-    await sleep(250);
+    await sleep(300);
   }
   return events;
 }
@@ -249,94 +259,112 @@ async function searchSongkick_EU(cityKey, cityInfo) {
 }
 
 async function searchTM_Comedy(cityKey, cityInfo) {
+  const chunks = [
+    { start: TODAY, end: '2026-06-30' },
+    { start: '2026-07-01', end: '2026-08-31' },
+    { start: '2026-09-01', end: '2026-10-31' },
+    { start: '2026-11-01', end: '2026-12-31' },
+  ];
   const events = [];
-  let page = 0;
-  while (page < 5) {
-    const params = new URLSearchParams({
-      apikey: TM_KEY, classificationName: 'Comedy',
-      startDateTime: TODAY + 'T00:00:00Z',
-      endDateTime: '2026-12-31T23:59:59Z',
-      size: '200', page: String(page), sort: 'date,asc',
-    });
-    if (cityInfo.kind === 'dma') params.set('dmaId', cityInfo.dmaId);
-    else { params.set('city', cityInfo.city); params.set('stateCode', cityInfo.state); }
-    const res = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?${params}`);
-    if (res.status === 429) { await sleep(2000); continue; }
-    if (!res.ok) break;
-    const data = await res.json();
-    if (!data._embedded?.events) break;
-    for (const ev of data._embedded.events) {
-      const venue = (ev._embedded?.venues || [{}])[0];
-      const vc = (venue.city?.name || '').toLowerCase();
-      const resolvedCity = VENUE_MAP[vc];
-      if (!resolvedCity || !US_CITIES[resolvedCity]) continue;  // strict: must match venue map
-      const attractions = ev._embedded?.attractions || [];
-      let artists = attractions.map(a => a.name).filter(Boolean);
-      if (artists.length === 0) artists = [ev.name || 'Comedy Show'];
-      const start = ev.dates?.start || {};
-      const pr = ev.priceRanges || [];
-      events.push({
-        id: ev.id, name: ev.name || '', artists,
-        date: start.localDate || '', time: start.localTime || '',
-        venue: venue.name || '', venueCity: venue.city?.name || '',
-        url: ev.url || '',
-        minPrice: pr[0]?.min || null,
-        city: resolvedCity, cityLabel: US_CITIES[resolvedCity].label, region: 'US',
-        source: 'ticketmaster', category: 'comedy',
+  for (const chunk of chunks) {
+    if (chunk.start > chunk.end) continue;
+    let page = 0;
+    while (page < 5) {
+      const params = new URLSearchParams({
+        apikey: TM_KEY, classificationName: 'Comedy',
+        startDateTime: chunk.start + 'T00:00:00Z',
+        endDateTime: chunk.end + 'T23:59:59Z',
+        size: '200', page: String(page), sort: 'date,asc',
       });
+      if (cityInfo.kind === 'dma') params.set('dmaId', cityInfo.dmaId);
+      else { params.set('city', cityInfo.city); params.set('stateCode', cityInfo.state); }
+      const res = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?${params}`);
+      if (res.status === 429) { await sleep(2000); continue; }
+      if (!res.ok) break;
+      const data = await res.json();
+      if (!data._embedded?.events) break;
+      for (const ev of data._embedded.events) {
+        const venue = (ev._embedded?.venues || [{}])[0];
+        const vc = (venue.city?.name || '').toLowerCase();
+        const resolvedCity = VENUE_MAP[vc];
+        if (!resolvedCity || !US_CITIES[resolvedCity]) continue;
+        const attractions = ev._embedded?.attractions || [];
+        let artists = attractions.map(a => a.name).filter(Boolean);
+        if (artists.length === 0) artists = [ev.name || 'Comedy Show'];
+        const start = ev.dates?.start || {};
+        const pr = ev.priceRanges || [];
+        events.push({
+          id: ev.id, name: ev.name || '', artists,
+          date: start.localDate || '', time: start.localTime || '',
+          venue: venue.name || '', venueCity: venue.city?.name || '',
+          url: ev.url || '',
+          minPrice: pr[0]?.min || null,
+          city: resolvedCity, cityLabel: US_CITIES[resolvedCity].label, region: 'US',
+          source: 'ticketmaster', category: 'comedy',
+        });
+      }
+      if (page >= (data.page?.totalPages || 1) - 1) break;
+      page++;
+      await sleep(250);
     }
-    if (page >= (data.page?.totalPages || 1) - 1) break;
-    page++;
-    await sleep(250);
+    await sleep(300);
   }
   return events;
 }
 
 // Theater pull (Arts & Theatre segment) - tagged broadway or off-broadway by venue
 async function searchTM_Theatre(cityKey, cityInfo) {
+  const chunks = [
+    { start: TODAY, end: '2026-06-30' },
+    { start: '2026-07-01', end: '2026-08-31' },
+    { start: '2026-09-01', end: '2026-10-31' },
+    { start: '2026-11-01', end: '2026-12-31' },
+  ];
   const events = [];
-  let page = 0;
-  while (page < 5) {
-    const params = new URLSearchParams({
-      apikey: TM_KEY, segmentName: 'Arts & Theatre',
-      startDateTime: TODAY + 'T00:00:00Z',
-      endDateTime: '2026-12-31T23:59:59Z',
-      size: '200', page: String(page), sort: 'date,asc',
-    });
-    if (cityInfo.kind === 'dma') params.set('dmaId', cityInfo.dmaId);
-    else { params.set('city', cityInfo.city); params.set('stateCode', cityInfo.state); }
-    const res = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?${params}`);
-    if (res.status === 429) { await sleep(2000); continue; }
-    if (!res.ok) break;
-    const data = await res.json();
-    if (!data._embedded?.events) break;
-    for (const ev of data._embedded.events) {
-      const venue = (ev._embedded?.venues || [{}])[0];
-      const vc = (venue.city?.name || '').toLowerCase();
-      const resolvedCity = VENUE_MAP[vc];
-      if (!resolvedCity || !US_CITIES[resolvedCity]) continue;  // strict: must match venue map
-
-      const cat = classifyTheaterEvent(ev.name, venue.name);
-      if (!cat) continue; // skip if not Broadway or Off-Broadway
-
-      const attractions = ev._embedded?.attractions || [];
-      let artists = attractions.map(a => a.name).filter(Boolean);
-      if (artists.length === 0) artists = [ev.name || 'Theater Show'];
-      const start = ev.dates?.start || {};
-      const pr = ev.priceRanges || [];
-      events.push({
-        id: ev.id, name: ev.name || '', artists,
-        date: start.localDate || '', time: start.localTime || '',
-        venue: venue.name || '', venueCity: venue.city?.name || '',
-        url: ev.url || '',
-        minPrice: pr[0]?.min || null,
-        city: resolvedCity, cityLabel: US_CITIES[resolvedCity].label, region: 'US',
-        source: 'ticketmaster', category: cat,  // 'broadway' or 'off-broadway'
+  for (const chunk of chunks) {
+    if (chunk.start > chunk.end) continue;
+    let page = 0;
+    while (page < 5) {
+      const params = new URLSearchParams({
+        apikey: TM_KEY, segmentName: 'Arts & Theatre',
+        startDateTime: chunk.start + 'T00:00:00Z',
+        endDateTime: chunk.end + 'T23:59:59Z',
+        size: '200', page: String(page), sort: 'date,asc',
       });
+      if (cityInfo.kind === 'dma') params.set('dmaId', cityInfo.dmaId);
+      else { params.set('city', cityInfo.city); params.set('stateCode', cityInfo.state); }
+      const res = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?${params}`);
+      if (res.status === 429) { await sleep(2000); continue; }
+      if (!res.ok) break;
+      const data = await res.json();
+      if (!data._embedded?.events) break;
+      for (const ev of data._embedded.events) {
+        const venue = (ev._embedded?.venues || [{}])[0];
+        const vc = (venue.city?.name || '').toLowerCase();
+        const resolvedCity = VENUE_MAP[vc];
+        if (!resolvedCity || !US_CITIES[resolvedCity]) continue;
+        const cat = classifyTheaterEvent(ev.name, venue.name);
+        if (!cat) continue;
+        const attractions = ev._embedded?.attractions || [];
+        let artists = attractions.map(a => a.name).filter(Boolean);
+        if (artists.length === 0) artists = [ev.name || 'Theater Show'];
+        const start = ev.dates?.start || {};
+        const pr = ev.priceRanges || [];
+        events.push({
+          id: ev.id, name: ev.name || '', artists,
+          date: start.localDate || '', time: start.localTime || '',
+          venue: venue.name || '', venueCity: venue.city?.name || '',
+          url: ev.url || '',
+          minPrice: pr[0]?.min || null,
+          city: resolvedCity, cityLabel: US_CITIES[resolvedCity].label, region: 'US',
+          source: 'ticketmaster', category: cat,
+        });
+      }
+      if (page >= (data.page?.totalPages || 1) - 1) break;
+      page++;
+      await sleep(250);
     }
-    if (page >= (data.page?.totalPages || 1) - 1) break;
-    page++;
-    await sleep(250);
+    await sleep(300);
   }
   return events;
 }
