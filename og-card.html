@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1200px; height: 630px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0a0a0a;
+    overflow: hidden;
+    position: relative;
+  }
+  .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(220, 38, 38, 0.55) 0%, transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(245, 158, 11, 0.5) 0%, transparent 50%),
+      radial-gradient(circle at 70% 90%, rgba(99, 102, 241, 0.55) 0%, transparent 55%),
+      radial-gradient(circle at 25% 85%, rgba(236, 72, 153, 0.45) 0%, transparent 50%),
+      #0a0a0a;
+  }
+  .noise {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.02) 50%, transparent 51%),
+      linear-gradient(-45deg, transparent 49%, rgba(255,255,255,0.02) 50%, transparent 51%);
+    background-size: 4px 4px;
+  }
+  .content {
+    position: absolute; inset: 0;
+    padding: 60px 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #fff;
+  }
+  .top { display: flex; align-items: center; gap: 14px; }
+  .badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #f8f7f4;
+  }
+  .live {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    background: rgba(220, 38, 38, 0.95);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .live::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .headline {
+    margin-top: 24px;
+    font-size: 140px;
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -5px;
+    background: linear-gradient(180deg, #fff 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subhead {
+    font-size: 38px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.92);
+    margin-top: 14px;
+    letter-spacing: -0.5px;
+  }
+  .categories {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+  .cat {
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+  }
+  .cat-music { background: #dbeafe; color: #1e3a8a; }
+  .cat-comedy { background: #fef3c7; color: #92400e; }
+  .cat-broadway { background: #fed7aa; color: #7c2d12; }
+  .cat-off { background: #e9d5ff; color: #581c87; }
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .stats {
+    display: flex;
+    gap: 36px;
+  }
+  .stat .n {
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1;
+    color: #fff;
+    letter-spacing: -2px;
+  }
+  .stat .l {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .cities {
+    text-align: right;
+    color: rgba(255,255,255,0.65);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+    max-width: 380px;
+  }
+  .cities .label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .cities .list {
+    color: rgba(255,255,255,0.88);
+  }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="noise"></div>
+<div class="content">
+  <div class="top">
+    <span class="badge">🎟 Tickets in one place</span>
+    <span class="live">Updated weekly</span>
+  </div>
+
+  <div>
+    <div class="headline">2026<br>SHOWS</div>
+    <div class="subhead">Music · Comedy · Broadway</div>
+    <div class="categories">
+      <span class="cat cat-music">🎵 Concerts</span>
+      <span class="cat cat-comedy">🎭 Comedy</span>
+      <span class="cat cat-broadway">Broadway</span>
+      <span class="cat cat-off">Off-Broadway</span>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="stats">
+      <div class="stat"><div class="n">4,300+</div><div class="l">Events</div></div>
+      <div class="stat"><div class="n">26</div><div class="l">Cities</div></div>
+      <div class="stat"><div class="n">9</div><div class="l">Countries</div></div>
+    </div>
+    <div class="cities">
+      <span class="label">Including</span>
+      <div class="list">NYC · LA · Chicago · Vegas · London · Paris · Berlin · and more</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

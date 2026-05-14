@@ -244,9 +244,25 @@ let html = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 Music and Theater Shows</title>
-<meta property="og:title" content="2026 Music and Theater Shows">
-<meta property="og:description" content="${events.length} shows. Music, Comedy, Broadway, Off-Broadway across 26 cities. Auto-refreshed weekly.">
+<title>2026 Shows · Concerts, Comedy, Broadway across 26 cities</title>
+<meta name="description" content="${events.length}+ events across 26 cities. Music, comedy, Broadway, Off-Broadway - all in one place. Auto-updated every Sunday.">
+<!-- Open Graph (iMessage, Slack, Discord, Facebook, LinkedIn) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cooptowntrain.github.io/fall-2026-shows/">
+<meta property="og:site_name" content="2026 Shows">
+<meta property="og:title" content="🎟 2026 Shows - Concerts, Comedy &amp; Broadway">
+<meta property="og:description" content="${events.length}+ events across 26 cities. NYC · LA · Chicago · Vegas · London · Paris and more. Updated weekly.">
+<meta property="og:image" content="https://cooptowntrain.github.io/fall-2026-shows/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="2026 Shows - Concerts, Comedy, Broadway - 4,300+ events across 26 cities">
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🎟 2026 Shows - Concerts, Comedy &amp; Broadway">
+<meta name="twitter:description" content="${events.length}+ events across 26 cities. Updated weekly.">
+<meta name="twitter:image" content="https://cooptowntrain.github.io/fall-2026-shows/og-card.png">
+<!-- Theme -->
+<meta name="theme-color" content="#0a0a0a">
 <style>
   * { box-sizing: border-box; }
   body { -webkit-text-size-adjust: 100%; }
