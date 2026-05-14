@@ -1001,5 +1001,12 @@ renderFavStars();updateFavCount();setRegion('us');
 </script>
 </body></html>`;
 
-fs.writeFileSync(path.join(REPO_ROOT, 'index.html'), html);
+// Write the full app to app.html (root index.html is a small share/preview page with OG meta)
+fs.writeFileSync(path.join(REPO_ROOT, 'app.html'), html);
+
+// Copy the share/preview index.html template to root index.html (if it exists)
+const SHARE_TEMPLATE = path.join(REPO_ROOT, 'index-template.html');
+if (fs.existsSync(SHARE_TEMPLATE)) {
+  fs.copyFileSync(SHARE_TEMPLATE, path.join(REPO_ROOT, 'index.html'));
+}
 console.log(`Built index.html: ${events.length} events, ${bandMap.size} artists | ${musicCount} music, ${comedyCount} comedy, ${broadwayCount} broadway, ${offBroadwayCount} off-broadway`);
