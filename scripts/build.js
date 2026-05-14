@@ -372,14 +372,14 @@ let html = `<!DOCTYPE html>
 <body style="margin:0;padding:0;background:#f8f7f4;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#1a1a1a;line-height:1.6">
 
 <!-- Compact sticky header: title + search in one row -->
-<div style="background:#1a1a1a;padding:10px 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+<div style="background:#1a1a1a;padding:10px 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center">
   <div style="flex:0 0 auto">
-    <div style="color:#f8f7f4;font-size:16px;font-weight:700;letter-spacing:-0.3px">2026 Shows</div>
-    <div style="color:#737373;font-size:11px">${events.length} events${lastRefreshMeta.timestamp ? ' · ' + new Date(lastRefreshMeta.timestamp).toLocaleDateString('en-US', {month:'short',day:'numeric'}) : ''}</div>
+    <div style="color:#f8f7f4;font-size:17px;font-weight:800;letter-spacing:-0.3px">🎟 2026 Shows</div>
+    <div style="color:#a3a3a3;font-size:11px">${events.length} events${lastRefreshMeta.timestamp ? ' · ' + new Date(lastRefreshMeta.timestamp).toLocaleDateString('en-US', {month:'short',day:'numeric'}) : ''}</div>
   </div>
-  <div style="flex:1 1 200px;min-width:160px;position:relative">
-    <input type="text" id="search-box" placeholder="Search artists, venues, cities..." oninput="handleSearch(this.value)" style="width:100%;padding:7px 12px 7px 32px;font-size:13px;border:1px solid #3f3f46;border-radius:6px;background:#27272a;color:#f8f7f4;outline:none">
-    <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px" fill="none" stroke="#737373" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+  <div style="flex:0 1 380px;width:380px;max-width:calc(100% - 16px);position:relative">
+    <input type="text" id="search-box" placeholder="Search artists, venues, cities..." oninput="handleSearch(this.value)" style="width:100%;padding:8px 12px 8px 34px;font-size:13px;border:1px solid #525258;border-radius:8px;background:#fff;color:#1a1a1a;outline:none;box-shadow:0 1px 3px rgba(0,0,0,0.2)">
+    <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px" fill="none" stroke="#737373" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
   </div>
 </div>
 
@@ -400,11 +400,11 @@ let html = `<!DOCTYPE html>
     <button onclick="setRegion('us')" id="region-us" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #f8f7f4;border-radius:5px;background:#f8f7f4;color:#1a1a1a;cursor:pointer">US</button>
     <button onclick="setRegion('eu')" id="region-eu" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #52525b;border-radius:5px;background:transparent;color:#e4e4e7;cursor:pointer">Int'l</button>
     <span style="width:1px;height:14px;background:#3f3f46;margin:0 3px"></span>
-    <button onclick="toggleMoreFilters()" id="more-filters-btn" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #52525b;border-radius:5px;background:transparent;color:#e4e4e7;cursor:pointer">⚙ Filters <span id="more-filters-count" style="display:none;color:#fbbf24"></span></button>
+    <button onclick="toggleMoreFilters()" id="more-filters-btn" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #f8f7f4;border-radius:5px;background:#f8f7f4;color:#1a1a1a;cursor:pointer">⚙ Filters <span id="more-filters-count" style="display:none;color:#fbbf24"></span></button>
   </div>
 
   <!-- Row 2: Advanced filters (collapsible) -->
-  <div id="more-filters-panel" style="display:none;padding:8px 12px 10px;background:#1f1f23;border-top:1px solid #3f3f46">
+  <div id="more-filters-panel" style="display:block;padding:8px 12px 10px;background:#1f1f23;border-top:1px solid #3f3f46">
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;max-width:1000px;margin:0 auto">
       <select id="city-jump-us" onchange="setCityFilter(this.value)" style="padding:5px 9px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:5px;background:#3f3f46;color:#e4e4e7;cursor:pointer">
         <option value="all">All US cities</option>`;
