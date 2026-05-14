@@ -198,8 +198,9 @@ function eventCard(ev, showCityTag) {
   const cat = ev.category || 'music';
   const catInfo = CAT_INFO[cat] || CAT_INFO.music;
   const allArtists = ev.artists.map(a => a.toLowerCase()).join('|');
+  const evMonth = ev.date ? ev.date.substring(0,7) : '';
   return `
-  <div class="event-card" data-fav-id="${favId}" data-category="${cat}" data-artist-keys="${allArtists}" data-city="${ev.city}" data-search="${(ev.artists.join(' ')+' '+ev.venue+' '+cityLabel).toLowerCase()}" style="background:#fff;border:1px solid #e5e5e5;border-radius:12px;margin-bottom:16px;padding:20px 24px">
+  <div class="event-card" data-fav-id="${favId}" data-category="${cat}" data-artist-keys="${allArtists}" data-city="${ev.city}" data-month="${evMonth}" data-search="${(ev.artists.join(' ')+' '+ev.venue+' '+cityLabel).toLowerCase()}" style="background:#fff;border:1px solid #e5e5e5;border-radius:12px;margin-bottom:16px;padding:20px 24px">
     <div class="event-flex" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
       <div style="flex:1;min-width:200px">
         <div class="fav-artist-row" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
@@ -386,8 +387,8 @@ let html = `<!DOCTYPE html>
   </div>
   <div id="city-nav" style="display:flex;flex-direction:column;align-items:center;gap:8px;max-width:900px;margin:0 auto">
     <div style="display:flex;justify-content:center;gap:8px;align-items:center;flex-wrap:wrap">
-      <select id="city-jump-us" onchange="if(this.value)scrollToCity(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:240px">
-        <option value="">Select a US city...</option>`;
+      <select id="city-jump-us" onchange="setCityFilter(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:240px">
+        <option value="all">All US cities</option>`;
 
 const usCities = CITY_ORDER.filter(c => !EU_CITY_KEYS.includes(c));
 const stateGroups = {};
@@ -405,8 +406,8 @@ for (const st of Object.keys(stateGroups).sort()) {
 }
 
 html += `</select>
-      <select id="city-jump-eu" onchange="if(this.value)scrollToCity(this.value)" style="display:none;padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:240px">
-        <option value="">Select a city...</option>`;
+      <select id="city-jump-eu" onchange="setCityFilter(this.value)" style="display:none;padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:240px">
+        <option value="all">All EU cities</option>`;
 
 const countryGroups = {};
 for (const c of EU_CITY_KEYS) {
@@ -422,6 +423,17 @@ for (const co of Object.keys(countryGroups).sort()) {
   html += `</optgroup>`;
 }
 html += `</select>
+      <select id="month-filter" onchange="setMonthFilter(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer">
+        <option value="all">All months</option>
+        <option value="2026-05">May 2026</option>
+        <option value="2026-06">June 2026</option>
+        <option value="2026-07">July 2026</option>
+        <option value="2026-08">August 2026</option>
+        <option value="2026-09">September 2026</option>
+        <option value="2026-10">October 2026</option>
+        <option value="2026-11">November 2026</option>
+        <option value="2026-12">December 2026</option>
+      </select>
     </div>
   </div>
 </div>
@@ -622,6 +634,22 @@ var CITY_COLORS = ${JSON.stringify(CITY_COLORS)};
 var CAT_INFO = ${JSON.stringify(CAT_INFO)};
 
 var currentView='city',currentRegion='us',currentCity=null;
+var cityFilter='all', monthFilter='all';
+
+function setMonthFilter(m){ monthFilter = m; applyAllFilters(); }
+function setCityFilter(c){
+  cityFilter = c;
+  applyAllFilters();
+  if (c && c !== 'all') {
+    setTimeout(function(){
+      var target = document.getElementById('city-' + c);
+      if (target && currentView === 'city') {
+        var navH = document.getElementById('nav-bar').offsetHeight;
+        window.scrollTo({top: target.getBoundingClientRect().top + window.pageYOffset - navH - 12, behavior: 'smooth'});
+      }
+    }, 50);
+  }
+}
 var activeCategories=new Set(['music','comedy','broadway','off-broadway']);
 var selectedBands=new Set(); // lowercase artist names
 var favFilterOn=false;
@@ -684,7 +712,11 @@ function applyAllFilters(){
   document.querySelectorAll('.event-card').forEach(function(el){
     var cat=el.getAttribute('data-category');
     var artists=el.getAttribute('data-artist-keys').split('|');
+    var evCity=el.getAttribute('data-city');
+    var evMonth=el.getAttribute('data-month');
     if(!activeCategories.has(cat)){el.style.display='none';return;}
+    if(cityFilter!=='all' && evCity!==cityFilter){el.style.display='none';return;}
+    if(monthFilter!=='all' && evMonth!==monthFilter){el.style.display='none';return;}
     if(selectedBands.size>0){
       var match=false;
       for(var a of artists){if(selectedBands.has(a)){match=true;break;}}
@@ -693,11 +725,22 @@ function applyAllFilters(){
     if(favFilterOn){var id=el.getAttribute('data-fav-id');if(!favs[id]){el.style.display='none';return;}}
     el.style.display='';
   });
+  // Hide city sections / band sections / month sections that have no visible events
+  document.querySelectorAll('.city-section, .band-section, .month-section').forEach(function(sec){
+    var visible = sec.querySelectorAll('.event-card');
+    var anyVisible = false;
+    for (var i = 0; i < visible.length; i++) {
+      if (visible[i].style.display !== 'none') { anyVisible = true; break; }
+    }
+    sec.style.display = anyVisible ? '' : 'none';
+  });
   // Calendar event filter
   document.querySelectorAll('.cal-event').forEach(function(el){
     var cat=el.getAttribute('data-cat');
     var artists=el.getAttribute('data-artists').split('|');
+    var evCity=el.getAttribute('data-city');
     if(!activeCategories.has(cat)){el.style.display='none';return;}
+    if(cityFilter!=='all' && evCity!==cityFilter){el.style.display='none';return;}
     if(selectedBands.size>0){
       var match=false;
       for(var a of artists){if(selectedBands.has(a)){match=true;break;}}
