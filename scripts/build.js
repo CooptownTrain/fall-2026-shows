@@ -355,39 +355,42 @@ let html = `<!DOCTYPE html>
 </head>
 <body style="margin:0;padding:0;background:#f8f7f4;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#1a1a1a;line-height:1.6">
 
-<div class="page-header" style="background:#1a1a1a;padding:32px 24px;text-align:center">
-  <h1 class="page-title" style="margin:0;color:#f8f7f4;font-size:28px;font-weight:700;letter-spacing:-0.5px">2026 Music and Theater Shows</h1>
-  <p style="margin:8px 0 0;color:#a3a3a3;font-size:14px">${events.length} shows &middot; ${musicCount} music &middot; ${comedyCount} comedy &middot; ${broadwayCount} Broadway &middot; ${offBroadwayCount} Off-Broadway${lastRefreshMeta.timestamp ? ' &middot; refreshed ' + new Date(lastRefreshMeta.timestamp).toLocaleDateString('en-US', {month:'short',day:'numeric'}) : ''}</p>
-</div>
-
-<div class="search-wrap" style="background:#1a1a1a;padding:0 24px 16px;text-align:center">
-  <div style="max-width:500px;margin:0 auto;position:relative">
-    <input type="text" id="search-box" placeholder="Search artists, venues, cities..." oninput="handleSearch(this.value)" style="width:100%;padding:10px 16px 10px 40px;font-size:15px;border:2px solid #3f3f46;border-radius:8px;background:#27272a;color:#f8f7f4;outline:none">
-    <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px" fill="none" stroke="#737373" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+<!-- Compact sticky header: title + search in one row -->
+<div style="background:#1a1a1a;padding:10px 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+  <div style="flex:0 0 auto">
+    <div style="color:#f8f7f4;font-size:16px;font-weight:700;letter-spacing:-0.3px">2026 Shows</div>
+    <div style="color:#737373;font-size:11px">${events.length} events${lastRefreshMeta.timestamp ? ' · ' + new Date(lastRefreshMeta.timestamp).toLocaleDateString('en-US', {month:'short',day:'numeric'}) : ''}</div>
+  </div>
+  <div style="flex:1 1 200px;min-width:160px;position:relative">
+    <input type="text" id="search-box" placeholder="Search artists, venues, cities..." oninput="handleSearch(this.value)" style="width:100%;padding:7px 12px 7px 32px;font-size:13px;border:1px solid #3f3f46;border-radius:6px;background:#27272a;color:#f8f7f4;outline:none">
+    <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px" fill="none" stroke="#737373" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
   </div>
 </div>
 
-<div style="background:#27272a;padding:12px 16px;text-align:center;position:sticky;top:0;z-index:100" id="nav-bar">
-  <!-- Multi-select category pills -->
-  <div style="display:flex;justify-content:center;gap:6px;margin-bottom:10px;flex-wrap:wrap">
-    <button onclick="toggleCategory('music')" id="cat-music" data-active="1" style="padding:7px 16px;font-size:13px;font-weight:800;border:none;border-radius:999px;background:#dbeafe;color:#1e3a8a;cursor:pointer">&#127925; Music (${musicCount})</button>
-    <button onclick="toggleCategory('comedy')" id="cat-comedy" data-active="1" style="padding:7px 16px;font-size:13px;font-weight:800;border:none;border-radius:999px;background:#fef3c7;color:#92400e;cursor:pointer">&#127917; Comedy (${comedyCount})</button>
-    <button onclick="toggleCategory('broadway')" id="cat-broadway" data-active="1" style="padding:7px 16px;font-size:13px;font-weight:800;border:none;border-radius:999px;background:#fed7aa;color:#7c2d12;cursor:pointer">Broadway (${broadwayCount})</button>
-    <button onclick="toggleCategory('off-broadway')" id="cat-off-broadway" data-active="1" style="padding:7px 16px;font-size:13px;font-weight:800;border:none;border-radius:999px;background:#e9d5ff;color:#581c87;cursor:pointer">Off-Broadway (${offBroadwayCount})</button>
+<!-- Sticky filter bar (compact, single row + collapsible advanced filters) -->
+<div style="background:#27272a;position:sticky;top:0;z-index:100;border-bottom:1px solid #3f3f46" id="nav-bar">
+  <!-- Row 1: category pills + view tabs + region tabs + more-filters toggle -->
+  <div style="display:flex;align-items:center;gap:5px;padding:7px 10px;flex-wrap:wrap;justify-content:center">
+    <button onclick="toggleCategory('music')" id="cat-music" data-active="1" style="padding:4px 10px;font-size:11px;font-weight:800;border:none;border-radius:999px;background:#dbeafe;color:#1e3a8a;cursor:pointer">&#127925; Music ${musicCount}</button>
+    <button onclick="toggleCategory('comedy')" id="cat-comedy" data-active="1" style="padding:4px 10px;font-size:11px;font-weight:800;border:none;border-radius:999px;background:#fef3c7;color:#92400e;cursor:pointer">&#127917; Comedy ${comedyCount}</button>
+    <button onclick="toggleCategory('broadway')" id="cat-broadway" data-active="1" style="padding:4px 10px;font-size:11px;font-weight:800;border:none;border-radius:999px;background:#fed7aa;color:#7c2d12;cursor:pointer">B'way ${broadwayCount}</button>
+    <button onclick="toggleCategory('off-broadway')" id="cat-off-broadway" data-active="1" style="padding:4px 10px;font-size:11px;font-weight:800;border:none;border-radius:999px;background:#e9d5ff;color:#581c87;cursor:pointer">Off-B'way ${offBroadwayCount}</button>
+    <span style="width:1px;height:14px;background:#3f3f46;margin:0 3px"></span>
+    <button onclick="setView('city')" id="view-city" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #f8f7f4;border-radius:5px;background:#f8f7f4;color:#1a1a1a;cursor:pointer">City</button>
+    <button onclick="setView('band')" id="view-band" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #52525b;border-radius:5px;background:transparent;color:#e4e4e7;cursor:pointer">Band</button>
+    <button onclick="setView('month')" id="view-month" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #52525b;border-radius:5px;background:transparent;color:#e4e4e7;cursor:pointer">Month</button>
+    <button onclick="setView('calendar')" id="view-calendar" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #52525b;border-radius:5px;background:transparent;color:#e4e4e7;cursor:pointer">Calendar</button>
+    <span style="width:1px;height:14px;background:#3f3f46;margin:0 3px"></span>
+    <button onclick="setRegion('us')" id="region-us" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #f8f7f4;border-radius:5px;background:#f8f7f4;color:#1a1a1a;cursor:pointer">US</button>
+    <button onclick="setRegion('eu')" id="region-eu" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #52525b;border-radius:5px;background:transparent;color:#e4e4e7;cursor:pointer">Int'l</button>
+    <span style="width:1px;height:14px;background:#3f3f46;margin:0 3px"></span>
+    <button onclick="toggleMoreFilters()" id="more-filters-btn" style="padding:4px 10px;font-size:11px;font-weight:700;border:1px solid #52525b;border-radius:5px;background:transparent;color:#e4e4e7;cursor:pointer">⚙ Filters <span id="more-filters-count" style="display:none;color:#fbbf24"></span></button>
   </div>
-  <!-- View buttons + Region -->
-  <div class="view-tabs" style="display:flex;justify-content:center;gap:4px;margin-bottom:8px;flex-wrap:wrap;align-items:center">
-    <button onclick="setView('city')" id="view-city" style="padding:6px 18px;font-size:13px;font-weight:700;border:2px solid #f8f7f4;border-radius:6px;background:#f8f7f4;color:#1a1a1a;cursor:pointer">By City</button>
-    <button onclick="setView('band')" id="view-band" style="padding:6px 18px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer">By Band</button>
-    <button onclick="setView('month')" id="view-month" style="padding:6px 18px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer">By Month</button>
-    <button onclick="setView('calendar')" id="view-calendar" style="padding:6px 18px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer">Calendar</button>
-    <span style="width:1px;height:20px;background:#52525b;margin:0 6px"></span>
-    <button onclick="setRegion('us')" id="region-us" style="padding:6px 18px;font-size:13px;font-weight:700;border:2px solid #f8f7f4;border-radius:6px;background:#f8f7f4;color:#1a1a1a;cursor:pointer">US</button>
-    <button onclick="setRegion('eu')" id="region-eu" style="padding:6px 18px;font-size:13px;font-weight:700;border:2px solid #52525b;border-radius:6px;background:transparent;color:#e4e4e7;cursor:pointer">International</button>
-  </div>
-  <div id="city-nav" style="display:flex;flex-direction:column;align-items:center;gap:8px;max-width:900px;margin:0 auto">
-    <div style="display:flex;justify-content:center;gap:8px;align-items:center;flex-wrap:wrap">
-      <select id="city-jump-us" onchange="setCityFilter(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:240px">
+
+  <!-- Row 2: Advanced filters (collapsible) -->
+  <div id="more-filters-panel" style="display:none;padding:8px 12px 10px;background:#1f1f23;border-top:1px solid #3f3f46">
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;max-width:1000px;margin:0 auto">
+      <select id="city-jump-us" onchange="setCityFilter(this.value)" style="padding:5px 9px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:5px;background:#3f3f46;color:#e4e4e7;cursor:pointer">
         <option value="all">All US cities</option>`;
 
 const usCities = CITY_ORDER.filter(c => !EU_CITY_KEYS.includes(c));
@@ -406,7 +409,7 @@ for (const st of Object.keys(stateGroups).sort()) {
 }
 
 html += `</select>
-      <select id="city-jump-eu" onchange="setCityFilter(this.value)" style="display:none;padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer;min-width:240px">
+      <select id="city-jump-eu" onchange="setCityFilter(this.value)" style="display:none;padding:5px 9px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:5px;background:#3f3f46;color:#e4e4e7;cursor:pointer">
         <option value="all">All EU cities</option>`;
 
 const countryGroups = {};
@@ -423,50 +426,36 @@ for (const co of Object.keys(countryGroups).sort()) {
   html += `</optgroup>`;
 }
 html += `</select>
-      <select id="month-filter" onchange="setMonthFilter(this.value)" style="padding:8px 14px;font-size:14px;font-weight:600;border:2px solid #52525b;border-radius:6px;background:#3f3f46;color:#e4e4e7;cursor:pointer">
+      <select id="month-filter" onchange="setMonthFilter(this.value)" style="padding:5px 9px;font-size:12px;font-weight:600;border:1px solid #52525b;border-radius:5px;background:#3f3f46;color:#e4e4e7;cursor:pointer">
         <option value="all">All months</option>
-        <option value="2026-05">May 2026</option>
-        <option value="2026-06">June 2026</option>
-        <option value="2026-07">July 2026</option>
-        <option value="2026-08">August 2026</option>
-        <option value="2026-09">September 2026</option>
-        <option value="2026-10">October 2026</option>
-        <option value="2026-11">November 2026</option>
-        <option value="2026-12">December 2026</option>
+        <option value="2026-05">May</option>
+        <option value="2026-06">June</option>
+        <option value="2026-07">July</option>
+        <option value="2026-08">August</option>
+        <option value="2026-09">September</option>
+        <option value="2026-10">October</option>
+        <option value="2026-11">November</option>
+        <option value="2026-12">December</option>
       </select>
+      <div style="flex:1;min-width:160px;position:relative">
+        <input type="text" id="band-filter-input" placeholder="Filter by event/artist..." oninput="updateBandSuggestions(this.value)" onfocus="updateBandSuggestions(this.value)" style="width:100%;padding:5px 9px;font-size:12px;border:1px solid #52525b;border-radius:5px;background:#3f3f46;color:#e4e4e7;outline:none">
+        <div id="band-suggestions" class="band-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:200"></div>
+      </div>
+      <button onclick="toggleFavFilter()" id="fav-filter-btn" style="padding:5px 9px;font-size:11px;font-weight:700;border:1px solid #52525b;border-radius:5px;background:transparent;color:#e4e4e7;cursor:pointer">☆ Favs</button>
+      <button onclick="clearAllFilters()" style="padding:5px 9px;font-size:11px;font-weight:500;border:1px solid #52525b;border-radius:5px;background:transparent;color:#a3a3a3;cursor:pointer">Clear</button>
     </div>
+    <div id="band-chips" style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;justify-content:center"></div>
   </div>
 </div>
 
-<!-- Multi-band filter (always visible) -->
-<div style="max-width:900px;margin:14px auto 0;padding:0 16px">
-  <div class="band-filter-panel">
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-      <span style="font-size:13px;font-weight:700;color:#1a1a1a">Filter by event:</span>
-      <input type="text" id="band-filter-input" placeholder="Type an event or artist name..." oninput="updateBandSuggestions(this.value)" onfocus="updateBandSuggestions(this.value)" style="flex:1;min-width:140px;padding:6px 10px;font-size:13px;border:1px solid #e5e5e5;border-radius:6px;outline:none">
-      <button onclick="clearAllBands()" style="padding:6px 10px;font-size:11px;border:1px solid #e5e5e5;border-radius:6px;background:#f4f4f5;color:#737373;cursor:pointer">Clear</button>
-    </div>
-    <div id="band-chips" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px"></div>
-    <div id="band-suggestions" class="band-suggestions" style="display:none"></div>
-  </div>
+<!-- Active filter chips bar (always visible when filters active) -->
+<div id="active-filters-bar" style="display:none;background:#fef9c3;padding:6px 14px;font-size:12px;border-bottom:1px solid #fde68a">
+  <div id="active-filters-content" style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center"></div>
 </div>
 
-<!-- Favorites bar -->
-<div style="max-width:900px;margin:10px auto 0;padding:0 16px">
-  <div class="fav-bar" style="background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:12px 18px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-      <span style="font-size:18px">&#9733;</span>
-      <span style="font-size:13px;font-weight:600">Click the star to favorite.</span>
-      <span id="fav-count" style="font-size:12px;color:#737373">0 favorites</span>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button onclick="toggleFavFilter()" id="fav-filter-btn" style="padding:7px 14px;font-size:12px;font-weight:700;border:2px solid #e5e5e5;border-radius:6px;background:#fff;color:#1a1a1a;cursor:pointer">Favorites Only</button>
-      <button onclick="clearAllFavs()" style="padding:7px 12px;font-size:11px;font-weight:500;border:1px solid #e5e5e5;border-radius:6px;background:#f4f4f5;color:#737373;cursor:pointer">Clear Favs</button>
-    </div>
-  </div>
-</div>
+<span id="fav-count" style="display:none">0 favorites</span>
 
-<div class="main-container" style="max-width:900px;margin:0 auto;padding:16px">
+<div class="main-container" style="max-width:900px;margin:0 auto;padding:14px">
 <div id="view-city-content" class="view-section active">
 `;
 
@@ -636,10 +625,11 @@ var CAT_INFO = ${JSON.stringify(CAT_INFO)};
 var currentView='city',currentRegion='us',currentCity=null;
 var cityFilter='all', monthFilter='all';
 
-function setMonthFilter(m){ monthFilter = m; applyAllFilters(); }
+function setMonthFilter(m){ monthFilter = m; applyAllFilters(); updateActiveFiltersBar(); }
 function setCityFilter(c){
   cityFilter = c;
   applyAllFilters();
+  updateActiveFiltersBar();
   if (c && c !== 'all') {
     setTimeout(function(){
       var target = document.getElementById('city-' + c);
@@ -648,6 +638,58 @@ function setCityFilter(c){
         window.scrollTo({top: target.getBoundingClientRect().top + window.pageYOffset - navH - 12, behavior: 'smooth'});
       }
     }, 50);
+  }
+}
+function toggleMoreFilters(){
+  var p = document.getElementById('more-filters-panel');
+  var btn = document.getElementById('more-filters-btn');
+  if (p.style.display === 'none' || !p.style.display) {
+    p.style.display = 'block';
+    btn.style.background = '#f8f7f4';
+    btn.style.color = '#1a1a1a';
+    btn.style.borderColor = '#f8f7f4';
+  } else {
+    p.style.display = 'none';
+    btn.style.background = 'transparent';
+    btn.style.color = '#e4e4e7';
+    btn.style.borderColor = '#52525b';
+  }
+}
+function clearAllFilters(){
+  cityFilter = 'all'; monthFilter = 'all';
+  document.getElementById('city-jump-us').value = 'all';
+  document.getElementById('city-jump-eu').value = 'all';
+  document.getElementById('month-filter').value = 'all';
+  selectedBands.clear();
+  renderBandChips();
+  if (favFilterOn) toggleFavFilter();
+  applyAllFilters();
+  updateActiveFiltersBar();
+}
+function updateActiveFiltersBar(){
+  var bar = document.getElementById('active-filters-bar');
+  var content = document.getElementById('active-filters-content');
+  var chips = [];
+  if (cityFilter !== 'all') {
+    var cityLabel = CITY_LABELS[cityFilter] || cityFilter;
+    chips.push('<span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">📍 '+cityLabel+' <button onclick="setCityFilter(\\'all\\');document.getElementById(\\'city-jump-us\\').value=\\'all\\';document.getElementById(\\'city-jump-eu\\').value=\\'all\\';" style="background:none;border:none;color:#fff;cursor:pointer;font-size:13px;padding:0 0 0 4px">×</button></span>');
+  }
+  if (monthFilter !== 'all') {
+    var monthNames = {'2026-05':'May','2026-06':'June','2026-07':'July','2026-08':'August','2026-09':'September','2026-10':'October','2026-11':'November','2026-12':'December'};
+    chips.push('<span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">📅 '+(monthNames[monthFilter]||monthFilter)+' <button onclick="setMonthFilter(\\'all\\');document.getElementById(\\'month-filter\\').value=\\'all\\';" style="background:none;border:none;color:#fff;cursor:pointer;font-size:13px;padding:0 0 0 4px">×</button></span>');
+  }
+  selectedBands.forEach(function(b){
+    var name = ALL_BANDS.find(function(x){return x.lower===b;});
+    var label = name ? name.name : b;
+    chips.push('<span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">🎤 '+label+' <button onclick="removeBand(\\''+b.replace(/\\\\/g,"\\\\\\\\").replace(/\\x27/g,"\\\\\\x27")+'\\')" style="background:none;border:none;color:#fff;cursor:pointer;font-size:13px;padding:0 0 0 4px">×</button></span>');
+  });
+  if (favFilterOn) chips.push('<span style="background:#f59e0b;color:#fff;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">★ Favorites only</span>');
+  if (chips.length > 0) {
+    chips.push('<button onclick="clearAllFilters()" style="background:none;border:none;color:#92400e;cursor:pointer;font-size:11px;font-weight:600;text-decoration:underline">clear all</button>');
+    content.innerHTML = chips.join('');
+    bar.style.display = 'block';
+  } else {
+    bar.style.display = 'none';
   }
 }
 var activeCategories=new Set(['music','comedy','broadway','off-broadway']);
@@ -777,16 +819,19 @@ function addBand(lower,name){
   document.getElementById('band-suggestions').style.display='none';
   renderBandChips();
   applyAllFilters();
+  updateActiveFiltersBar();
 }
 function removeBand(lower){
   selectedBands.delete(lower);
   renderBandChips();
   applyAllFilters();
+  updateActiveFiltersBar();
 }
 function clearAllBands(){
   selectedBands.clear();
   renderBandChips();
   applyAllFilters();
+  updateActiveFiltersBar();
 }
 function renderBandChips(){
   var box=document.getElementById('band-chips');
@@ -922,7 +967,7 @@ function saveFavs(){localStorage.setItem('concert-favs',JSON.stringify(favs));up
 function updateFavCount(){var c=Object.keys(favs).length;var el=document.getElementById('fav-count');if(el)el.textContent=c+' favorite'+(c!==1?'s':'');}
 function toggleFav(id){if(favs[id])delete favs[id];else favs[id]=true;saveFavs();renderFavStars();applyAllFilters();}
 function renderFavStars(){document.querySelectorAll('.fav-btn').forEach(function(b){var id=b.getAttribute('data-fav');b.innerHTML=favs[id]?'&#9733;':'&#9734;';b.style.color=favs[id]?'#f59e0b':'#d4d4d4';});}
-function toggleFavFilter(){favFilterOn=!favFilterOn;var b=document.getElementById('fav-filter-btn');if(favFilterOn){b.textContent='Show All';b.style.background='#1a1a1a';b.style.color='#fff';b.style.borderColor='#1a1a1a';}else{b.textContent='Favorites Only';b.style.background='#fff';b.style.color='#1a1a1a';b.style.borderColor='#e5e5e5';}applyAllFilters();}
+function toggleFavFilter(){favFilterOn=!favFilterOn;var b=document.getElementById('fav-filter-btn');if(favFilterOn){b.textContent='★ Favs';b.style.background='#f59e0b';b.style.color='#fff';b.style.borderColor='#f59e0b';}else{b.textContent='☆ Favs';b.style.background='transparent';b.style.color='#e4e4e7';b.style.borderColor='#52525b';}applyAllFilters();updateActiveFiltersBar();}
 function clearAllFavs(){favs={};saveFavs();renderFavStars();applyAllFilters();}
 function handleSearch(q){q=q.toLowerCase().trim();document.querySelectorAll('.event-card').forEach(function(el){var d=el.getAttribute('data-search')||'';el.style.display=(!q||d.includes(q))?'':'none';});}
 
