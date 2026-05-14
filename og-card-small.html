@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 600px; height: 600px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0a0a0a;
+    overflow: hidden;
+    position: relative;
+  }
+  .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 20% 25%, rgba(220, 38, 38, 0.55) 0%, transparent 50%),
+      radial-gradient(circle at 85% 35%, rgba(245, 158, 11, 0.5) 0%, transparent 50%),
+      radial-gradient(circle at 70% 90%, rgba(99, 102, 241, 0.55) 0%, transparent 55%),
+      radial-gradient(circle at 25% 85%, rgba(236, 72, 153, 0.45) 0%, transparent 50%),
+      #0a0a0a;
+  }
+  .content {
+    position: absolute; inset: 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #fff;
+    text-align: center;
+    align-items: center;
+  }
+  .top {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 5px 12px;
+    background: rgba(220, 38, 38, 0.95);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .top::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .headline {
+    font-size: 90px;
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -3px;
+    background: linear-gradient(180deg, #fff 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subhead {
+    font-size: 22px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.92);
+    margin-top: 10px;
+    letter-spacing: -0.3px;
+  }
+  .categories {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  .cat {
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+  }
+  .cat-music { background: #dbeafe; color: #1e3a8a; }
+  .cat-comedy { background: #fef3c7; color: #92400e; }
+  .cat-broadway { background: #fed7aa; color: #7c2d12; }
+  .cat-off { background: #e9d5ff; color: #581c87; }
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+  }
+  .stat .n {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1;
+    color: #fff;
+    letter-spacing: -1px;
+  }
+  .stat .l {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="content">
+  <div class="top">Updated weekly</div>
+
+  <div>
+    <div class="headline">2026<br>SHOWS</div>
+    <div class="subhead">Music · Comedy · Broadway</div>
+    <div class="categories">
+      <span class="cat cat-music">🎵 Concerts</span>
+      <span class="cat cat-comedy">🎭 Comedy</span>
+      <span class="cat cat-broadway">Broadway</span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">4,300+</div><div class="l">Events</div></div>
+    <div class="stat"><div class="n">26</div><div class="l">Cities</div></div>
+  </div>
+</div>
+</body>
+</html>
