@@ -11,6 +11,11 @@ const path = require('path');
 const REPO_ROOT = path.join(__dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data', 'concert-results.json'), 'utf8'));
 const selectedArtists = new Set(JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'data', 'selected-artists.json'),'utf8')).map(a => a.toLowerCase()));
+// Share feature client script, injected verbatim into app.html (relies on globals: favs, SHARE_DATA)
+const shareClientJs = fs.readFileSync(path.join(REPO_ROOT, 'scripts', 'share-client.js'), 'utf8');
+
+// Stable per-event id, shared by the favorite star and the share list
+const favIdOf = ev => (ev.date + '-' + ev.artists[0] + '-' + ev.city).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
 const TODAY = new Date().toISOString().substring(0, 10);
 const TODAY_MONTH = parseInt(TODAY.substring(5, 7));
@@ -181,7 +186,7 @@ function eventCard(ev, showCityTag) {
   const price = formatPrice(ev);
   const primary = ev.artists[0];
   const supporting = ev.artists.slice(1);
-  const favId = (ev.date + '-' + primary + '-' + ev.city).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const favId = favIdOf(ev);
   const cc = CITY_COLORS[ev.city] || '#525252';
   const cityLabel = CITY_LABELS[ev.city] || ev.cityLabel;
   const primaryUrl = getArtistUrl(primary);
@@ -366,6 +371,41 @@ let html = `<!DOCTYPE html>
     .city-section h2 { font-size: 19px !important; }
     .calendar-grid { grid-template-columns: repeat(7, minmax(50px, 1fr)) !important; font-size: 10px !important; }
     .modal-content { padding: 16px 18px; }
+  }
+
+  /* Share feature */
+  #share-fab {
+    position: fixed; right: 16px; bottom: 16px; z-index: 400;
+    background: #ed1b2e; color: #fff; border: none; border-radius: 999px;
+    padding: 13px 20px; font-size: 15px; font-weight: 800; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3); line-height: 1;
+  }
+  #share-fab:hover { background: #c81525; }
+  #share-modal-content .sh-seg { display: flex; gap: 6px; background: #efeae4; border: 1px solid #e5e5e5; border-radius: 10px; padding: 4px; }
+  #share-modal-content .sh-seg button { flex: 1; border: none; background: none; color: #737373; font-weight: 700; font-size: 13px; padding: 9px; border-radius: 7px; cursor: pointer; min-height: 42px; }
+  #share-modal-content .sh-seg button.on { background: #1a1a1a; color: #fff; }
+  .sh-list { border: 1px solid #e5e5e5; border-radius: 10px; overflow: hidden; }
+  .sh-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
+  .sh-item:last-child { border-bottom: none; }
+  .sh-item input { width: 20px; height: 20px; margin-top: 1px; accent-color: #ed1b2e; flex: none; }
+  .sh-item.off { opacity: 0.4; }
+  .sh-item .sh-a { font-weight: 700; font-size: 15px; }
+  .sh-item .sh-d { font-size: 13px; color: #737373; }
+  .sh-preview { background: #fff; color: #111; border: 1px solid #e5e5e5; border-radius: 10px; padding: 14px; max-height: 34vh; overflow: auto; }
+  .sh-preview.text { background: #111; color: #e8e8e8; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; white-space: pre-wrap; word-break: break-word; }
+  .sh-empty { color: #737373; padding: 20px; text-align: center; }
+
+  @media print {
+    #share-fab { display: none !important; }
+    body.printing-share > * { display: none !important; }
+    body.printing-share #share-print { display: block !important; }
+    #share-print { color: #000; font-family: Georgia, 'Times New Roman', serif; }
+    #share-print h2 { font-size: 20px; margin: 0 0 4px; }
+    #share-print .sp-meta { color: #555; font-size: 12px; margin-bottom: 16px; }
+    #share-print .sp-item { padding: 10px 0; border-bottom: 1px solid #ccc; }
+    #share-print .sp-a { font-weight: 700; font-size: 15px; }
+    #share-print .sp-d { font-size: 13px; color: #333; }
+    #share-print a { color: #000; text-decoration: none; font-size: 12px; word-break: break-all; }
   }
 </style>
 </head>
@@ -621,6 +661,23 @@ const allBandsForFilter = bandsAlpha.map(([name, evs]) => ({
   name, lower: name.toLowerCase(), count: evs.length,
 }));
 
+// Share data: structured record per event, keyed by the same favId the star uses
+const shareData = {};
+for (const ev of events) {
+  shareData[favIdOf(ev)] = {
+    a: ev.artists[0],
+    w: ev.artists.slice(1),
+    v: ev.venue || '',
+    vc: ev.venueCity || '',
+    c: CITY_LABELS[ev.city] || ev.cityLabel || '',
+    d: ev.date || '',
+    dl: formatDate(ev.date) + (ev.date ? ', ' + ev.date.substring(0, 4) : ''),
+    p: formatPrice(ev),
+    u: ev.url || '',
+    cat: ev.category || 'music',
+  };
+}
+
 html += `
 <!-- Day Modal -->
 <div id="day-modal" class="modal-backdrop" onclick="closeDayModal()"></div>
@@ -631,12 +688,44 @@ html += `
   <div class="modal-body" id="day-modal-body"></div>
 </div>
 
+<!-- Share: floating button + preview panel + print target + toast -->
+<button id="share-fab" onclick="openShare()" title="Share selected shows">&#128228; Share</button>
+<div id="share-modal" class="modal-backdrop" onclick="closeShare()"></div>
+<div id="share-modal-content" class="modal-content" style="display:none" onclick="event.stopPropagation()">
+  <button class="modal-close" onclick="closeShare()">&times;</button>
+  <div class="modal-header">
+    <h2 style="margin:0 0 4px;font-size:20px;font-weight:800">Share shows</h2>
+    <div style="font-size:13px;color:#737373">Pick a list, preview it, then copy into an email or text, or print.</div>
+  </div>
+  <div class="modal-body" style="padding:16px 22px 22px">
+    <div class="sh-seg" id="sh-source">
+      <button id="sh-src-fav" onclick="setShareSource('fav')">&#9733; My favorites</button>
+      <button id="sh-src-shown" onclick="setShareSource('shown')">&#9636; Currently shown</button>
+    </div>
+    <div id="sh-count" style="font-size:13px;color:#525252;margin:12px 2px 4px;font-weight:600"></div>
+    <div id="sh-list" class="sh-list"></div>
+    <div class="sh-seg" id="sh-format" style="margin-top:14px">
+      <button id="sh-fmt-email" onclick="setShareFormat('email')">&#9993;&#65039; Email look</button>
+      <button id="sh-fmt-text" onclick="setShareFormat('text')">&#128172; Text look</button>
+    </div>
+    <div id="sh-note" style="font-size:12px;color:#737373;margin:8px 2px"></div>
+    <div id="sh-preview" class="sh-preview"></div>
+    <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+      <button onclick="shareCopy()" id="sh-copy" style="flex:1;min-width:130px;padding:14px;background:#ed1b2e;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer">Copy</button>
+      <button onclick="sharePrint()" id="sh-print" style="flex:1;min-width:130px;padding:14px;background:#fff;color:#1a1a1a;border:1px solid #d4d4d4;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer">Print</button>
+    </div>
+  </div>
+</div>
+<div id="share-print"></div>
+<div id="sh-toast" style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#16a34a;color:#fff;font-weight:700;padding:12px 20px;border-radius:10px;z-index:10000;opacity:0;transition:opacity .2s;pointer-events:none;font-size:15px"></div>
+
 <script>
 var DAY_DATA = ${JSON.stringify(dayLookup)};
 var ALL_BANDS = ${JSON.stringify(allBandsForFilter)};
 var CITY_LABELS = ${JSON.stringify(CITY_LABELS)};
 var CITY_COLORS = ${JSON.stringify(CITY_COLORS)};
 var CAT_INFO = ${JSON.stringify(CAT_INFO)};
+var SHARE_DATA = ${JSON.stringify(shareData).replace(/</g, '\\u003c')};
 
 var currentView='city',currentRegion='us',currentCity=null;
 var cityFilter='all', monthFilter='all';
@@ -996,6 +1085,8 @@ document.addEventListener('click',function(e){
 
 // Escape key to close modal
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDayModal();});
+
+${shareClientJs}
 
 renderFavStars();updateFavCount();setRegion('us');
 </script>
