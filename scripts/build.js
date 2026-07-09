@@ -761,10 +761,11 @@ function toggleMoreFilters(){
   }
 }
 function clearAllFilters(){
-  cityFilter = 'all'; monthFilter = 'all';
+  cityFilter = 'all'; monthFilter = 'all'; searchQuery = '';
   document.getElementById('city-jump-us').value = 'all';
   document.getElementById('city-jump-eu').value = 'all';
   document.getElementById('month-filter').value = 'all';
+  var sb = document.getElementById('search-box'); if (sb) sb.value = '';
   selectedBands.clear();
   renderBandChips();
   if (favFilterOn) toggleFavFilter();
@@ -788,6 +789,10 @@ function updateActiveFiltersBar(){
     var label = name ? name.name : b;
     chips.push('<span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">🎤 '+label+' <button onclick="removeBand(\\''+b.replace(/\\\\/g,"\\\\\\\\").replace(/\\x27/g,"\\\\\\x27")+'\\')" style="background:none;border:none;color:#fff;cursor:pointer;font-size:13px;padding:0 0 0 4px">×</button></span>');
   });
+  if (searchQuery) {
+    var sqEsc = searchQuery.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    chips.push('<span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">🔎 "'+sqEsc+'" <button onclick="document.getElementById(\\'search-box\\').value=\\'\\';handleSearch(\\'\\')" style="background:none;border:none;color:#fff;cursor:pointer;font-size:13px;padding:0 0 0 4px">×</button></span>');
+  }
   if (favFilterOn) chips.push('<span style="background:#f59e0b;color:#fff;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700">★ Favorites only</span>');
   if (chips.length > 0) {
     chips.push('<button onclick="clearAllFilters()" style="background:none;border:none;color:#92400e;cursor:pointer;font-size:11px;font-weight:600;text-decoration:underline">clear all</button>');
@@ -800,6 +805,7 @@ function updateActiveFiltersBar(){
 var activeCategories=new Set(['music','comedy','broadway','off-broadway']);
 var selectedBands=new Set(); // lowercase artist names
 var favFilterOn=false;
+var searchQuery='';
 var EU_KEYS=['amsterdam','athens','barcelona','berlin','dublin','lisbon','london','madrid','manchester','milan','paris','porto','rome','zagreb'];
 
 function toggleCategory(cat){
@@ -861,6 +867,7 @@ function applyAllFilters(){
     var artists=el.getAttribute('data-artist-keys').split('|');
     var evCity=el.getAttribute('data-city');
     var evMonth=el.getAttribute('data-month');
+    if(searchQuery){var ds=el.getAttribute('data-search')||'';if(ds.indexOf(searchQuery)===-1){el.style.display='none';return;}}
     if(!activeCategories.has(cat)){el.style.display='none';return;}
     if(cityFilter!=='all' && evCity!==cityFilter){el.style.display='none';return;}
     if(monthFilter!=='all' && evMonth!==monthFilter){el.style.display='none';return;}
@@ -1072,9 +1079,25 @@ function saveFavs(){localStorage.setItem('concert-favs',JSON.stringify(favs));up
 function updateFavCount(){var c=Object.keys(favs).length;var el=document.getElementById('fav-count');if(el)el.textContent=c+' favorite'+(c!==1?'s':'');}
 function toggleFav(id){if(favs[id])delete favs[id];else favs[id]=true;saveFavs();renderFavStars();applyAllFilters();}
 function renderFavStars(){document.querySelectorAll('.fav-btn').forEach(function(b){var id=b.getAttribute('data-fav');b.innerHTML=favs[id]?'&#9733;':'&#9734;';b.style.color=favs[id]?'#f59e0b':'#d4d4d4';});}
-function toggleFavFilter(){favFilterOn=!favFilterOn;var b=document.getElementById('fav-filter-btn');if(favFilterOn){b.textContent='★ Favs';b.style.background='#f59e0b';b.style.color='#fff';b.style.borderColor='#f59e0b';}else{b.textContent='☆ Favs';b.style.background='transparent';b.style.color='#e4e4e7';b.style.borderColor='#52525b';}applyAllFilters();updateActiveFiltersBar();}
+function toggleFavFilter(){
+  favFilterOn=!favFilterOn;
+  var b=document.getElementById('fav-filter-btn');
+  if(favFilterOn){
+    b.textContent='★ Favs';b.style.background='#f59e0b';b.style.color='#fff';b.style.borderColor='#f59e0b';
+    // Turning favorites ON shows the FULL favorites list: clear any leftover narrowing so every city appears.
+    cityFilter='all';monthFilter='all';selectedBands.clear();searchQuery='';
+    var cu=document.getElementById('city-jump-us');if(cu)cu.value='all';
+    var ce=document.getElementById('city-jump-eu');if(ce)ce.value='all';
+    var mf=document.getElementById('month-filter');if(mf)mf.value='all';
+    var sb=document.getElementById('search-box');if(sb)sb.value='';
+    renderBandChips();
+  } else {
+    b.textContent='☆ Favs';b.style.background='transparent';b.style.color='#e4e4e7';b.style.borderColor='#52525b';
+  }
+  applyAllFilters();updateActiveFiltersBar();
+}
 function clearAllFavs(){favs={};saveFavs();renderFavStars();applyAllFilters();}
-function handleSearch(q){q=q.toLowerCase().trim();document.querySelectorAll('.event-card').forEach(function(el){var d=el.getAttribute('data-search')||'';el.style.display=(!q||d.includes(q))?'':'none';});}
+function handleSearch(q){searchQuery=(q||'').toLowerCase().trim();applyAllFilters();updateActiveFiltersBar();}
 
 // Click outside band suggestions to close
 document.addEventListener('click',function(e){
