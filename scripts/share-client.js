@@ -298,4 +298,109 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') window.closeShare();
   });
+
+  /* ---- Backup / restore favorites across devices ---- */
+  function favsListAll() {
+    var a = [];
+    for (var id in favs) {
+      if (favs[id]) a.push(id);
+    }
+    return a;
+  }
+  function favsToCode() {
+    var ids = favsListAll();
+    if (!ids.length) return '';
+    // favIds are [a-z0-9-]; joined with ~ they stay ASCII, so btoa is safe. Make it URL-safe.
+    return btoa(ids.join('~')).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function codeToFavIds(code) {
+    try {
+      var b64 = String(code || '').replace(/-/g, '+').replace(/_/g, '/');
+      while (b64.length % 4) b64 += '=';
+      var ids = atob(b64).split('~').filter(function (x) {
+        return /^[a-z0-9-]+$/.test(x);
+      });
+      return ids.length ? ids : null;
+    } catch (e) {
+      return null;
+    }
+  }
+  function importFavIds(ids) {
+    var added = 0;
+    for (var i = 0; i < ids.length; i++) {
+      if (!favs[ids[i]]) {
+        favs[ids[i]] = true;
+        added++;
+      }
+    }
+    saveFavs();
+    renderFavStars();
+    if (typeof applyAllFilters === 'function') applyAllFilters();
+    return added;
+  }
+  function shWriteClip(text, okMsg) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        function () {
+          shToast(okMsg || 'Copied');
+        },
+        function () {
+          window.prompt('Copy this:', text);
+        }
+      );
+    } else {
+      window.prompt('Copy this:', text);
+    }
+  }
+  function extractCode(val) {
+    var s = String(val || '').trim();
+    var i = s.indexOf('favs=');
+    if (i !== -1) s = s.slice(i + 5);
+    return s.replace(/[#?&\s].*$/, '').trim();
+  }
+
+  window.copyBackupLink = function () {
+    var code = favsToCode();
+    if (!code) {
+      shToast('No favorites to back up yet');
+      return;
+    }
+    shWriteClip(location.origin + location.pathname + '#favs=' + code, 'Backup link copied. Open it on your other device.');
+  };
+  window.loadBackup = function () {
+    var inp = document.getElementById('sh-restore-input');
+    if (!inp) return;
+    var code = extractCode(inp.value);
+    if (!code) {
+      shToast('Paste a backup link or code first');
+      return;
+    }
+    var ids = codeToFavIds(code);
+    if (!ids) {
+      shToast("That backup code didn't work");
+      return;
+    }
+    var n = importFavIds(ids);
+    inp.value = '';
+    shareState.source = 'fav';
+    renderShare();
+    shToast(n > 0 ? 'Added ' + n + ' favorite' + (n !== 1 ? 's' : '') : 'Those favorites were already saved');
+  };
+
+  // If the page was opened via a backup link (#favs=...), load those favorites, then tidy the URL.
+  (function () {
+    try {
+      var h = location.hash || '';
+      var i = h.indexOf('favs=');
+      if (i === -1) return;
+      var code = h.slice(i + 5).replace(/[#?&\s].*$/, '');
+      var ids = codeToFavIds(code);
+      if (history && history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+      if (!ids) return;
+      var n = importFavIds(ids);
+      setTimeout(function () {
+        shToast(n > 0 ? 'Loaded ' + n + ' favorite' + (n !== 1 ? 's' : '') + ' from your link' : 'Your favorites are already loaded');
+      }, 500);
+    } catch (e) {}
+  })();
 })();

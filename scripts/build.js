@@ -714,6 +714,15 @@ html += `
       <button onclick="shareCopy()" id="sh-copy" style="flex:1;min-width:130px;padding:14px;background:#ed1b2e;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer">Copy</button>
       <button onclick="sharePrint()" id="sh-print" style="flex:1;min-width:130px;padding:14px;background:#fff;color:#1a1a1a;border:1px solid #d4d4d4;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer">Print</button>
     </div>
+    <div style="margin-top:18px;padding-top:16px;border-top:1px solid #e5e5e5">
+      <div style="font-size:13px;font-weight:800;color:#1a1a1a;margin-bottom:2px">Move favorites to another device</div>
+      <div style="font-size:12px;color:#737373;margin-bottom:10px">Favorites save on this device only. Copy your backup link, open it on your phone or laptop, and they load there. It adds them, it doesn't erase what's already saved.</div>
+      <button onclick="copyBackupLink()" style="width:100%;padding:12px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px">Copy my backup link</button>
+      <div style="display:flex;gap:8px">
+        <input id="sh-restore-input" type="text" placeholder="Paste a backup link or code" style="flex:1;min-width:0;padding:11px;font-size:14px;border:1px solid #d4d4d4;border-radius:10px;background:#fff;color:#1a1a1a;outline:none">
+        <button onclick="loadBackup()" style="flex:none;padding:11px 16px;background:#fff;color:#1a1a1a;border:1px solid #d4d4d4;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">Load</button>
+      </div>
+    </div>
   </div>
 </div>
 <div id="share-print"></div>
